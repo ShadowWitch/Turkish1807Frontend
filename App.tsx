@@ -6,16 +6,20 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { StackNavigator } from "./src/navigator/StackNavigator";
 import { BottomTabNavigator } from "./src/navigator/BottomTabNavigator";
 import { Background } from "./src/components/Background";
+import { AuthScreen } from "./src/screens/AuthScreen";
 
 export default function App() {
   return (
     <>
       <StatusBar style="dark" />
 
-      <NavigationContainer>
-        <BottomTabNavigator />
-        {/* <StackNavigator /> */}
-      </NavigationContainer>
+      {true ? (
+        <AuthScreen />
+      ) : (
+        <NavigationContainer>
+          <BottomTabNavigator />
+        </NavigationContainer>
+      )}
     </>
   );
 }
