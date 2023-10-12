@@ -19,7 +19,7 @@ export const StackNavigator = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="EjerciciosScreen" component={EjerciciosScreen} />
       <Stack.Screen name="ClientesScreen" component={ClientesScreen} />
       <Stack.Screen name="RutinasScreen" component={RutinasScreen} />

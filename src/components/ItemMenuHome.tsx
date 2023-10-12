@@ -17,7 +17,7 @@ export const ItemMenuHome = ({
   url,
   text,
   colorIcon = "#E94560",
-  size = 75,
+  size = 45,
 }: IProps) => {
   const navigator = useNavigation();
 
@@ -25,7 +25,7 @@ export const ItemMenuHome = ({
     <TouchableOpacity
       activeOpacity={0.8}
       style={style.itemsStyle}
-      onPress={() => navigator.navigate(url)}
+      onPress={() => navigator.navigate(url as never)}
     >
       <Ionicons name={icon as any} size={size} color={colorIcon} />
       <Text style={style.itemText}>{text}</Text>
@@ -36,7 +36,7 @@ export const ItemMenuHome = ({
 const style = StyleSheet.create({
   itemsStyle: {
     backgroundColor: "#0F3460",
-    height: 150,
+    height: 100,
     marginTop: 20,
     borderRadius: 30,
 
@@ -57,7 +57,7 @@ const style = StyleSheet.create({
   },
 
   itemText: {
-    fontSize: 45,
+    fontSize: 30,
     // fontFamily: "Open Sans",
   },
 });
