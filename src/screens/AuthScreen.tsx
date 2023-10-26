@@ -15,6 +15,7 @@ import {
 } from "react-native";
 
 import { Image } from "expo-image";
+import { stylesButton } from "../globalStyles/buttons.styles";
 
 export const AuthScreen = () => {
   const windowHeight = useWindowDimensions().height;
@@ -30,8 +31,6 @@ export const AuthScreen = () => {
   } = useForm();
 
   console.log("WIN >> ", windowHeight);
-  const blurhash =
-    "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
 
   return (
     <KeyboardAvoidingView
@@ -49,7 +48,6 @@ export const AuthScreen = () => {
               marginTop: -100,
             }}
             source="https://images.vexels.com/media/users/3/153334/isolated/preview/cf5ff26985a46460a5a29aa9443cb323-logotipo-de-sitamet-power-gym.png"
-            placeholder={blurhash}
             contentFit="scale-down"
             transition={1000}
           />
@@ -199,7 +197,7 @@ const styleAuthScreen = StyleSheet.create({
   },
 
   buttonForm: {
-    backgroundColor: "#C9FB03",
+    backgroundColor: stylesButton.buttonsColorPrimary.backgroundColor,
     height: 50,
     width: 200,
     justifyContent: "center",

@@ -1,8 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 import { Background } from "../components/Background";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { ItemMenuHome } from "../components/ItemMenuHome";
+import { Image } from "expo-image";
 
 interface IOptions {
   url: string;
@@ -13,17 +20,22 @@ interface IOptions {
 }
 
 export const HomeScreen = () => {
+  const windowHeight = useWindowDimensions().height;
+
   return (
     <Background>
-      <Text
+      <Image
         style={{
-          color: "white",
-          fontSize: 70,
-          textAlign: "center",
+          height: windowHeight * 0.2,
+          width: "100%",
+          marginBottom: 20,
+          //   backgroundColor: "#0553",
+          marginTop: 15,
         }}
-      >
-        Aqui ira el Logo
-      </Text>
+        source="https://images.vexels.com/media/users/3/153334/isolated/preview/cf5ff26985a46460a5a29aa9443cb323-logotipo-de-sitamet-power-gym.png"
+        contentFit="scale-down"
+        transition={1000}
+      />
 
       <View
         style={{

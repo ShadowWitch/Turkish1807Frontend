@@ -1,14 +1,11 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import {
-  SafeAreaView,
-  SafeAreaProvider,
-  SafeAreaInsetsContext,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export const Background = ({ children }: { children: any }) => {
   const { top } = useSafeAreaInsets();
+
+  console.log("TOP >> ", top);
 
   return (
     <View style={{ ...styleBackground.background, marginTop: top + 5 }}>
