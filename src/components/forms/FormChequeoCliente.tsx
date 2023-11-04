@@ -1,5 +1,4 @@
 import React from "react";
-import { useWindowDimensions } from "react-native";
 
 import {
   KeyboardAvoidingView,
@@ -10,19 +9,19 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { Input } from "../Input";
+import { useWindowDimensions } from "react-native";
 import { DateTimePicker } from "../DateTimePicker";
-import { Select } from "../Select";
 import { Button } from "../Button";
-import { StackScreenProps } from "@react-navigation/stack";
-import { TypesNavigator } from "../../types/TypesNavigator";
+import { PropsWithNavigator } from "../../types/TypesNavigator";
 
-interface Props extends StackScreenProps<TypesNavigator, any> {}
-
-export const FormRegistrarCliente = ({ navigation, route }: Props) => {
+export const FormChequeoCliente = ({
+  navigation,
+  route,
+}: PropsWithNavigator) => {
   const { height, width } = useWindowDimensions();
 
-  const onAceptar = () => {
-    navigation.navigate("ChequeosScreen");
+  const onSubmit = () => {
+    navigation.navigate("ContratoScreen");
   };
 
   return (
@@ -50,34 +49,37 @@ export const FormRegistrarCliente = ({ navigation, route }: Props) => {
               textAlign: "center",
             }}
           >
-            Datos del Cliente
+            Chequeo de Cliente
           </Text>
           <Input
-            text="DNI (opcional)"
+            text="Peso (en Kg)"
             width={width * 0.75}
             textInputSize={20}
-          />
-          <Input
-            text="Nombre Completo"
-            width={width * 0.75}
-            textInputSize={20}
+            keyboardType="numeric"
           />
 
-          <DateTimePicker textDate="Fecha de Nacimiento" />
-
-          <Input text="Telefono" width={width * 0.75} textInputSize={20} />
           <Input
-            text="Correo (opcional)"
+            text="Estatura (en Mts)"
             width={width * 0.75}
             textInputSize={20}
-          />
-          <Input
-            text="Direccion (opcional)"
-            width={width * 0.75}
-            textInputSize={20}
+            keyboardType="numeric"
           />
 
-          <Select text="Municipio" width={width * 0.75} />
+          <Input
+            text="Porcentaje de Masa Muscular (en %)"
+            width={width * 0.75}
+            textInputSize={20}
+            keyboardType="numeric"
+          />
+
+          <Input
+            text="Porcentaje de Grasa (en %)"
+            width={width * 0.75}
+            textInputSize={20}
+            keyboardType="numeric"
+          />
+
+          <DateTimePicker textDate="Fecha del Chequeo" />
 
           <View
             style={{
@@ -91,7 +93,7 @@ export const FormRegistrarCliente = ({ navigation, route }: Props) => {
             <Button
               buttonType="primary"
               text="Siguiente"
-              onPress={onAceptar}
+              onPress={onSubmit}
               width={120}
             />
           </View>

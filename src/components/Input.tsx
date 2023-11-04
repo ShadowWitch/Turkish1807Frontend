@@ -1,6 +1,6 @@
 import React from "react";
 
-import { View, Text, TextInput, StyleSheet } from "react-native";
+import { View, Text, TextInput, StyleSheet, KeyboardType } from "react-native";
 
 interface Props {
   // Text
@@ -16,6 +16,8 @@ interface Props {
   width: number;
 
   numberLines?: number;
+
+  keyboardType?: KeyboardType;
 }
 
 export const Input = ({
@@ -27,6 +29,8 @@ export const Input = ({
   textInputColor = "black",
   width = 10,
   numberLines,
+
+  keyboardType = "default",
 }: Props) => {
   return (
     <>
@@ -54,6 +58,7 @@ export const Input = ({
             }}
             multiline={numberLines ? true : false}
             numberOfLines={numberLines && numberLines}
+            keyboardType={keyboardType}
           />
         </View>
       </View>

@@ -1,3 +1,5 @@
+import { StackScreenProps } from "@react-navigation/stack";
+
 export type TypesNavigator = {
     HomeScreen: undefined,
     EjerciciosScreen: undefined,
@@ -6,3 +8,5 @@ export type TypesNavigator = {
     ChequeosScreen: undefined,
     ContratoScreen: undefined,
 }
+
+export interface PropsWithNavigator extends StackScreenProps<TypesNavigator, any> { }

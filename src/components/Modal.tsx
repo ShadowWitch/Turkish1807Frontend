@@ -81,13 +81,13 @@ export const ModalComponent = ({
                 width: "100%",
               }}
             >
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 activeOpacity={0.7}
                 style={[styles.button, styles.buttonAccept]}
                 onPress={onAccept}
               >
                 <Text style={styles.textStyle}>{acceptText}</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               {onCancel && (
                 <TouchableOpacity
@@ -102,11 +102,19 @@ export const ModalComponent = ({
 
               <TouchableOpacity
                 activeOpacity={0.7}
+                style={[styles.button, styles.buttonAccept]}
+                onPress={onAccept}
+              >
+                <Text style={styles.textStyle}>{acceptText}</Text>
+              </TouchableOpacity>
+
+              {/* <TouchableOpacity
+                activeOpacity={0.7}
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => setShowModal(!showModal)}
               >
                 <Text style={styles.textStyle}>{cancelText}</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
         </View>
