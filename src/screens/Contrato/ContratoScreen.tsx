@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   View,
@@ -13,19 +13,35 @@ import { Background } from "../../components/Background";
 import { Input } from "../../components/Input";
 import { DateTimePicker } from "../../components/DateTimePicker";
 import { Button } from "../../components/Button";
+import { ModalComponent } from "../../components/Modal";
 
 export const ContratoScreen = () => {
   const { height, width } = useWindowDimensions();
+  const [showModal, setShowModal] = useState(false);
 
   const onSubmit = () => {
     console.log("qweqwe");
+    setShowModal(true);
+  };
+
+  const onConfirm = () => {
+    console.log("HOLA mundo");
+    setShowModal(false);
+  };
+
+  const onCancel = () => {
+    setShowModal(false);
   };
 
   return (
     <Background>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1, justifyContent: "center" }}
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          // backgroundColor: "green",
+        }}
       >
         <TouchableWithoutFeedback
           style={{ borderColor: " green" }}
@@ -80,6 +96,16 @@ export const ContratoScreen = () => {
                 <Button buttonType="secondary" text="Cancelar" width={100} />
               </View>
             </View>
+
+            {showModal && (
+              <ModalComponent
+                onAccept={onConfirm}
+                showModal={showModal}
+                setShowModal={setShowModal}
+                title="Confirmación"
+                description="¿Esta seguro que desea confirmar? Una vez hecho no podra revertirlo."
+              />
+            )}
           </>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
