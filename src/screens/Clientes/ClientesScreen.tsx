@@ -1,13 +1,15 @@
 import React from "react";
-import { View, Text } from "react-native";
 import { Background } from "../../components/Background";
+import { FormRegistrarCliente } from "../../components/forms/FormRegistrarCliente";
+import { StackScreenProps } from "@react-navigation/stack";
+import { TypesNavigator } from "../../types/TypesNavigator";
 
-export const ClientesScreen = () => {
+interface Props extends StackScreenProps<TypesNavigator, any> {}
+
+export const ClientesScreen = ({ navigation, route }: Props) => {
   return (
     <Background>
-      <View>
-        <Text>Ejercicios Screen</Text>
-      </View>
+      <FormRegistrarCliente navigation={navigation} route={route} />
     </Background>
   );
 };

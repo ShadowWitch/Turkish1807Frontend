@@ -65,7 +65,8 @@ const styleComponentInput = StyleSheet.create({
   backgroundInput: {
     backgroundColor: "white",
     borderRadius: 10,
-    height: 40,
+    // height: 40,
+    minHeight: 40,
     paddingHorizontal: 10,
     justifyContent: "center",
   },

@@ -9,6 +9,8 @@ interface Props {
   height?: number;
 
   buttonType: "primary" | "secondary";
+
+  onPress?: () => void;
 }
 
 export const Button = ({
@@ -16,9 +18,11 @@ export const Button = ({
   text = "N/A",
   height,
   width = 100,
+  onPress,
 }: Props) => {
   return (
     <TouchableOpacity
+      onPress={onPress && onPress}
       activeOpacity={0.8}
       style={{
         backgroundColor:

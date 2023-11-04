@@ -5,6 +5,7 @@ import { EjerciciosScreen } from "../screens/Ejercicios/EjerciciosScreen";
 import { ClientesScreen } from "../screens/Clientes/ClientesScreen";
 import { RutinasScreen } from "../screens/Rutinas/RutinasScreen";
 import { ChequeosScreen } from "../screens/Chequeos/ChequeosScreen";
+import { ContratoScreen } from "../screens/Contrato/ContratoScreen";
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,8 @@ export const StackNavigator = () => {
       <Stack.Screen name="ClientesScreen" component={ClientesScreen} />
       <Stack.Screen name="RutinasScreen" component={RutinasScreen} />
       <Stack.Screen name="ChequeosScreen" component={ChequeosScreen} />
+
+      <Stack.Screen name="ContratoScreen" component={ContratoScreen} />
     </Stack.Navigator>
   );
 };
