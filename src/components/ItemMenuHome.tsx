@@ -4,6 +4,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { useFonts } from "expo-font";
 import { useNavigation } from "@react-navigation/native";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 interface IProps {
   url: string;
   text: string;
@@ -17,7 +22,7 @@ export const ItemMenuHome = ({
   url,
   text,
   colorIcon = "#E94560",
-  size = 45,
+  size = wp(10),
 }: IProps) => {
   const navigator = useNavigation();
 
@@ -36,28 +41,30 @@ export const ItemMenuHome = ({
 const style = StyleSheet.create({
   itemsStyle: {
     backgroundColor: "#0F3460",
-    height: 100,
-    marginTop: 20,
-    borderRadius: 30,
+    // height: hp(10),
+    marginTop: hp(2),
+    borderRadius: 5,
+    paddingVertical: hp(1),
 
     alignItems: "center",
     display: "flex",
     flexDirection: "column",
 
     //* Shadows
-    // shadowColor: "#000",
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 3,
-    // },
-    // shadowOpacity: 0.27,
-    // shadowRadius: 4.65,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
 
-    // elevation: 6,
+    elevation: 6,
   },
 
   itemText: {
-    fontSize: 30,
+    fontSize: wp(7),
+    color: "white",
     // fontFamily: "Open Sans",
   },
 });

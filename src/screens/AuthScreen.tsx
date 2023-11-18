@@ -22,9 +22,6 @@ import { Image } from "expo-image";
 import { stylesButton } from "../globalStyles/buttons.styles";
 
 export const AuthScreen = () => {
-  const windowHeight = useWindowDimensions().height;
-  const windowWidth = useWindowDimensions().width;
-
   const {
     register,
     setValue,

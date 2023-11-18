@@ -11,6 +11,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { ItemMenuHome } from "../components/ItemMenuHome";
 import { Image } from "expo-image";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 interface IOptions {
   url: string;
   text: string;
@@ -20,17 +25,15 @@ interface IOptions {
 }
 
 export const HomeScreen = () => {
-  const windowHeight = useWindowDimensions().height;
-
   return (
     <Background>
       <Image
         style={{
-          height: windowHeight * 0.2,
-          width: "100%",
-          marginBottom: 20,
+          height: hp(20),
+          width: wp(100),
+          marginBottom: hp(3),
           //   backgroundColor: "#0553",
-          marginTop: 15,
+          marginTop: hp(1),
         }}
         source="https://images.vexels.com/media/users/3/153334/isolated/preview/cf5ff26985a46460a5a29aa9443cb323-logotipo-de-sitamet-power-gym.png"
         contentFit="scale-down"
@@ -39,7 +42,7 @@ export const HomeScreen = () => {
 
       <View
         style={{
-          paddingHorizontal: 50,
+          paddingHorizontal: wp(10),
           //   marginTop: 100,
           // backgroundColor: "red",
           flex: 1,
