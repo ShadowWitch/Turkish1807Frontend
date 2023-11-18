@@ -4,26 +4,50 @@ import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { IDataExample, dataExample } from "../../data/data";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { Background } from "../../components/Background";
+import { PropsWithNavigator } from "../../types/TypesNavigator";
 
-export const ListaClientes = () => {
+export interface ItemFlatListType {
+  data: {
+    name: string;
+    peso: string;
+    mide: string;
+  };
+
+  onShowMore: () => void;
+}
+
+export const ListaClientesScreen = ({
+  navigation,
+  route,
+}: PropsWithNavigator) => {
+  const onShowMore = () => {
+    navigation.navigate("DetallesScreen");
+  };
+
   return (
     <>
-      <FlatList
-        data={dataExample}
-        renderItem={({ item }) => <ItemFlatList data={item} />}
-        keyExtractor={(item, index) => index.toString()}
-        ItemSeparatorComponent={() => <ItemSeparator />}
-        style={{
-          // backgroundColor: "yellow",
-          paddingHorizontal: 10,
-        }}
-        // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
-      />
+      <Background marginTop={1}>
+        <FlatList
+          data={dataExample}
+          renderItem={({ item }) => (
+            <ItemFlatList data={item} onShowMore={onShowMore} />
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          ItemSeparatorComponent={() => <ItemSeparator />}
+          style={{
+            // backgroundColor: "yellow",
+            paddingHorizontal: 10,
+            paddingTop: 20,
+          }}
+          // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
+        />
+      </Background>
     </>
   );
 };
 
-const ItemFlatList = ({ data }: IDataExample) => {
+const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
   return (
     <>
       <View
@@ -182,7 +206,7 @@ const ItemFlatList = ({ data }: IDataExample) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onShowMore}>
             <Text
               style={{
                 color: "white",

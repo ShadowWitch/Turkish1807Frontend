@@ -11,7 +11,7 @@ import { AuthScreen } from "./src/screens/AuthScreen";
 export default function App() {
   return (
     <>
-      <StatusBar style="dark" />
+      <StatusBar style="auto" backgroundColor="white" />
 
       {false ? (
         <AuthScreen />

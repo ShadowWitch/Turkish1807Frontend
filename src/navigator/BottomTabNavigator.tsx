@@ -11,7 +11,7 @@ export const BottomTabNavigator = () => {
     <Tab.Navigator
       screenOptions={(props) => ({
         headerStyle: {
-          backgroundColor: "skyblue",
+          backgroundColor: "green",
         },
 
         headerShown: false,

@@ -64,7 +64,7 @@ const options: IOptions[] = [
   {
     text: "Clientes",
     icon: "people-outline",
-    url: "ClientesScreen",
+    url: "TopTabNavigatorClientes",
   },
   {
     text: "Ejercicios",

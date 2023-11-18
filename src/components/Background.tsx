@@ -2,13 +2,26 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export const Background = ({ children }: { children: any }) => {
+export const Background = ({
+  children,
+  marginTop,
+}: {
+  children: any;
+  marginTop?: number;
+}) => {
   const { top } = useSafeAreaInsets();
 
   console.log("TOP >> ", top);
 
+  console.log("MARGIN TOP >> ", marginTop);
+
   return (
-    <View style={{ ...styleBackground.background, marginTop: top + 5 }}>
+    <View
+      style={{
+        ...styleBackground.background,
+        marginTop: marginTop ? marginTop : top + 5,
+      }}
+    >
       {children}
     </View>
   );

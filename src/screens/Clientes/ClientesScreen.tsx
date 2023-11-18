@@ -8,7 +8,7 @@ interface Props extends StackScreenProps<TypesNavigator, any> {}
 
 export const ClientesScreen = ({ navigation, route }: Props) => {
   return (
-    <Background>
+    <Background marginTop={0}>
       <FormRegistrarCliente navigation={navigation} route={route} />
 
       {/* <ListaClientes /> */}

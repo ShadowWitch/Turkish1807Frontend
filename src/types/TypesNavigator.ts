@@ -7,6 +7,7 @@ export type TypesNavigator = {
     RutinasScreen: undefined,
     ChequeosScreen: undefined,
     ContratoScreen: undefined,
+    DetallesScreen: undefined
 }
 
 export interface PropsWithNavigator extends StackScreenProps<TypesNavigator, any> { }
