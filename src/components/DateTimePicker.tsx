@@ -1,8 +1,16 @@
 import React from "react";
 
-import { View, Text, useWindowDimensions } from "react-native";
+import {
+  View,
+  Text,
+  useWindowDimensions,
+  TouchableOpacity,
+} from "react-native";
 
-import RNDateTimePicker from "@react-native-community/datetimepicker";
+import RNDateTimePicker, {
+  DateTimePickerAndroid,
+  AndroidNativeProps,
+} from "@react-native-community/datetimepicker";
 
 import {
   widthPercentageToDP as wp,
@@ -15,7 +23,7 @@ interface Props {
 
 export const DateTimePicker = ({ textDate = "Fecha de Nacimiento" }: Props) => {
   return (
-    <View
+    <TouchableOpacity
       style={{
         backgroundColor: "white",
         borderRadius: 10,
@@ -37,6 +45,6 @@ export const DateTimePicker = ({ textDate = "Fecha de Nacimiento" }: Props) => {
         {textDate}
       </Text>
       <RNDateTimePicker locale="es-ES" value={new Date()} />
-    </View>
+    </TouchableOpacity>
   );
 };

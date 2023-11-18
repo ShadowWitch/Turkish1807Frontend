@@ -9,17 +9,19 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { Input } from "../Input";
-import { useWindowDimensions } from "react-native";
 import { DateTimePicker } from "../DateTimePicker";
 import { Button } from "../Button";
 import { PropsWithNavigator } from "../../types/TypesNavigator";
+
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 export const FormChequeoCliente = ({
   navigation,
   route,
 }: PropsWithNavigator) => {
-  const { height, width } = useWindowDimensions();
-
   const onSubmit = () => {
     navigation.navigate("ContratoScreen");
   };
@@ -37,14 +39,14 @@ export const FormChequeoCliente = ({
           style={{
             alignItems: "center",
             justifyContent: "space-evenly",
-            height: height * 0.8,
+            height: hp(80),
             // backgroundColor: "gray",
           }}
         >
           <Text
             style={{
               color: "white",
-              fontSize: 30,
+              fontSize: wp(8),
               // backgroundColor: "red",
               textAlign: "center",
             }}
@@ -53,29 +55,29 @@ export const FormChequeoCliente = ({
           </Text>
           <Input
             text="Peso (en Kg)"
-            width={width * 0.75}
-            textInputSize={20}
+            width={wp(75)}
+            textInputSize={wp(3)}
             keyboardType="numeric"
           />
 
           <Input
             text="Estatura (en Mts)"
-            width={width * 0.75}
-            textInputSize={20}
+            width={wp(75)}
+            textInputSize={wp(3)}
             keyboardType="numeric"
           />
 
           <Input
             text="Porcentaje de Masa Muscular (en %)"
-            width={width * 0.75}
-            textInputSize={20}
+            width={wp(75)}
+            textInputSize={wp(3)}
             keyboardType="numeric"
           />
 
           <Input
             text="Porcentaje de Grasa (en %)"
-            width={width * 0.75}
-            textInputSize={20}
+            width={wp(75)}
+            textInputSize={wp(3)}
             keyboardType="numeric"
           />
 
@@ -83,18 +85,18 @@ export const FormChequeoCliente = ({
 
           <View
             style={{
-              marginTop: 30,
-              width: width * 0.75,
+              marginTop: hp(1),
+              width: wp(75),
               flexDirection: "row",
               justifyContent: "space-evenly",
             }}
           >
-            <Button buttonType="secondary" text="Cancelar" width={100} />
+            <Button buttonType="secondary" text="Cancelar" width={wp(30)} />
             <Button
               buttonType="primary"
               text="Siguiente"
               onPress={onSubmit}
-              width={120}
+              width={wp(30)}
             />
           </View>
         </View>
