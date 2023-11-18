@@ -17,6 +17,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { ButtonBack } from "../ButtonBack";
 
 export const FormChequeoCliente = ({
   navigation,
@@ -27,80 +28,83 @@ export const FormChequeoCliente = ({
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1, justifyContent: "center" }}
-    >
-      <TouchableWithoutFeedback
-        style={{ borderColor: " green" }}
-        onPress={() => Keyboard.dismiss()}
+    <>
+      <ButtonBack />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1, justifyContent: "center" }}
       >
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "space-evenly",
-            height: hp(80),
-            // backgroundColor: "gray",
-          }}
+        <TouchableWithoutFeedback
+          style={{ borderColor: " green" }}
+          onPress={() => Keyboard.dismiss()}
         >
-          <Text
-            style={{
-              color: "white",
-              fontSize: wp(8),
-              // backgroundColor: "red",
-              textAlign: "center",
-            }}
-          >
-            Chequeo de Cliente
-          </Text>
-          <Input
-            text="Peso (en Kg)"
-            width={wp(75)}
-            textInputSize={wp(3)}
-            keyboardType="numeric"
-          />
-
-          <Input
-            text="Estatura (en Mts)"
-            width={wp(75)}
-            textInputSize={wp(3)}
-            keyboardType="numeric"
-          />
-
-          <Input
-            text="Porcentaje de Masa Muscular (en %)"
-            width={wp(75)}
-            textInputSize={wp(3)}
-            keyboardType="numeric"
-          />
-
-          <Input
-            text="Porcentaje de Grasa (en %)"
-            width={wp(75)}
-            textInputSize={wp(3)}
-            keyboardType="numeric"
-          />
-
-          <DateTimePicker textDate="Fecha del Chequeo" />
-
           <View
             style={{
-              marginTop: hp(1),
-              width: wp(75),
-              flexDirection: "row",
+              alignItems: "center",
               justifyContent: "space-evenly",
+              height: hp(80),
+              // backgroundColor: "gray",
             }}
           >
-            <Button buttonType="secondary" text="Cancelar" width={wp(30)} />
-            <Button
-              buttonType="primary"
-              text="Siguiente"
-              onPress={onSubmit}
-              width={wp(30)}
+            <Text
+              style={{
+                color: "white",
+                fontSize: wp(8),
+                // backgroundColor: "red",
+                textAlign: "center",
+              }}
+            >
+              Chequeo de Cliente
+            </Text>
+            <Input
+              text="Peso (en Kg)"
+              width={wp(75)}
+              textInputSize={wp(3)}
+              keyboardType="numeric"
             />
+
+            <Input
+              text="Estatura (en Mts)"
+              width={wp(75)}
+              textInputSize={wp(3)}
+              keyboardType="numeric"
+            />
+
+            <Input
+              text="Porcentaje de Masa Muscular (en %)"
+              width={wp(75)}
+              textInputSize={wp(3)}
+              keyboardType="numeric"
+            />
+
+            <Input
+              text="Porcentaje de Grasa (en %)"
+              width={wp(75)}
+              textInputSize={wp(3)}
+              keyboardType="numeric"
+            />
+
+            <DateTimePicker textDate="Fecha del Chequeo" />
+
+            <View
+              style={{
+                marginTop: hp(1),
+                width: wp(75),
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <Button buttonType="secondary" text="Cancelar" width={wp(30)} />
+              <Button
+                buttonType="primary"
+                text="Siguiente"
+                onPress={onSubmit}
+                width={wp(30)}
+              />
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </>
   );
 };

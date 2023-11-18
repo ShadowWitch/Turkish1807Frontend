@@ -21,6 +21,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { ButtonBack } from "../../components/ButtonBack";
 
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
@@ -31,66 +32,72 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
 
   return (
     // <Background marginTop={hp(10)}>
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1, justifyContent: "center" }}
-    >
-      <TouchableWithoutFeedback
-        style={{ borderColor: "green" }}
-        onPress={() => Keyboard.dismiss()}
+    <>
+      <ButtonBack />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1, justifyContent: "center" }}
       >
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "space-evenly",
-            height: hp(80),
-            // backgroundColor: "gray",
-          }}
+        <TouchableWithoutFeedback
+          style={{ borderColor: "green" }}
+          onPress={() => Keyboard.dismiss()}
         >
-          <Text
+          <View
             style={{
-              color: "white",
-              fontSize: wp(7),
-              // backgroundColor: "red",
-              textAlign: "center",
+              alignItems: "center",
+              justifyContent: "space-evenly",
+              height: hp(80),
+              // backgroundColor: "gray",
             }}
           >
-            Datos del Cliente
-          </Text>
-          <Input text="DNI (opcional)" width={wp(75)} textInputSize={wp(3)} />
-          <Input text="Nombre Completo" width={wp(75)} textInputSize={wp(3)} />
+            <Text
+              style={{
+                color: "white",
+                fontSize: wp(7),
+                // backgroundColor: "red",
+                textAlign: "center",
+              }}
+            >
+              Datos del Cliente
+            </Text>
+            <Input text="DNI (opcional)" width={wp(75)} textInputSize={wp(3)} />
+            <Input
+              text="Nombre Completo"
+              width={wp(75)}
+              textInputSize={wp(3)}
+            />
 
-          <DateTimePicker textDate="Fecha de Nacimiento" />
+            <DateTimePicker textDate="Fecha de Nacimiento" />
 
-          <Input text="Telefono" width={wp(75)} textInputSize={wp(3)} />
-          {/* <Input text="Correo (opcional)" width={wp(75)} textInputSize={20} /> */}
-          {/* <Input
+            <Input text="Telefono" width={wp(75)} textInputSize={wp(3)} />
+            {/* <Input text="Correo (opcional)" width={wp(75)} textInputSize={20} /> */}
+            {/* <Input
             text="Direccion (opcional)"
             width={wp(75)}
             textInputSize={wp(3)}
           /> */}
 
-          <Select text="Municipio" width={wp(75)} />
+            <Select text="Municipio" width={wp(75)} />
 
-          <View
-            style={{
-              marginTop: hp(5),
-              width: wp(75),
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-            }}
-          >
-            <Button buttonType="secondary" text="Cancelar" width={wp(30)} />
-            <Button
-              buttonType="primary"
-              text="Siguiente"
-              onPress={onAceptar}
-              width={wp(30)}
-            />
+            <View
+              style={{
+                marginTop: hp(5),
+                width: wp(75),
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <Button buttonType="secondary" text="Cancelar" width={wp(30)} />
+              <Button
+                buttonType="primary"
+                text="Siguiente"
+                onPress={onAceptar}
+                width={wp(30)}
+              />
+            </View>
           </View>
-        </View>
-      </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
-    // </Background>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </>
   );
 };
