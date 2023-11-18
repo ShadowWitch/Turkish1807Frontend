@@ -19,6 +19,7 @@ interface Props {
   textInputSize?: number;
 
   width: number;
+  marginTop?: number;
 
   numberLines?: number;
 
@@ -34,6 +35,7 @@ export const Input = ({
   textInputColor = "black",
   width = wp(3),
   numberLines,
+  marginTop = hp(3),
 
   keyboardType = "default",
 }: Props) => {

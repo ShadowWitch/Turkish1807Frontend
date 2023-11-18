@@ -15,6 +15,11 @@ import { Button } from "../Button";
 import { ModalComponent } from "../Modal";
 import { PropsWithNavigator } from "../../types/TypesNavigator";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 export const FormContrato = ({ navigation, route }: PropsWithNavigator) => {
   const { height, width } = useWindowDimensions();
   const [showModal, setShowModal] = useState(false);
@@ -50,9 +55,10 @@ export const FormContrato = ({ navigation, route }: PropsWithNavigator) => {
           <Text
             style={{
               color: "white",
-              fontSize: 30,
+              fontSize: wp(8),
               // backgroundColor: "red",
               textAlign: "center",
+              marginBottom: hp(3),
             }}
           >
             Registrar Contrato
@@ -61,15 +67,15 @@ export const FormContrato = ({ navigation, route }: PropsWithNavigator) => {
             style={{
               alignItems: "center",
               justifyContent: "space-evenly",
-              height: height * 0.6,
-              //   backgroundColor: "gray",
+              height: hp(60),
+              // backgroundColor: "gray",
             }}
           >
             <Input
               text="Cantidad a Pagar (en Lempiras)"
               numberLines={3}
-              width={width * 0.75}
-              textInputSize={20}
+              width={wp(75)}
+              textInputSize={wp(3)}
             />
 
             <DateTimePicker textDate="Fecha del Pago" />
@@ -80,9 +86,10 @@ export const FormContrato = ({ navigation, route }: PropsWithNavigator) => {
 
             <Input
               text="Descripcion (Opcional)"
-              numberLines={3}
-              width={width * 0.75}
-              textInputSize={20}
+              numberLines={5}
+              width={wp(74)}
+              textInputSize={wp(3)}
+              marginTop={hp(5)}
             />
 
             {/* //! El campo de "ultimaRenovacion" se hara de manera automatica y se guardara la fecha de inicio y en casos posteriores la fecha en la que se haga el pago del contrato... */}
@@ -90,18 +97,18 @@ export const FormContrato = ({ navigation, route }: PropsWithNavigator) => {
             <View
               style={{
                 marginTop: 30,
-                width: width * 0.75,
+                width: wp(75),
                 flexDirection: "row",
                 justifyContent: "space-evenly",
               }}
             >
-              <Button buttonType="secondary" text="Cancelar" width={100} />
+              <Button buttonType="secondary" text="Cancelar" width={wp(30)} />
 
               <Button
                 buttonType="primary"
                 text="Aceptar"
                 onPress={onSubmit}
-                width={100}
+                width={wp(30)}
               />
             </View>
           </View>
