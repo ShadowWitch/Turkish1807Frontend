@@ -1,5 +1,9 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 import {
   View,
@@ -30,8 +34,6 @@ export const AuthScreen = () => {
     formState: { errors },
   } = useForm();
 
-  console.log("WIN >> ", windowHeight);
-
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -41,11 +43,11 @@ export const AuthScreen = () => {
         <View style={{ ...styleAuthScreen.background }}>
           <Image
             style={{
-              height: windowHeight * 0.25,
-              width: "100%",
-              marginBottom: 20,
-              //   backgroundColor: "#0553",
-              marginTop: -100,
+              height: hp(25),
+              width: wp(100),
+              marginBottom: hp(5),
+              // backgroundColor: "#0553",
+              // marginTop: -100,
             }}
             source="https://images.vexels.com/media/users/3/153334/isolated/preview/cf5ff26985a46460a5a29aa9443cb323-logotipo-de-sitamet-power-gym.png"
             contentFit="scale-down"
@@ -55,8 +57,8 @@ export const AuthScreen = () => {
           <View
             style={{
               ...styleAuthScreen.form,
-              height: windowHeight * 0.45,
-              width: windowWidth * 0.7,
+              height: hp(45),
+              width: wp(70),
             }}
           >
             <View style={styleAuthScreen.componentInputs}>
@@ -120,7 +122,7 @@ export const AuthScreen = () => {
               style={{
                 textAlign: "center",
                 color: "white",
-                marginTop: 40,
+                marginTop: hp(5),
                 // fontStyle: "italic",
               }}
             >
@@ -130,7 +132,7 @@ export const AuthScreen = () => {
               style={{
                 textAlign: "center",
                 color: "white",
-                marginTop: 10,
+                marginTop: hp(1),
                 fontStyle: "italic",
               }}
             >
@@ -179,27 +181,27 @@ const styleAuthScreen = StyleSheet.create({
   inputForm: {
     backgroundColor: "white",
     borderRadius: 10,
-    height: 45,
-    padding: 10,
+    height: hp(6),
+    padding: wp(2),
     fontStyle: "italic",
   },
 
   textInputForm: {
     color: "white",
-    fontSize: 20,
+    fontSize: wp(5),
     textAlign: "center",
-    marginBottom: 5,
+    marginBottom: hp(1),
   },
 
   componentInputs: {
     // backgroundColor: "green",
-    marginVertical: 20,
+    marginVertical: wp(3),
   },
 
   buttonForm: {
     backgroundColor: stylesButton.buttonsColorPrimary.backgroundColor,
-    height: 50,
-    width: 200,
+    height: hp(7),
+    width: wp(50),
     justifyContent: "center",
     alignContent: "center",
     borderRadius: 10,
