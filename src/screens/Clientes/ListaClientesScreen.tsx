@@ -7,6 +7,11 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Background } from "../../components/Background";
 import { PropsWithNavigator } from "../../types/TypesNavigator";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 export interface ItemFlatListType {
   data: {
     name: string;
@@ -27,7 +32,7 @@ export const ListaClientesScreen = ({
 
   return (
     <>
-      <Background marginTop={1}>
+      <Background marginTop={hp(1)}>
         <FlatList
           data={dataExample}
           renderItem={({ item }) => (
@@ -37,9 +42,19 @@ export const ListaClientesScreen = ({
           ItemSeparatorComponent={() => <ItemSeparator />}
           style={{
             // backgroundColor: "yellow",
-            paddingHorizontal: 10,
-            paddingTop: 20,
+            paddingHorizontal: wp(3),
+            paddingTop: hp(1),
+            // paddingBottom: hp(30),
+            // marginBottom: hp(3),
           }}
+          ListFooterComponent={() => (
+            <View
+              style={{
+                // backgroundColor: "red",
+                height: hp(5),
+              }}
+            />
+          )}
           // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
         />
       </Background>
@@ -55,7 +70,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
           // backgroundColor: "green",
           justifyContent: "space-between",
           flexDirection: "row",
-          borderStartWidth: 5,
+          borderStartWidth: wp(1),
           borderStartColor: "green",
           borderRadius: 5,
 
@@ -66,7 +81,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
         <View
           style={{
             // backgroundColor: "red",
-            marginHorizontal: 10,
+            marginHorizontal: wp(2),
           }}
         >
           <View
@@ -78,15 +93,15 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
           >
             <Ionicons
               style={{
-                marginHorizontal: 5,
+                marginHorizontal: wp(2),
               }}
               name={"person-circle-outline"}
-              size={30}
+              size={wp(7)}
               color={"white"}
             />
             <Text
               style={{
-                fontSize: 20,
+                fontSize: wp(4),
                 fontWeight: "400",
                 color: "white",
               }}
@@ -104,15 +119,15 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
           >
             <Ionicons
               style={{
-                marginHorizontal: 5,
+                marginHorizontal: wp(2),
               }}
               name={"body"}
-              size={30}
+              size={wp(7)}
               color={"white"}
             />
             <Text
               style={{
-                fontSize: 20,
+                fontSize: wp(4),
                 fontWeight: "400",
                 color: "white",
               }}
@@ -130,15 +145,15 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
           >
             <Ionicons
               style={{
-                marginHorizontal: 5,
+                marginHorizontal: wp(2),
               }}
               name={"leaf"}
-              size={30}
+              size={wp(7)}
               color={"white"}
             />
             <Text
               style={{
-                fontSize: 20,
+                fontSize: wp(4),
                 fontWeight: "400",
                 color: "white",
               }}
@@ -156,15 +171,15 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
           >
             <Ionicons
               style={{
-                marginHorizontal: 5,
+                marginHorizontal: wp(2),
               }}
               name={"barbell"}
-              size={30}
+              size={wp(7)}
               color={"white"}
             />
             <Text
               style={{
-                fontSize: 20,
+                fontSize: wp(4),
                 fontWeight: "400",
                 color: "white",
               }}
@@ -182,15 +197,15 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
           >
             <Ionicons
               style={{
-                marginHorizontal: 5,
+                marginHorizontal: wp(2),
               }}
               name={"fast-food"}
-              size={30}
+              size={wp(7)}
               color={"white"}
             />
             <Text
               style={{
-                fontSize: 20,
+                fontSize: wp(4),
                 fontWeight: "400",
                 color: "white",
               }}
@@ -210,6 +225,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
             <Text
               style={{
                 color: "white",
+                fontSize: wp(4),
               }}
             >
               Ver mas...
@@ -228,8 +244,7 @@ const ItemSeparator = () => {
         // backgroundColor: "white",
         borderBottomWidth: 1,
         opacity: 0.2,
-        marginVertical: 10,
-
+        marginVertical: hp(1),
         borderColor: "white",
       }}
     />
