@@ -22,10 +22,10 @@ export const StackNavigator = () => {
         headerShown: false,
       }}
     >
-      {/* <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="EjerciciosScreen" component={EjerciciosScreen} />
       <Stack.Screen name="RutinasScreen" component={RutinasScreen} />
-      <Stack.Screen name="ChequeosScreen" component={ChequeosScreen} /> */}
+      <Stack.Screen name="ChequeosScreen" component={ChequeosScreen} />
 
       <Stack.Screen name="ContratoScreen" component={ContratoScreen} />
 

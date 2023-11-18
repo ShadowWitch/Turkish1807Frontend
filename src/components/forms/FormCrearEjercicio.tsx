@@ -7,15 +7,19 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
+  Text,
 } from "react-native";
 import { Input } from "../Input";
 import { Select } from "../Select";
 import { ImagePickerComponent } from "../ImagePickerComponent";
 import { Button } from "../Button";
 
-export const FormCrearEjercicio = () => {
-  const { height, width } = useWindowDimensions();
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
+export const FormCrearEjercicio = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -29,30 +33,42 @@ export const FormCrearEjercicio = () => {
           style={{
             alignItems: "center",
             justifyContent: "space-evenly",
-            height: height * 0.5,
+            height: hp(75),
+            // backgroundColor: "red",
           }}
         >
+          <Text
+            style={{
+              color: "white",
+              fontSize: wp(8),
+              // backgroundColor: "red",
+              textAlign: "center",
+            }}
+          >
+            Registrar Ejercicio
+          </Text>
+
           <Input
             text="Nombre del Ejercicio"
-            width={width * 0.75}
-            textInputSize={20}
+            width={wp(75)}
+            textInputSize={wp(3)}
           />
-          <Input text="Descripcion" width={width * 0.75} textInputSize={20} />
-          <Select width={width * 0.75} text="Seleccione una opción" />
+          <Input text="Descripcion" width={wp(75)} textInputSize={wp(3)} />
+          <Select width={wp(75)} text="Seleccione una opción" />
 
-          <ImagePickerComponent width={width * 0.75} />
+          <ImagePickerComponent width={wp(75)} />
 
           <View
             style={{
               //   backgroundColor: "red",
-              marginTop: 30,
-              width: width * 0.75,
+              marginTop: hp(5),
+              width: wp(75),
               flexDirection: "row",
               justifyContent: "space-evenly",
             }}
           >
-            <Button buttonType="primary" text="Aceptar" width={100} />
-            <Button buttonType="secondary" text="Cancelar" width={100} />
+            <Button buttonType="secondary" text="Cancelar" width={wp(30)} />
+            <Button buttonType="primary" text="Aceptar" width={wp(30)} />
           </View>
         </View>
       </TouchableWithoutFeedback>
