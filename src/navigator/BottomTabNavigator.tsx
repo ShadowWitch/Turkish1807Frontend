@@ -4,6 +4,11 @@ import { ConfiguracionScreen } from "../screens/ConfiguracionScreen";
 import { StackNavigator } from "./StackNavigator";
 import Ionicons from "@expo/vector-icons/Ionicons";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 const Tab = createBottomTabNavigator();
 
 export const BottomTabNavigator = () => {
@@ -28,7 +33,7 @@ export const BottomTabNavigator = () => {
               break;
           }
 
-          return <Ionicons name={iconName as any} size={25} />;
+          return <Ionicons name={iconName as any} size={wp(7)} />;
         },
       })}
     >
@@ -37,7 +42,7 @@ export const BottomTabNavigator = () => {
         options={{
           title: "Inicio",
           tabBarLabelStyle: {
-            fontSize: 15,
+            fontSize: wp(3.5),
           },
         }}
         component={StackNavigator}
@@ -47,7 +52,7 @@ export const BottomTabNavigator = () => {
         options={{
           title: "Configuración",
           tabBarLabelStyle: {
-            fontSize: 15,
+            fontSize: wp(3.5),
           },
         }}
         component={ConfiguracionScreen}
