@@ -4,29 +4,33 @@ import { View, Text, useWindowDimensions } from "react-native";
 
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 interface Props {
   textDate?: string;
 }
 
 export const DateTimePicker = ({ textDate = "Fecha de Nacimiento" }: Props) => {
-  const { width } = useWindowDimensions();
-
   return (
     <View
       style={{
         backgroundColor: "white",
         borderRadius: 10,
-        paddingHorizontal: 10,
-        height: 40,
+        paddingHorizontal: wp(3),
+        height: hp(5),
         justifyContent: "center",
         alignItems: "center",
-        width: width * 0.75,
+        width: wp(75),
         flexDirection: "row",
+        marginTop: hp(2),
       }}
     >
       <Text
         style={{
-          marginBottom: 5,
+          // marginBottom: hp(),
           fontWeight: "500",
         }}
       >

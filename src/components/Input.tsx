@@ -2,6 +2,11 @@ import React from "react";
 
 import { View, Text, TextInput, StyleSheet, KeyboardType } from "react-native";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 interface Props {
   // Text
   text: string;
@@ -27,7 +32,7 @@ export const Input = ({
   placeholder,
   textInputSize,
   textInputColor = "black",
-  width = 10,
+  width = wp(3),
   numberLines,
 
   keyboardType = "default",

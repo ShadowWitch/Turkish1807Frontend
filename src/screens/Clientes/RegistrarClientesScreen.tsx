@@ -17,89 +17,80 @@ import { Button } from "../../components/Button";
 import { Select } from "../../components/Select";
 import { Background } from "../../components/Background";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
 export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
-  const { height, width } = useWindowDimensions();
-
   const onAceptar = () => {
     navigation.navigate("ChequeosScreen");
   };
 
   return (
-    <Background marginTop={1}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1, justifyContent: "center" }}
+    // <Background marginTop={hp(10)}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{ flex: 1, justifyContent: "center" }}
+    >
+      <TouchableWithoutFeedback
+        style={{ borderColor: "green" }}
+        onPress={() => Keyboard.dismiss()}
       >
-        <TouchableWithoutFeedback
-          style={{ borderColor: " green" }}
-          onPress={() => Keyboard.dismiss()}
+        <View
+          style={{
+            alignItems: "center",
+            justifyContent: "space-evenly",
+            height: hp(80),
+            // backgroundColor: "gray",
+          }}
         >
-          <View
+          <Text
             style={{
-              alignItems: "center",
-              justifyContent: "space-evenly",
-              height: height * 0.8,
-              // backgroundColor: "gray",
+              color: "white",
+              fontSize: wp(7),
+              // backgroundColor: "red",
+              textAlign: "center",
             }}
           >
-            <Text
-              style={{
-                color: "white",
-                fontSize: 30,
-                // backgroundColor: "red",
-                textAlign: "center",
-              }}
-            >
-              Datos del Cliente
-            </Text>
-            <Input
-              text="DNI (opcional)"
-              width={width * 0.75}
-              textInputSize={20}
-            />
-            <Input
-              text="Nombre Completo"
-              width={width * 0.75}
-              textInputSize={20}
-            />
+            Datos del Cliente
+          </Text>
+          <Input text="DNI (opcional)" width={wp(75)} textInputSize={wp(3)} />
+          <Input text="Nombre Completo" width={wp(75)} textInputSize={wp(3)} />
 
-            <DateTimePicker textDate="Fecha de Nacimiento" />
+          <DateTimePicker textDate="Fecha de Nacimiento" />
 
-            <Input text="Telefono" width={width * 0.75} textInputSize={20} />
-            <Input
-              text="Correo (opcional)"
-              width={width * 0.75}
-              textInputSize={20}
+          <Input text="Telefono" width={wp(75)} textInputSize={wp(3)} />
+          {/* <Input text="Correo (opcional)" width={wp(75)} textInputSize={20} /> */}
+          {/* <Input
+            text="Direccion (opcional)"
+            width={wp(75)}
+            textInputSize={wp(3)}
+          /> */}
+
+          <Select text="Municipio" width={wp(75)} />
+
+          <View
+            style={{
+              marginTop: hp(5),
+              width: wp(75),
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <Button buttonType="secondary" text="Cancelar" width={wp(30)} />
+            <Button
+              buttonType="primary"
+              text="Siguiente"
+              onPress={onAceptar}
+              width={wp(30)}
             />
-            <Input
-              text="Direccion (opcional)"
-              width={width * 0.75}
-              textInputSize={20}
-            />
-
-            <Select text="Municipio" width={width * 0.75} />
-
-            <View
-              style={{
-                marginTop: 30,
-                width: width * 0.75,
-                flexDirection: "row",
-                justifyContent: "space-evenly",
-              }}
-            >
-              <Button buttonType="secondary" text="Cancelar" width={100} />
-              <Button
-                buttonType="primary"
-                text="Siguiente"
-                onPress={onAceptar}
-                width={120}
-              />
-            </View>
           </View>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </Background>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
+    // </Background>
   );
 };
