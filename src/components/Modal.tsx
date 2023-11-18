@@ -11,6 +11,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+
 interface Props {
   showModal?: boolean;
   setShowModal: (showModal: boolean) => void;
@@ -37,8 +42,6 @@ export const ModalComponent = ({
 }: Props) => {
   //   const [showModalVisible, setShowModalVisible] = useState(false);
 
-  const { width, height } = useWindowDimensions();
-
   return (
     <View style={styles.centeredView}>
       <Modal
@@ -54,18 +57,18 @@ export const ModalComponent = ({
           <View
             style={{
               ...styles.modalView,
-              width: width * 0.9,
+              width: wp(90),
               //   height: height * 0.3,
-              maxHeight: height * 0.5,
+              maxHeight: hp(50),
             }}
           >
             <Text
               style={{
                 fontWeight: "bold",
-                fontSize: 18,
+                fontSize: wp(5),
                 // backgroundColor: "red",
                 textAlign: "center",
-                marginBottom: 20,
+                marginBottom: hp(1),
               }}
             >
               {title}
@@ -73,12 +76,12 @@ export const ModalComponent = ({
             <Text style={styles.modalText}>{description}</Text>
             <View
               style={{
-                marginTop: 20,
+                marginTop: hp(3),
                 // backgroundColor: "red",
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-evenly",
-                width: "100%",
+                width: wp(100),
               }}
             >
               {/* <TouchableOpacity
@@ -128,7 +131,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22,
+    marginTop: hp(3),
 
     // backgroundColor: "#ffffff24",
     // backfaceVisibility: "hidden",
@@ -139,11 +142,14 @@ const styles = StyleSheet.create({
   modalView: {
     // position: "relative",
 
-    margin: 20,
+    margin: wp(5),
     backgroundColor: "white",
     // backgroundColor: "red",
     borderRadius: 20,
-    padding: 35,
+
+    paddingHorizontal: wp(5),
+    paddingVertical: hp(5),
+
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -156,7 +162,8 @@ const styles = StyleSheet.create({
   },
   button: {
     borderRadius: 20,
-    padding: 10,
+    paddingHorizontal: wp(5),
+    paddingVertical: hp(2),
     elevation: 2,
   },
   buttonOpen: {
@@ -199,7 +206,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalText: {
-    marginBottom: 15,
+    marginBottom: hp(1),
     textAlign: "center",
+    // backgroundColor: "red",
   },
 });
