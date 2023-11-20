@@ -13,7 +13,7 @@ export default function App() {
     <>
       <StatusBar style="auto" backgroundColor="white" />
 
-      {false ? (
+      {true ? (
         <AuthScreen />
       ) : (
         <NavigationContainer>
