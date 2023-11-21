@@ -26,23 +26,11 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { checkAuth, signIn } from "../services/auth";
 import { SaveStorage } from "../storage/Storage";
 import { useAuth } from "../context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 export const AuthScreen = () => {
   const { setIsAuthenticated } = useAuth();
-
-  const {
-    data: dataCheck,
-    error: errorCheck,
-    isLoading: isLoadingCheck,
-  } = useQuery({
-    queryKey: ["checkAuth"],
-    queryFn: checkAuth,
-    // retry: 1,
-  });
-
-  console.log("DATA ACA >> ", dataCheck);
-  console.log("ERROR >> ", errorCheck);
-  console.log("IS LOADING >> ", isLoadingCheck);
+  const navigation = useNavigation();
 
   const { mutate, error, data } = useMutation({
     mutationKey: ["signIn"],
@@ -54,8 +42,8 @@ export const AuthScreen = () => {
           key: "token",
           data: token,
         });
-
         setIsAuthenticated(true); //* Autenticar user
+        navigation.navigate("HomeScreen");
       }
     },
     onError: (err) => {
@@ -255,7 +243,7 @@ export const AuthScreen = () => {
     </KeyboardAvoidingView>
   );
 };
-const styleAuthScreen = StyleSheet.create({
+export const styleAuthScreen = StyleSheet.create({
   background: {
     backgroundColor: "#16213E",
     flex: 1,

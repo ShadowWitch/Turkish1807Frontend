@@ -1,7 +1,7 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const urlBase = "http://192.168.0.14:3000";
+const urlBase = "http://192.168.11.122:3000";
 
 const setAuthToken = async () => {
   try {
@@ -18,8 +18,6 @@ const setAuthToken = async () => {
     console.error("Error al obtener el token de AsyncStorage:", error.message);
   }
 };
-
-// TODO lmoya me quede por aca tengo que ver por que no llega el token en el REQ a la primera vez...
 
 export const api = axios.create({
   baseURL: urlBase,

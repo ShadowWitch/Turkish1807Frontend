@@ -15,10 +15,12 @@ export const signIn = async (dataBody: SchemaLogin) => {
   }
 };
 
-export const checkAuth = async () => {
+export const checkAuth = async (token: string | null) => {
   try {
-    const { data }: AxiosResponse = await api.get("/auth/check");
+    if (!token) throw new Error("error");
+    const { data }: AxiosResponse = await api.get(`/auth/check?token=${token}`);
 
+    console.log("DATA >> ", data);
     if (!data) throw new Error("Error");
     if (!data.ok) throw new Error(data.message);
     return data;

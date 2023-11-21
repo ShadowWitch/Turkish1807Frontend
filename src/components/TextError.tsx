@@ -22,6 +22,9 @@ export const TextError = ({ message }: Prop) => {
     <Text
       style={{
         color: "#f99292",
+        fontSize: 10,
+        top: 25,
+        zIndex: 999,
       }}
     >
       {message}
