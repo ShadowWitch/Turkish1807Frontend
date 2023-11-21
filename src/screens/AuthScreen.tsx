@@ -22,8 +22,52 @@ import { Image } from "expo-image";
 import { stylesButton } from "../globalStyles/buttons.styles";
 import { TextError } from "../components/TextError";
 import { SchemaLogin } from "../types/TypesAuth";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { checkAuth, signIn } from "../services/auth";
+import { SaveStorage } from "../storage/Storage";
+import { useAuth } from "../context/AuthContext";
 
 export const AuthScreen = () => {
+  const { setIsAuthenticated } = useAuth();
+
+  const {
+    data: dataCheck,
+    error: errorCheck,
+    isLoading: isLoadingCheck,
+  } = useQuery({
+    queryKey: ["checkAuth"],
+    queryFn: checkAuth,
+    // retry: 1,
+  });
+
+  console.log("DATA ACA >> ", dataCheck);
+  console.log("ERROR >> ", errorCheck);
+  console.log("IS LOADING >> ", isLoadingCheck);
+
+  const { mutate, error, data } = useMutation({
+    mutationKey: ["signIn"],
+    mutationFn: signIn,
+    onSuccess: (data) => {
+      if (data.token) {
+        const token: string = data.token;
+        SaveStorage({
+          key: "token",
+          data: token,
+        });
+
+        setIsAuthenticated(true); //* Autenticar user
+      }
+    },
+    onError: (err) => {
+      console.log("ACACQ ERRORES");
+
+      console.log("ERRRORRR >> ", err);
+    },
+    onMutate: () => {
+      console.log("EJECUtando mutate ....");
+    },
+  });
+
   const {
     register,
     setValue,
@@ -37,6 +81,8 @@ export const AuthScreen = () => {
 
   const onSubmit = (data: SchemaLogin) => {
     console.log("DATA >> ", JSON.stringify(data, null, 3));
+
+    mutate(data);
   };
 
   return (
@@ -148,13 +194,15 @@ export const AuthScreen = () => {
                 alignItems: "center",
               }}
             >
-              <TouchableOpacity activeOpacity={0.8}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={handleSubmit(onSubmit)}
+              >
                 <View style={styleAuthScreen.buttonForm}>
                   <Text
                     style={{
                       textAlign: "center",
                     }}
-                    onPress={handleSubmit(onSubmit)}
                   >
                     Iniciar Sesión
                   </Text>
