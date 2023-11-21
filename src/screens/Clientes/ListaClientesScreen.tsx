@@ -20,7 +20,7 @@ import {
 export interface ItemFlatListType {
   data: ResponseListaClientes;
 
-  onShowMore: () => void;
+  onShowMore: (item: ResponseListaClientes) => void;
 }
 
 export const ListaClientesScreen = ({
@@ -37,12 +37,13 @@ export const ListaClientesScreen = ({
     queryFn: listaClientes,
   });
 
-  const onShowMore = () => {
-    navigation.navigate("DetallesScreen"),
-      {
-        data: "qwe",
-      };
-    console.log("DATA CLIENTES >> ", JSON.stringify(dataClientes, null, 3));
+  const onShowMore = (item: ResponseListaClientes) => {
+    console.log("ITEM ACACAAA >> ", JSON.stringify(item, null, 3));
+
+    navigation.navigate("DetallesScreen", {
+      ...item,
+    }),
+      console.log("DATA CLIENTES >> ", JSON.stringify(dataClientes, null, 3));
   };
 
   return (
@@ -240,7 +241,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity onPress={onShowMore}>
+          <TouchableOpacity onPress={() => onShowMore(data)}>
             <Text
               style={{
                 color: "white",

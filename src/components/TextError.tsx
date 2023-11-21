@@ -23,7 +23,7 @@ export const TextError = ({ message }: Prop) => {
       style={{
         color: "#f99292",
         fontSize: 10,
-        top: 25,
+        top: 2,
         zIndex: 999,
       }}
     >
