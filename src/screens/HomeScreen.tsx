@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   useWindowDimensions,
+  Button,
 } from "react-native";
 import { Background } from "../components/Background";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -15,6 +16,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { useAuth } from "../context/AuthContext";
 
 interface IOptions {
   url: string;
@@ -25,6 +27,13 @@ interface IOptions {
 }
 
 export const HomeScreen = () => {
+  const { setIsAuthenticated } = useAuth();
+
+  const onCloseSession = () => {
+    console.log("qweqweqwe");
+    setIsAuthenticated(false);
+  };
+
   return (
     <Background>
       <Image
@@ -58,6 +67,8 @@ export const HomeScreen = () => {
             size={e.size}
           />
         ))}
+
+        <Button title="Cerrar" onPress={onCloseSession} />
       </View>
     </Background>
   );
