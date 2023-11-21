@@ -29,7 +29,7 @@ import { styleAuthScreen } from "../AuthScreen";
 import { TextError } from "../../components/TextError";
 import { SelectInput } from "../../components/SelectInput";
 import { SchemaRegisterCliente } from "../../types/TypesClientes";
-import { registrarClienteService } from "../../services/registrarClientes";
+import { registrarClienteService } from "../../services/clientesService";
 import { useMutation } from "@tanstack/react-query";
 import { Toast } from "../../components/Toast";
 import { CreateToast } from "../../utils/toast";

@@ -2,7 +2,6 @@ import * as React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "../screens/HomeScreen";
 import { EjerciciosScreen } from "../screens/Ejercicios/EjerciciosScreen";
-import { ClientesScreen } from "../screens/Clientes/ClientesScreen";
 import { RutinasScreen } from "../screens/Rutinas/RutinasScreen";
 import { ChequeosScreen } from "../screens/Chequeos/ChequeosScreen";
 import { ContratoScreen } from "../screens/Contrato/ContratoScreen";

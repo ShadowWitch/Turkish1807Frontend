@@ -35,6 +35,44 @@ export const registrarClienteService = async (
     console.log(error);
   }
 };
+
+export const listaClientes = async () => {
+  try {
+    const { data }: AxiosResponse = await api.get("/clientes/show-all");
+
+    if (!data) throw new Error("Error");
+    console.log("RESP >> ", JSON.stringify(data));
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+interface Chequeo {
+  id: string;
+  peso: string;
+  estatura: string;
+  nivelDeMasa: string;
+  nivelDeGrasa: string;
+  fechaDelChequeo: string;
+  id_cliente?: string;
+}
+
+export interface ResponseListaClientes {
+  id: string;
+  DNI: string;
+  primerNombre: string;
+  segundoNombre: string;
+  primerApellido: string;
+  segundoApellido: string;
+  otroNombre: string;
+  telefono: string;
+  fechaNacimiento: string;
+  fechaIngreso: string;
+  chequeos: Chequeo[];
+  contratos: any[];
+}
+
 interface RequestRegisterCliente {
   DNI: string;
   fechaDeIngreso: string;
