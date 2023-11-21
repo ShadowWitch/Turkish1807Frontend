@@ -48,9 +48,9 @@ export const ListaClientesScreen = ({
   return (
     <>
       <Background marginTop={hp(1)}>
-        {dataClientes?.data?.length > 0 && (
+        {dataClientes?.length > 0 && (
           <FlatList
-            data={dataClientes.data as ResponseListaClientes[]}
+            data={dataClientes as ResponseListaClientes[]}
             renderItem={({ item }) => (
               <ItemFlatList data={item} onShowMore={onShowMore} />
             )}
