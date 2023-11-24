@@ -15,6 +15,8 @@ import { Select } from "../Select";
 import { Button } from "../Button";
 import { StackScreenProps } from "@react-navigation/stack";
 import { TypesNavigator } from "../../types/TypesNavigator";
+import { SelectInput } from "../SelectInput";
+import { Controller, useForm } from "react-hook-form";
 
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
@@ -78,6 +80,8 @@ export const FormRegistrarCliente = ({ navigation, route }: Props) => {
           />
 
           <Select text="Municipio" width={width * 0.75} />
+
+          {/* <SelectInput label="Municipio" value={} /> */}
 
           <View
             style={{

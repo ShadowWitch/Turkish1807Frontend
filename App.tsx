@@ -7,19 +7,32 @@ import { StackNavigator } from "./src/navigator/StackNavigator";
 import { BottomTabNavigator } from "./src/navigator/BottomTabNavigator";
 import { Background } from "./src/components/Background";
 import { AuthScreen } from "./src/screens/AuthScreen";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
+import { useAuth } from "./src/context/AuthContext";
+
+const queryClient = new QueryClient();
 
 export default function App() {
+  const { isAuthenticated } = useAuth();
+
   return (
     <>
-      <StatusBar style="auto" backgroundColor="white" />
-
-      {false ? (
-        <AuthScreen />
-      ) : (
-        <NavigationContainer>
-          <BottomTabNavigator />
-        </NavigationContainer>
-      )}
+      <QueryClientProvider client={queryClient}>
+        <StatusBar style="auto" backgroundColor="white" />
+        {!isAuthenticated ? (
+          <AuthScreen />
+        ) : (
+          <NavigationContainer>
+            <BottomTabNavigator />
+          </NavigationContainer>
+        )}
+      </QueryClientProvider>
     </>
   );
 }

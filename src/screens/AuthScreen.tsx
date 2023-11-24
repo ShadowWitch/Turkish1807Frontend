@@ -20,8 +20,54 @@ import {
 
 import { Image } from "expo-image";
 import { stylesButton } from "../globalStyles/buttons.styles";
+import { TextError } from "../components/TextError";
+import { SchemaLogin } from "../types/TypesAuth";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { checkAuth, signIn } from "../services/auth";
+import { SaveStorage } from "../storage/Storage";
+import { useAuth } from "../context/AuthContext";
 
 export const AuthScreen = () => {
+  const { setIsAuthenticated } = useAuth();
+
+  const {
+    data: dataCheck,
+    error: errorCheck,
+    isLoading: isLoadingCheck,
+  } = useQuery({
+    queryKey: ["checkAuth"],
+    queryFn: checkAuth,
+    // retry: 1,
+  });
+
+  console.log("DATA ACA >> ", dataCheck);
+  console.log("ERROR >> ", errorCheck);
+  console.log("IS LOADING >> ", isLoadingCheck);
+
+  const { mutate, error, data } = useMutation({
+    mutationKey: ["signIn"],
+    mutationFn: signIn,
+    onSuccess: (data) => {
+      if (data.token) {
+        const token: string = data.token;
+        SaveStorage({
+          key: "token",
+          data: token,
+        });
+
+        setIsAuthenticated(true); //* Autenticar user
+      }
+    },
+    onError: (err) => {
+      console.log("ACACQ ERRORES");
+
+      console.log("ERRRORRR >> ", err);
+    },
+    onMutate: () => {
+      console.log("EJECUtando mutate ....");
+    },
+  });
+
   const {
     register,
     setValue,
@@ -29,7 +75,15 @@ export const AuthScreen = () => {
     control,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm<SchemaLogin>({
+    mode: "onChange",
+  });
+
+  const onSubmit = (data: SchemaLogin) => {
+    console.log("DATA >> ", JSON.stringify(data, null, 3));
+
+    mutate(data);
+  };
 
   return (
     <KeyboardAvoidingView
@@ -62,37 +116,75 @@ export const AuthScreen = () => {
               <Text style={styleAuthScreen.textInputForm}>Usuario</Text>
 
               <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={styleAuthScreen.inputForm}
-                    onBlur={onBlur}
-                    onChangeText={(value) => onChange(value)}
-                    value={value}
-                    placeholder="Ingrese un usuario"
-                  />
-                )}
                 name="nombre"
-                rules={{ required: true }}
+                control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: "El nombre de usuario es requerido.",
+                  },
+                  minLength: {
+                    value: 5,
+                    message:
+                      "El nombre de usuario debe tener minimo de 5 caracteres",
+                  },
+                  maxLength: {
+                    value: 15,
+                    message:
+                      "El nombre de usuario debe tener máximo 15 caracteres.",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <>
+                    <TextInput
+                      style={styleAuthScreen.inputForm}
+                      onBlur={onBlur}
+                      onChangeText={(value) => onChange(value)}
+                      value={value}
+                      placeholder="Ingrese un usuario"
+                    />
+                    {errors.nombre?.message && (
+                      <TextError message={errors.nombre.message} />
+                    )}
+                  </>
+                )}
               />
             </View>
 
             <View style={styleAuthScreen.componentInputs}>
               <Text style={styleAuthScreen.textInputForm}>Contraseña</Text>
               <Controller
-                control={control}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={styleAuthScreen.inputForm}
-                    onBlur={onBlur}
-                    onChangeText={(value) => onChange(value)}
-                    value={value}
-                    secureTextEntry
-                    placeholder="Ingrese una contraseña"
-                  />
-                )}
                 name="contrasena"
-                rules={{ required: true }}
+                control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: "La contraseña es requerida.",
+                  },
+                  minLength: {
+                    value: 5,
+                    message: "La contraseña debe tener minimo de 5 caracteres",
+                  },
+                  maxLength: {
+                    value: 15,
+                    message: "La contraseña debe tener máximo 15 caracteres.",
+                  },
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <>
+                    <TextInput
+                      style={styleAuthScreen.inputForm}
+                      onBlur={onBlur}
+                      onChangeText={(value) => onChange(value)}
+                      value={value}
+                      secureTextEntry
+                      placeholder="Ingrese una contraseña"
+                    />
+                    {errors.contrasena?.message && (
+                      <TextError message={errors.contrasena.message} />
+                    )}
+                  </>
+                )}
               />
             </View>
 
@@ -102,7 +194,10 @@ export const AuthScreen = () => {
                 alignItems: "center",
               }}
             >
-              <TouchableOpacity activeOpacity={0.8}>
+              <TouchableOpacity
+                activeOpacity={0.8}
+                onPress={handleSubmit(onSubmit)}
+              >
                 <View style={styleAuthScreen.buttonForm}>
                   <Text
                     style={{
