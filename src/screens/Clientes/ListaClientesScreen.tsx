@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  TurboModuleRegistry,
+  ActivityIndicator,
+} from "react-native";
 import { IDataExample, dataExample } from "../../data/data";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -16,6 +23,7 @@ import {
   ResponseListaClientes,
   listaClientes,
 } from "../../services/clientesService";
+import { ButtonBack } from "../../components/ButtonBack";
 
 export interface ItemFlatListType {
   data: ResponseListaClientes;
@@ -46,34 +54,67 @@ export const ListaClientesScreen = ({
       console.log("DATA CLIENTES >> ", JSON.stringify(dataClientes, null, 3));
   };
 
+  useMemo(() => {
+    refetch();
+  }, []);
+
   return (
     <>
-      <Background marginTop={hp(1)}>
-        {dataClientes?.length > 0 && (
-          <FlatList
-            data={dataClientes as ResponseListaClientes[]}
-            renderItem={({ item }) => (
-              <ItemFlatList data={item} onShowMore={onShowMore} />
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            ItemSeparatorComponent={() => <ItemSeparator />}
-            style={{
-              // backgroundColor: "yellow",
-              paddingHorizontal: wp(3),
-              paddingTop: hp(1),
-              // paddingBottom: hp(30),
-              // marginBottom: hp(3),
-            }}
-            ListFooterComponent={() => (
-              <View
+      <ButtonBack />
+      <Background marginTop={hp(10)}>
+        {error === null ? (
+          isLoading === true ? (
+            <View>
+              <ActivityIndicator size={wp(3)} color={"white"} />
+              <Text
                 style={{
-                  // backgroundColor: "red",
-                  height: hp(5),
+                  color: "white",
                 }}
-              />
-            )}
-            // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
-          />
+              >
+                Cargando...
+              </Text>
+            </View>
+          ) : (
+            <FlatList
+              data={dataClientes as ResponseListaClientes[]}
+              renderItem={({ item }) => (
+                <ItemFlatList data={item} onShowMore={onShowMore} />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              ItemSeparatorComponent={() => <ItemSeparator />}
+              style={{
+                // backgroundColor: "yellow",
+                paddingHorizontal: wp(3),
+                paddingTop: hp(1),
+                // paddingBottom: hp(30),
+                // marginBottom: hp(3),
+              }}
+              ListFooterComponent={() => (
+                <View
+                  style={{
+                    // backgroundColor: "red",
+                    height: hp(5),
+                  }}
+                />
+              )}
+              // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
+            />
+          )
+        ) : (
+          <View
+            style={{
+              backgroundColor: "red",
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 100,
+              }}
+            >
+              Errrorasooooooo
+            </Text>
+          </View>
         )}
       </Background>
     </>

@@ -43,7 +43,7 @@ export const AuthScreen = () => {
           data: token,
         });
         setIsAuthenticated(true); //* Autenticar user
-        navigation.navigate("HomeScreen");
+        navigation.navigate("HomeScreen" as never);
       }
     },
     onError: (err) => {

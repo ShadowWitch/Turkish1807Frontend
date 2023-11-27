@@ -23,9 +23,9 @@ export const FormChequeoCliente = ({
   navigation,
   route,
 }: PropsWithNavigator) => {
-  const onSubmit = () => {
-    navigation.navigate("ContratoScreen");
-  };
+  // const onSubmit = () => {
+  //   navigation.navigate("ContratoScreen");
+  // };
 
   return (
     <>
@@ -84,7 +84,7 @@ export const FormChequeoCliente = ({
               keyboardType="numeric"
             />
 
-            <DateTimePicker textDate="Fecha del Chequeo" />
+            {/* <DateTimePicker textDate="Fecha del Chequeo" /> */}
 
             <View
               style={{
@@ -95,12 +95,12 @@ export const FormChequeoCliente = ({
               }}
             >
               <Button buttonType="secondary" text="Cancelar" width={wp(30)} />
-              <Button
+              {/* <Button
                 buttonType="primary"
                 text="Siguiente"
                 onPress={onSubmit}
                 width={wp(30)}
-              />
+              /> */}
             </View>
           </View>
         </TouchableWithoutFeedback>
