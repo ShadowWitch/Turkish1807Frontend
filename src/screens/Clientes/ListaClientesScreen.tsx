@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  TurboModuleRegistry,
+  ActivityIndicator,
+} from "react-native";
 import { IDataExample, dataExample } from "../../data/data";
 
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -11,58 +18,111 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { useQuery } from "@tanstack/react-query";
+import {
+  ResponseListaClientes,
+  listaClientes,
+} from "../../services/clientesService";
+import { ButtonBack } from "../../components/ButtonBack";
 
 export interface ItemFlatListType {
-  data: {
-    name: string;
-    peso: string;
-    mide: string;
-  };
+  data: ResponseListaClientes;
 
-  onShowMore: () => void;
+  onShowMore: (item: ResponseListaClientes) => void;
 }
 
 export const ListaClientesScreen = ({
   navigation,
   route,
 }: PropsWithNavigator) => {
-  const onShowMore = () => {
-    navigation.navigate("DetallesScreen");
+  const {
+    data: dataClientes,
+    error,
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["listaClientes"],
+    queryFn: listaClientes,
+  });
+
+  const onShowMore = (item: ResponseListaClientes) => {
+    console.log("ITEM ACACAAA >> ", JSON.stringify(item, null, 3));
+
+    navigation.navigate("DetallesScreen", {
+      ...item,
+    }),
+      console.log("DATA CLIENTES >> ", JSON.stringify(dataClientes, null, 3));
   };
+
+  useMemo(() => {
+    refetch();
+  }, []);
 
   return (
     <>
-      <Background marginTop={hp(1)}>
-        <FlatList
-          data={dataExample}
-          renderItem={({ item }) => (
-            <ItemFlatList data={item} onShowMore={onShowMore} />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={() => <ItemSeparator />}
-          style={{
-            // backgroundColor: "yellow",
-            paddingHorizontal: wp(3),
-            paddingTop: hp(1),
-            // paddingBottom: hp(30),
-            // marginBottom: hp(3),
-          }}
-          ListFooterComponent={() => (
-            <View
+      <ButtonBack />
+      <Background marginTop={hp(10)}>
+        {error === null ? (
+          isLoading === true ? (
+            <View>
+              <ActivityIndicator size={wp(3)} color={"white"} />
+              <Text
+                style={{
+                  color: "white",
+                }}
+              >
+                Cargando...
+              </Text>
+            </View>
+          ) : (
+            <FlatList
+              data={dataClientes as ResponseListaClientes[]}
+              renderItem={({ item }) => (
+                <ItemFlatList data={item} onShowMore={onShowMore} />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              ItemSeparatorComponent={() => <ItemSeparator />}
               style={{
-                // backgroundColor: "red",
-                height: hp(5),
+                // backgroundColor: "yellow",
+                paddingHorizontal: wp(3),
+                paddingTop: hp(1),
+                // paddingBottom: hp(30),
+                // marginBottom: hp(3),
               }}
+              ListFooterComponent={() => (
+                <View
+                  style={{
+                    // backgroundColor: "red",
+                    height: hp(5),
+                  }}
+                />
+              )}
+              // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
             />
-          )}
-          // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
-        />
+          )
+        ) : (
+          <View
+            style={{
+              backgroundColor: "red",
+            }}
+          >
+            <Text
+              style={{
+                color: "white",
+                fontSize: 100,
+              }}
+            >
+              Errrorasooooooo
+            </Text>
+          </View>
+        )}
       </Background>
     </>
   );
 };
 
 const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
+  console.log("DATA ITEM FLAT >> ", data);
   return (
     <>
       <View
@@ -106,7 +166,8 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                 color: "white",
               }}
             >
-              Nombre: {data.name}
+              Nombre:{" "}
+              {`${data.primerNombre || ""} ${data.primerApellido || ""}`}
             </Text>
           </View>
 
@@ -132,7 +193,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                 color: "white",
               }}
             >
-              Estatura: {data.mide}
+              Estatura: {`${data.chequeos.at(-1)?.estatura || ""} Mts`}
             </Text>
           </View>
 
@@ -158,7 +219,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                 color: "white",
               }}
             >
-              Peso: {data.peso}
+              Peso: {`${data.chequeos.at(-1)?.peso || ""} Kg`}
             </Text>
           </View>
 
@@ -184,7 +245,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                 color: "white",
               }}
             >
-              Niv. Masa: {data.peso}
+              Niv. Masa: {`${data.chequeos.at(-1)?.nivelDeMasa || ""} %`}
             </Text>
           </View>
 
@@ -210,7 +271,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                 color: "white",
               }}
             >
-              Niv. Grasa: {data.peso}
+              Niv. Grasa: {`${data.chequeos.at(-1)?.nivelDeGrasa || ""} %`}
             </Text>
           </View>
         </View>
@@ -221,7 +282,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity onPress={onShowMore}>
+          <TouchableOpacity onPress={() => onShowMore(data)}>
             <Text
               style={{
                 color: "white",
