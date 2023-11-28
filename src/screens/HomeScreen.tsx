@@ -81,19 +81,24 @@ const options: IOptions[] = [
     url: "TopTabNavigatorClientes",
   },
   {
-    text: "Ejercicios",
-    icon: "barbell-outline",
+    text: "Chequeos",
+    icon: "body-outline",
     url: "EjerciciosScreen",
   },
   {
-    text: "Rutinas",
-    icon: "analytics-outline",
-    url: "RutinasScreen",
+    text: "Contratos",
+    icon: "cash-outline",
+    url: "ListaContratoScreen",
   },
+  // {
+  //   text: "Rutinas",
+  //   icon: "analytics-outline",
+  //   url: "RutinasScreen",
+  // },
 
-  {
-    text: "Chequeos",
-    icon: "body-outline",
-    url: "RutinasScreen",
-  },
+  // {
+  //   text: "Chequeos",
+  //   icon: "body-outline",
+  //   url: "RutinasScreen",
+  // },
 ];

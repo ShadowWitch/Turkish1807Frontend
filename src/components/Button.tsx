@@ -3,6 +3,10 @@ import React from "react";
 import { View, TouchableOpacity, Text } from "react-native";
 import { stylesButton } from "../globalStyles/buttons.styles";
 
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 interface Props {
   text: string;
   width?: number;

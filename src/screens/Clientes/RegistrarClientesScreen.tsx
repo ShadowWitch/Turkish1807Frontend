@@ -192,9 +192,9 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                       "El nombre completo debe tener minimo de 8 caracteres",
                   },
                   maxLength: {
-                    value: 30,
+                    value: 50,
                     message:
-                      "El nombre completo debe tener máximo 30 caracteres.",
+                      "El nombre completo debe tener máximo 50 caracteres.",
                   },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
@@ -286,10 +286,10 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                   //   message: "Estatura no valida",
                   // },
 
-                  pattern: {
-                    value: regexPatterEstatura,
-                    message: "Formato no valido",
-                  },
+                  // pattern: {
+                  //   value: regexPatterEstatura,
+                  //   message: "Formato no valido",
+                  // },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <>
@@ -320,10 +320,10 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                     message: "El peso es requerida.",
                   },
 
-                  pattern: {
-                    value: regexPatternPeso,
-                    message: "Formato no valido",
-                  },
+                  // pattern: {
+                  //   value: regexPatternPeso,
+                  //   message: "Formato no valido",
+                  // },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <>
@@ -354,10 +354,10 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                     message: "% de grasa requerido.",
                   },
 
-                  pattern: {
-                    value: regexPatternGrasaMasa,
-                    message: "Formato no valido",
-                  },
+                  // pattern: {
+                  //   value: regexPatternGrasaMasa,
+                  //   message: "Formato no valido",
+                  // },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <>
@@ -388,10 +388,10 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                     message: "% de masa requerido.",
                   },
 
-                  pattern: {
-                    value: regexPatternGrasaMasa,
-                    message: "Formato no valido",
-                  },
+                  // pattern: {
+                  //   value: regexPatternGrasaMasa,
+                  //   message: "Formato no valido",
+                  // },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <>

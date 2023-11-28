@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import {
   View,
@@ -18,20 +18,40 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useQuery } from "@tanstack/react-query";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  UseMutateFunction,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import {
   ResponseListaClientes,
   listaClientes,
 } from "../../services/clientesService";
 import { ButtonBack } from "../../components/ButtonBack";
+import { Button } from "../../components/Button";
+import { compararFechas, formatearISO } from "../../utils/formatDate";
+import {
+  RequestRenovarContrato,
+  renovarContrato,
+} from "../../services/contratosService";
+import { showToastLong } from "../../utils/toast";
+import { ModalComponent } from "../../components/Modal";
+import { useForm } from "react-hook-form";
 
 export interface ItemFlatListType {
   data: ResponseListaClientes;
 
-  onShowMore: (item: ResponseListaClientes) => void;
+  // onRenovar: (item: RequestRenovarContrato) => void;
+
+  mutate: UseMutateFunction<any, Error, RequestRenovarContrato, void>;
+  refetch: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<any, Error>>;
 }
 
-export const ListaClientesScreen = ({
+export const ListaContratoScreen = ({
   navigation,
   route,
 }: PropsWithNavigator) => {
@@ -45,14 +65,36 @@ export const ListaClientesScreen = ({
     queryFn: listaClientes,
   });
 
-  const onShowMore = (item: ResponseListaClientes) => {
-    console.log("ITEM ACACAAA >> ", JSON.stringify(item, null, 3));
+  const {
+    mutate,
+    error: errorRenovar,
+    data,
+  } = useMutation({
+    mutationKey: ["renovarContrato"],
+    mutationFn: renovarContrato,
+    onSuccess: () => {
+      showToastLong("Contrato renovado!");
+      navigation.navigate("HomeScreen");
+    },
+    onError: () => {
+      // console.log("ERRRORRR >> ");
+      showToastLong("Ha ocurrido un error");
+    },
+    onMutate: () => {
+      console.log("EJECUtando mutate ....");
+    },
+  });
 
-    navigation.navigate("DetallesScreen", {
-      ...item,
-    }),
-      console.log("DATA CLIENTES >> ", JSON.stringify(dataClientes, null, 3));
-  };
+  // const {
+  //   register,
+  //   setValue,
+  //   handleSubmit,
+  //   control,
+  //   reset,
+  //   formState: { errors },
+  // } = useForm<RequestRenovarContrato>({
+  //   mode: "onChange",
+  // });
 
   useMemo(() => {
     refetch();
@@ -78,7 +120,7 @@ export const ListaClientesScreen = ({
             <FlatList
               data={dataClientes as ResponseListaClientes[]}
               renderItem={({ item }) => (
-                <ItemFlatList data={item} onShowMore={onShowMore} />
+                <ItemFlatList data={item} refetch={refetch} mutate={mutate} />
               )}
               keyExtractor={(item, index) => index.toString()}
               ItemSeparatorComponent={() => <ItemSeparator />}
@@ -129,10 +171,42 @@ export const ListaClientesScreen = ({
   );
 };
 
-const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
-  console.log("DATA ITEM FLAT >> ", data);
+const ItemFlatList = ({ data, mutate, refetch }: ItemFlatListType) => {
+  console.log("DATA >> ", JSON.stringify(data, null, 3));
+  const [showModal, setShowModal] = useState(false);
+  const onCancel = () => {
+    setShowModal(false);
+  };
+  const onSubmit = () => {
+    setShowModal(true);
+  };
+
+  const onRenovar = () => {
+    mutate({
+      fechaDeFin: formatearISO(
+        new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString()
+      ),
+      id_contrato: data.contratos.at(0).id,
+      ultimaRenovacion: formatearISO(new Date().toISOString()),
+    });
+
+    refetch();
+  };
+
+  console.log("DATA  PORUIEBA   >> ", JSON.stringify(data, null, 3));
+
   return (
     <>
+      {showModal && (
+        <ModalComponent
+          onAccept={onRenovar as never}
+          onCancel={onCancel}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          title="Confirmación"
+          description="¿Esta seguro que desea confirmar? Una vez hecho no podra revertirlo."
+        />
+      )}
       <View
         style={{
           // backgroundColor: "green",
@@ -174,8 +248,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                 color: "white",
               }}
             >
-              Nombre:{" "}
-              {`${data.primerNombre || ""} ${data.primerApellido || ""}`}
+              Nombre: {`${data.primerNombre || ""} ${data.segundoNombre || ""}`}
             </Text>
           </View>
 
@@ -190,7 +263,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
               style={{
                 marginHorizontal: wp(2),
               }}
-              name={"body"}
+              name={"calendar-outline"}
               size={wp(7)}
               color={"white"}
             />
@@ -201,85 +274,12 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                 color: "white",
               }}
             >
-              Estatura: {`${data.chequeos.at(-1)?.estatura || ""} Mts`}
-            </Text>
-          </View>
-
-          <View
-            style={{
-              // backgroundColor: "gray",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Ionicons
-              style={{
-                marginHorizontal: wp(2),
-              }}
-              name={"leaf"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <Text
-              style={{
-                fontSize: wp(4),
-                fontWeight: "400",
-                color: "white",
-              }}
-            >
-              Peso: {`${data.chequeos.at(-1)?.peso || ""} Kg`}
-            </Text>
-          </View>
-
-          <View
-            style={{
-              // backgroundColor: "gray",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Ionicons
-              style={{
-                marginHorizontal: wp(2),
-              }}
-              name={"barbell"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <Text
-              style={{
-                fontSize: wp(4),
-                fontWeight: "400",
-                color: "white",
-              }}
-            >
-              Niv. Masa: {`${data.chequeos.at(-1)?.nivelDeMasa || ""} %`}
-            </Text>
-          </View>
-
-          <View
-            style={{
-              // backgroundColor: "gray",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Ionicons
-              style={{
-                marginHorizontal: wp(2),
-              }}
-              name={"fast-food"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <Text
-              style={{
-                fontSize: wp(4),
-                fontWeight: "400",
-                color: "white",
-              }}
-            >
-              Niv. Grasa: {`${data.chequeos.at(-1)?.nivelDeGrasa || ""} %`}
+              Ultima renovación:{" "}
+              {`${
+                data.contratos.at(0)?.ultimaRenovacion
+                  ? formatearISO(data.contratos.at(0).ultimaRenovacion)
+                  : "No existe"
+              }`}
             </Text>
           </View>
         </View>
@@ -290,7 +290,27 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity onPress={() => onShowMore(data)}>
+          {data.contratos.at(0)?.ultimaRenovacion &&
+            compararFechas({
+              fecha: formatearISO(data.contratos.at(0)?.ultimaRenovacion),
+              fechaActual: formatearISO(new Date().toISOString()),
+            }) && (
+              <Button
+                text="Renovar"
+                buttonType="primary"
+                width={wp(25)}
+                onPress={onSubmit}
+                // onPress={() =>
+                //   onShowMore({
+                //     fechaDeFin: formatearISO(new Date().toISOString()),
+                //     id_contrato: data.contratos.at(0).id,
+                //     ultimaRenovacion: formatearISO(new Date().toISOString()),
+                //   })
+                // }
+              />
+            )}
+
+          {/* <TouchableOpacity onPress={() => onShowMore(data)}>
             <Text
               style={{
                 color: "white",
@@ -299,7 +319,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
             >
               Ver mas...
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
     </>

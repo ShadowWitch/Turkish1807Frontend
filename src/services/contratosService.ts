@@ -23,6 +23,25 @@ export const addContrato = async (dataBody: SchemaRegisterContrato) => {
   }
 };
 
+export const renovarContrato = async (dataBody: RequestRenovarContrato) => {
+  try {
+    const { data }: AxiosResponse = await api.put("/contrato/renew", dataBody);
+
+    console.log("DATA RENEW >> ", data);
+
+    if (!data.ok) throw new Error(data.message);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export interface RequestRenovarContrato {
+  fechaDeFin: string;
+  ultimaRenovacion: string;
+  id_contrato: string;
+}
+
 interface RequestRegisterContrato {
   descripcion?: string;
   estado: "Activo";

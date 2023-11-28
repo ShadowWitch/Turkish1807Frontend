@@ -12,6 +12,7 @@ import { useAuth } from "../context/AuthContext";
 import { LoadingAuth } from "../screens/LoadingAuth";
 import { BottomTabNavigator } from "./BottomTabNavigator";
 import Toast from "react-native-toast-message";
+import { ListaContratoScreen } from "../screens/Contrato/ListaContratoScreen";
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,11 @@ export const StackNavigator = () => {
           <Stack.Screen name="ContratoScreen" component={ContratoScreen} />
 
           <Stack.Screen name="DetallesScreen" component={DetallesScreen} />
+
+          <Stack.Screen
+            name="ListaContratoScreen"
+            component={ListaContratoScreen}
+          />
 
           <Stack.Screen
             name="TopTabNavigatorClientes"
