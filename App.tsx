@@ -15,6 +15,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { useAuth } from "./src/context/AuthContext";
+import { LoadingAuth } from "./src/screens/LoadingAuth";
 
 const queryClient = new QueryClient();
 
@@ -25,13 +26,11 @@ export default function App() {
     <>
       <QueryClientProvider client={queryClient}>
         <StatusBar style="auto" backgroundColor="white" />
-        {!isAuthenticated ? (
-          <AuthScreen />
-        ) : (
-          <NavigationContainer>
-            <BottomTabNavigator />
-          </NavigationContainer>
-        )}
+        <NavigationContainer>
+          {/* {!isAuthenticated ? <LoadingAuth /> : <BottomTabNavigator />} */}
+          <BottomTabNavigator />
+          {/* <StackNavigator /> */}
+        </NavigationContainer>
       </QueryClientProvider>
     </>
   );

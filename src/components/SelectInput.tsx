@@ -9,12 +9,16 @@ import {
   FlatList,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
 // import { COLORES, COLOR_PRIMARIO } from "../styles/Styles";
 // import { Container } from "./Container";
 // import { isTablet } from "react-native-device-info";
 
-const HEIGHT = 256;
+const HEIGHT = 200;
 
 interface Props {
   options: {
@@ -59,7 +63,7 @@ export const SelectInput = ({
     setDropdown(true);
     Animated.timing(animatedvalue, {
       toValue: HEIGHT,
-      duration: 500,
+      duration: 200,
       useNativeDriver: false,
     }).start();
   };
@@ -67,7 +71,7 @@ export const SelectInput = ({
   const slideup = () => {
     Animated.timing(animatedvalue, {
       toValue: 0,
-      duration: 500,
+      duration: 200,
       useNativeDriver: false,
     }).start(() => setDropdown(false));
   };
@@ -82,6 +86,9 @@ export const SelectInput = ({
         slideup();
         onChange(item);
       }}
+      style={{
+        backgroundColor: "white",
+      }}
     >
       {({ pressed }) => (
         <View
@@ -90,12 +97,21 @@ export const SelectInput = ({
           //   }`}
           //   width={isTablet() ? 432 : 244}
           style={{
-            shadowColor: "#000",
-            elevation: pressed ? 0 : 2,
-            width: 244,
+            // shadowColor: "#000",
+            // elevation: pressed ? 0 : 2,
+            width: wp(80),
+            borderBottomColor: "gray",
+            borderWidth: 0.5,
+            height: hp(5),
           }}
         >
-          <Text>{item.label}</Text>
+          <Text
+            style={{
+              fontSize: wp(5),
+            }}
+          >
+            {item.label}
+          </Text>
         </View>
       )}
     </Pressable>
@@ -136,37 +152,75 @@ export const SelectInput = ({
 
   return (
     <View>
-      {label && <Text>{label}</Text>}
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-around",
+        }}
+      >
+        {label && <Text style={{ color: "white" }}>{label}</Text>}
+        {error?.message && (
+          <Text
+            style={{
+              color: "#f99292",
+              fontSize: 10,
+              textAlign: "center",
+            }}
+          >
+            {error.message}
+          </Text>
+        )}
+      </View>
+
       <Pressable
         onPress={() => {
           dropdown ? slideup() : slidedown();
         }}
+        style={{
+          backgroundColor: "white",
+          borderRadius: 10,
+          width: wp(80),
+        }}
       >
-        <View>
+        <View
+          style={{
+            // backgroundColor: "orange",
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+            height: hp(6),
+          }}
+        >
           <Text
             // className={`flex-1 text-base font-medium ${textColor} ${
             //   value ? "font-bold" : "text-stone-500 "
             // }`}
             numberOfLines={1}
             ellipsizeMode="tail"
+            // style={{
+            //   color: "gray",
+            //   backgroundColor: "red",
+            // }}
           >
             {value ? value.label : placeholder}
           </Text>
-          <View>
-            {/* <FontAwesomeIcon
-              icon={dropdown ? "chevron-up" : "chevron-down"}
-              size={16}
-              color={getChevronColor()}
-            /> */}
 
-            <Ionicons name={"arrow-down"} size={20} color={"red"} />
-          </View>
+          <Ionicons
+            name={"arrow-down"}
+            size={20}
+            // color={"red"}
+            style={{
+              // backgroundColor: "yellow",
+              alignItems: "flex-end",
+              textAlign: "right",
+              width: wp(10),
+            }}
+          />
         </View>
       </Pressable>
 
       {dropdown ? Dropdown : null}
-
-      {error?.message && <Text>{error.message}</Text>}
     </View>
   );
 };
