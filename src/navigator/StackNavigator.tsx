@@ -17,7 +17,7 @@ import { ListaContratoScreen } from "../screens/Contrato/ListaContratoScreen";
 const Stack = createStackNavigator();
 
 export const StackNavigator = () => {
-  const { isAuthenticated } = useAuth();
+  const { isLoading, status, token, user, setIsAuthenticated } = useAuth();
 
   return (
     <Stack.Navigator
@@ -29,9 +29,9 @@ export const StackNavigator = () => {
         headerShown: false,
       }}
     >
-      {false ? (
+      {status !== "authenticated" ? (
         <>
-          <Stack.Screen name="LoadingAuth" component={LoadingAuth} />
+          {/* <Stack.Screen name="LoadingAuth" component={LoadingAuth} /> */}
           <Stack.Screen name="AuthScreen" component={AuthScreen} />
         </>
       ) : (

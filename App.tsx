@@ -20,8 +20,6 @@ import { LoadingAuth } from "./src/screens/LoadingAuth";
 const queryClient = new QueryClient();
 
 export default function App() {
-  const { isAuthenticated } = useAuth();
-
   return (
     <>
       <QueryClientProvider client={queryClient}>
