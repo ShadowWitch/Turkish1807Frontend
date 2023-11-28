@@ -77,6 +77,8 @@ export const ContratoScreen = ({ navigation, route }: PropsWithNavigator) => {
     resolver: zodResolver(TypeRegisterContrato),
   });
 
+  console.log("DIAQWE QWE QWE>> ", idCliente);
+
   const onSubmit = () => {
     setShowModal(true);
   };
@@ -249,6 +251,7 @@ export const ContratoScreen = ({ navigation, route }: PropsWithNavigator) => {
                     buttonType="secondary"
                     text="Cancelar"
                     width={wp(30)}
+                    onPress={() => navigation.navigate("HomeScreen")}
                   />
 
                   <Button

@@ -6,7 +6,9 @@ export type TypesNavigator = {
   EjerciciosScreen: undefined;
   ClientesScreen: undefined;
   RutinasScreen: undefined;
-  ChequeosScreen: undefined;
+  ChequeosScreen: {
+    id_cliente: string;
+  };
   ContratoScreen: {
     id_cliente: string;
   };

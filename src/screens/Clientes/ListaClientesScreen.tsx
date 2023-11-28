@@ -54,7 +54,7 @@ export const ListaClientesScreen = ({
       console.log("DATA CLIENTES >> ", JSON.stringify(dataClientes, null, 3));
   };
 
-  useMemo(() => {
+  useEffect(() => {
     refetch();
   }, []);
 

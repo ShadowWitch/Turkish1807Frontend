@@ -22,34 +22,34 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
   console.log("ACA >> ", JSON.stringify(data, null, 3));
 
   const chequeoAnteriorPeso = parseFloat(
-    data.chequeos.at(1)?.peso || "0"
+    data.chequeos.at(-2)?.peso || "0"
   ).toFixed() as never;
   const chequeoActualPeso = parseFloat(
-    data.chequeos.at(0)?.peso || "0"
+    data.chequeos.at(-1)?.peso || "0"
   ).toFixed() as never;
   const resultadoPeso = chequeoActualPeso - chequeoAnteriorPeso;
 
   const chequeoAnteriorGrasa = parseFloat(
-    data.chequeos.at(1)?.nivelDeGrasa || "0"
+    data.chequeos.at(-2)?.nivelDeGrasa || "0"
   ).toFixed() as never;
   const chequeoActualGrasa = parseFloat(
-    data.chequeos.at(0)?.nivelDeGrasa || "0"
+    data.chequeos.at(-1)?.nivelDeGrasa || "0"
   ).toFixed() as never;
   const resultadoGrasa = chequeoActualGrasa - chequeoAnteriorGrasa;
 
   const chequeoAnteriorMasa = parseFloat(
-    data.chequeos.at(1)?.nivelDeMasa || "0"
+    data.chequeos.at(-2)?.nivelDeMasa || "0"
   ).toFixed() as never;
   const chequeoActualMasa = parseFloat(
-    data.chequeos.at(0)?.nivelDeMasa || "0"
+    data.chequeos.at(-1)?.nivelDeMasa || "0"
   ).toFixed() as never;
   const resultadoMasa = chequeoActualMasa - chequeoAnteriorMasa;
 
-  const fechaChequeoAnterior = data.chequeos.at(1)?.fechaDelChequeo;
-  const fechaChequeoActual = data.chequeos.at(0)?.fechaDelChequeo;
+  const fechaChequeoAnterior = data.chequeos.at(-2)?.fechaDelChequeo;
+  const fechaChequeoActual = data.chequeos.at(-1)?.fechaDelChequeo;
 
-  const fechaContratoAnterior = data.contratos.at(1)?.fechaDelContrato;
-  const fechaContratoActual = data.contratos.at(0)?.fechaDelContrato;
+  const fechaContratoAnterior = data.contratos.at(-2)?.fechaDelContrato;
+  const fechaContratoActual = data.contratos.at(-1)?.fechaDelContrato;
 
   return (
     <Background>
@@ -322,7 +322,11 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
           width={wp(40)}
           buttonType="primary"
           text="Nuevo Chequeo"
-          onPress={() => navigation.navigate("ChequeosScreen")}
+          onPress={() =>
+            navigation.navigate("ChequeosScreen", {
+              id_cliente: data.id,
+            })
+          }
         />
       </View>
     </Background>
