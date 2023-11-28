@@ -12,6 +12,7 @@ import { ResponseListaClientes } from "../../services/clientesService";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button } from "../../components/Button";
 import { formatearISO } from "../../utils/formatDate";
+import { stylesButton } from "../../globalStyles/buttons.styles";
 
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
@@ -52,6 +53,8 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
   const fechaContratoActual = data.contratos.at(-1)?.fechaDelContrato;
 
   console.log("DATA CLIENTE CONTRAT O >> ", JSON.stringify(data, null, 3));
+
+  console.log("RESULTADO >> ", typeof resultadoPeso);
 
   return (
     <Background>
@@ -202,6 +205,10 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
             style={{
               ...styles.styleText,
               fontWeight: "bold",
+              color:
+                resultadoPeso < 0
+                  ? stylesButton.buttonsColorSecondary.backgroundColor
+                  : stylesButton.buttonsColorPrimary.backgroundColor,
             }}
           >
             Perdida / Ganancia: {resultadoPeso}
@@ -248,6 +255,10 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
             style={{
               ...styles.styleText,
               fontWeight: "bold",
+              color:
+                resultadoMasa < 0
+                  ? stylesButton.buttonsColorSecondary.backgroundColor
+                  : stylesButton.buttonsColorPrimary.backgroundColor,
             }}
           >
             Perdida / Ganancia: {resultadoMasa}
@@ -294,6 +305,10 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
             style={{
               ...styles.styleText,
               fontWeight: "bold",
+              color:
+                resultadoGrasa < 0
+                  ? stylesButton.buttonsColorSecondary.backgroundColor
+                  : stylesButton.buttonsColorPrimary.backgroundColor,
             }}
           >
             Perdida / Ganancia: {resultadoGrasa}
