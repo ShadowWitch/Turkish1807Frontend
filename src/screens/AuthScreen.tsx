@@ -42,7 +42,11 @@ export const AuthScreen = () => {
           key: "token",
           data: token,
         });
-        setIsAuthenticated(true); //* Autenticar user
+        setIsAuthenticated({
+          token,
+          user: data.data,
+          status: "authenticated",
+        }); //* Autenticar user
         navigation.navigate("HomeScreen" as never);
       }
     },
@@ -88,7 +92,8 @@ export const AuthScreen = () => {
               // backgroundColor: "#0553",
               // marginTop: -100,
             }}
-            source="https://images.vexels.com/media/users/3/153334/isolated/preview/cf5ff26985a46460a5a29aa9443cb323-logotipo-de-sitamet-power-gym.png"
+            // source="https://images.vexels.com/media/users/3/153334/isolated/preview/cf5ff26985a46460a5a29aa9443cb323-logotipo-de-sitamet-power-gym.png"
+            source={require("../../assets/gym.png")}
             contentFit="scale-down"
             transition={1000}
           />

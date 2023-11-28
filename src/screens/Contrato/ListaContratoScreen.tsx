@@ -30,7 +30,6 @@ import {
   listaClientes,
 } from "../../services/clientesService";
 import { ButtonBack } from "../../components/ButtonBack";
-import { Button } from "../../components/Button";
 import { compararFechas, formatearISO } from "../../utils/formatDate";
 import {
   RequestRenovarContrato,
@@ -39,6 +38,7 @@ import {
 import { showToastLong } from "../../utils/toast";
 import { ModalComponent } from "../../components/Modal";
 import { useForm } from "react-hook-form";
+import { stylesButton } from "../../globalStyles/buttons.styles";
 
 export interface ItemFlatListType {
   data: ResponseListaClientes;
@@ -295,19 +295,31 @@ const ItemFlatList = ({ data, mutate, refetch }: ItemFlatListType) => {
               fecha: formatearISO(data.contratos.at(0)?.ultimaRenovacion),
               fechaActual: formatearISO(new Date().toISOString()),
             }) && (
-              <Button
-                text="Renovar"
-                buttonType="primary"
-                width={wp(25)}
+              <TouchableOpacity
+                style={{
+                  backgroundColor:
+                    stylesButton.buttonsColorPrimary.backgroundColor,
+                  padding: wp(2),
+                  borderRadius: 10,
+                }}
                 onPress={onSubmit}
-                // onPress={() =>
-                //   onShowMore({
-                //     fechaDeFin: formatearISO(new Date().toISOString()),
-                //     id_contrato: data.contratos.at(0).id,
-                //     ultimaRenovacion: formatearISO(new Date().toISOString()),
-                //   })
-                // }
-              />
+              >
+                <Text>Renovar</Text>
+              </TouchableOpacity>
+
+              // <Button
+              //   text="Renovar"
+              //   buttonType="primary"
+              //   width={wp(25)}
+              //   onPress={onSubmit}
+              //   // onPress={() =>
+              //   //   onShowMore({
+              //   //     fechaDeFin: formatearISO(new Date().toISOString()),
+              //   //     id_contrato: data.contratos.at(0).id,
+              //   //     ultimaRenovacion: formatearISO(new Date().toISOString()),
+              //   //   })
+              //   // }
+              // />
             )}
 
           {/* <TouchableOpacity onPress={() => onShowMore(data)}>
