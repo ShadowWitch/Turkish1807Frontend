@@ -51,6 +51,8 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
   const fechaContratoAnterior = data.contratos.at(-2)?.fechaDelContrato;
   const fechaContratoActual = data.contratos.at(-1)?.fechaDelContrato;
 
+  console.log("DATA CLIENTE CONTRAT O >> ", JSON.stringify(data, null, 3));
+
   return (
     <Background>
       <ButtonBack />
@@ -73,7 +75,7 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
         >{`${data.primerNombre} ${data.primerApellido}`}</Text>
       </View>
 
-      <View
+      {/* <View
         style={{
           // backgroundColor: "yellow",
           marginTop: hp(3),
@@ -115,7 +117,7 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
               : "No existe"}
           </Text>
         </View>
-      </View>
+      </View> */}
 
       <View
         style={{
@@ -308,16 +310,18 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
           justifyContent: "space-around",
         }}
       >
-        <Button
-          width={wp(40)}
-          buttonType="primary"
-          text="Nuevo Contrato"
-          onPress={() =>
-            navigation.navigate("ContratoScreen", {
-              id_cliente: data.id,
-            })
-          }
-        />
+        {data.contratos.length === 0 && (
+          <Button
+            width={wp(40)}
+            buttonType="primary"
+            text="Nuevo Contrato"
+            onPress={() =>
+              navigation.navigate("ContratoScreen", {
+                id_cliente: data.id,
+              })
+            }
+          />
+        )}
         <Button
           width={wp(40)}
           buttonType="primary"

@@ -49,7 +49,7 @@ export const HomeScreen = () => {
           //   backgroundColor: "#0553",
           marginTop: hp(1),
         }}
-        source="https://images.vexels.com/media/users/3/153334/isolated/preview/cf5ff26985a46460a5a29aa9443cb323-logotipo-de-sitamet-power-gym.png"
+        source={require("../../assets/gym.png")}
         contentFit="scale-down"
         transition={1000}
       />
