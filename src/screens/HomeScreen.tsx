@@ -17,6 +17,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { useAuth } from "../context/AuthContext";
+import { ButtonCloseSesion } from "../components/ButtonCloseSesion";
 
 interface IOptions {
   url: string;
@@ -31,7 +32,11 @@ export const HomeScreen = () => {
 
   const onCloseSession = () => {
     console.log("qweqweqwe");
-    setIsAuthenticated(false);
+    setIsAuthenticated({
+      token: "",
+      user: null,
+      status: "not-authenticated",
+    });
   };
 
   return (
@@ -68,8 +73,29 @@ export const HomeScreen = () => {
           />
         ))}
 
-        <Button title="Cerrar" onPress={onCloseSession} />
+        {/* <Button title="Cerrar" onPress={onCloseSession} /> */}
       </View>
+
+      <TouchableOpacity
+        style={{
+          // backgroundColor: "red",
+          height: hp(10),
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        onPress={onCloseSession}
+      >
+        <Ionicons name={"power-outline"} size={wp(7)} color={"white"} />
+
+        <Text
+          style={{
+            color: "white",
+            fontSize: wp(4),
+          }}
+        >
+          Cerrar Sesión
+        </Text>
+      </TouchableOpacity>
     </Background>
   );
 };
@@ -90,6 +116,12 @@ const options: IOptions[] = [
     icon: "cash-outline",
     url: "ListaContratoScreen",
   },
+
+  // {
+  //   text: "Cerrar Sesión",
+  //   icon: "power-outline",
+  //   url: "ListaContratoScreen",
+  // },
   // {
   //   text: "Rutinas",
   //   icon: "analytics-outline",

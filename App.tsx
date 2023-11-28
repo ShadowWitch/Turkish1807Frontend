@@ -26,8 +26,8 @@ export default function App() {
         <StatusBar style="auto" backgroundColor="white" />
         <NavigationContainer>
           {/* {!isAuthenticated ? <LoadingAuth /> : <BottomTabNavigator />} */}
-          <BottomTabNavigator />
-          {/* <StackNavigator /> */}
+          {/* <BottomTabNavigator /> */}
+          <StackNavigator />
         </NavigationContainer>
       </QueryClientProvider>
     </>

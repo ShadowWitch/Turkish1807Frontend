@@ -27,6 +27,7 @@ import { checkAuth, signIn } from "../services/auth";
 import { SaveStorage } from "../storage/Storage";
 import { useAuth } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
+import { showToastLong } from "../utils/toast";
 
 export const AuthScreen = () => {
   const { setIsAuthenticated } = useAuth();
@@ -52,6 +53,7 @@ export const AuthScreen = () => {
     },
     onError: (err) => {
       console.log("ACACQ ERRORES");
+      showToastLong("Credenciales incorrectas");
 
       console.log("ERRRORRR >> ", err);
     },
@@ -75,6 +77,8 @@ export const AuthScreen = () => {
     console.log("DATA >> ", JSON.stringify(data, null, 3));
 
     mutate(data);
+
+    Keyboard.dismiss();
   };
 
   return (
