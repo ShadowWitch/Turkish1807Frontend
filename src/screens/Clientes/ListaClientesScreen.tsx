@@ -24,6 +24,8 @@ import {
   listaClientes,
 } from "../../services/clientesService";
 import { ButtonBack } from "../../components/ButtonBack";
+import { ErrorConexion } from "../../components/ErrorConexion";
+import { NoHayRegistros } from "../../components/NoHayRegistros";
 
 export interface ItemFlatListType {
   data: ResponseListaClientes;
@@ -58,12 +60,26 @@ export const ListaClientesScreen = ({
     refetch();
   }, []);
 
+  console.log("DATA CLIENTES >> ", JSON.stringify(dataClientes, null, 3));
+
+  if (error !== null)
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#16213E",
+        }}
+      >
+        <ErrorConexion />
+      </View>
+    );
+
   return (
     <>
       <ButtonBack />
       <Background marginTop={hp(10)}>
-        {error === null ? (
-          isLoading === true ? (
+        {error === null &&
+          (isLoading === true ? (
             <View>
               <ActivityIndicator size={wp(3)} color={"white"} />
               <Text
@@ -75,55 +91,37 @@ export const ListaClientesScreen = ({
               </Text>
             </View>
           ) : (
-            <FlatList
-              data={dataClientes as ResponseListaClientes[]}
-              renderItem={({ item }) => (
-                <ItemFlatList data={item} onShowMore={onShowMore} />
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              ItemSeparatorComponent={() => <ItemSeparator />}
-              style={{
-                // backgroundColor: "yellow",
-                paddingHorizontal: wp(3),
-                paddingTop: hp(1),
-                // paddingBottom: hp(30),
-                // marginBottom: hp(3),
-              }}
-              ListFooterComponent={() => (
-                <View
+            <>
+              {dataClientes.length > 0 ? (
+                <FlatList
+                  data={dataClientes as ResponseListaClientes[]}
+                  renderItem={({ item }) => (
+                    <ItemFlatList data={item} onShowMore={onShowMore} />
+                  )}
+                  keyExtractor={(item, index) => index.toString()}
+                  ItemSeparatorComponent={() => <ItemSeparator />}
                   style={{
-                    // backgroundColor: "red",
-                    height: hp(5),
+                    // backgroundColor: "yellow",
+                    paddingHorizontal: wp(3),
+                    paddingTop: hp(1),
+                    // paddingBottom: hp(30),
+                    // marginBottom: hp(3),
                   }}
+                  ListFooterComponent={() => (
+                    <View
+                      style={{
+                        // backgroundColor: "red",
+                        height: hp(5),
+                      }}
+                    />
+                  )}
+                  // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
                 />
+              ) : (
+                <NoHayRegistros />
               )}
-              // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
-            />
-          )
-        ) : (
-          <View
-            style={{
-              backgroundColor: "red",
-            }}
-          >
-            <Ionicons
-              style={{
-                marginHorizontal: wp(2),
-              }}
-              name={"person-circle-outline"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <Text
-              style={{
-                color: "white",
-                fontSize: 100,
-              }}
-            >
-              Errrorasooooooo
-            </Text>
-          </View>
-        )}
+            </>
+          ))}
       </Background>
     </>
   );

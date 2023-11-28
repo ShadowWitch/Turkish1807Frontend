@@ -39,6 +39,7 @@ import { styleAuthScreen } from "../AuthScreen";
 import { useMutation } from "@tanstack/react-query";
 import { addContrato } from "../../services/contratosService";
 import { showToast, showToastLong } from "../../utils/toast";
+import MaskInput, { TextInputMask } from "react-native-masked-input";
 
 export const ContratoScreen = ({ navigation, route }: PropsWithNavigator) => {
   const { height, width } = useWindowDimensions();
@@ -147,7 +148,7 @@ export const ContratoScreen = ({ navigation, route }: PropsWithNavigator) => {
                       {errors.fechaDeInicio?.message && (
                         <TextError message={errors.fechaDeInicio.message} />
                       )}
-                      <TextInput
+                      <TextInputMask
                         style={{
                           ...styleAuthScreen.inputForm,
                           width: wp(80),
@@ -156,7 +157,11 @@ export const ContratoScreen = ({ navigation, route }: PropsWithNavigator) => {
                         onChangeText={(value) => onChange(value)}
                         value={value}
                         placeholder="Fecha de Inicio"
-                        keyboardType="numbers-and-punctuation"
+                        keyboardType="numeric"
+                        type="datetime"
+                        options={{
+                          format: "DD-MM-YYYY",
+                        }}
                       />
                     </>
                   )}
@@ -170,7 +175,7 @@ export const ContratoScreen = ({ navigation, route }: PropsWithNavigator) => {
                       {errors.fechaDeFin?.message && (
                         <TextError message={errors.fechaDeFin.message} />
                       )}
-                      <TextInput
+                      <TextInputMask
                         style={{
                           ...styleAuthScreen.inputForm,
                           width: wp(80),
@@ -179,7 +184,11 @@ export const ContratoScreen = ({ navigation, route }: PropsWithNavigator) => {
                         onChangeText={(value) => onChange(value)}
                         value={value}
                         placeholder="Fecha de Vencimiento"
-                        keyboardType="numbers-and-punctuation"
+                        keyboardType="numeric"
+                        type="datetime"
+                        options={{
+                          format: "DD-MM-YYYY",
+                        }}
                       />
                     </>
                   )}

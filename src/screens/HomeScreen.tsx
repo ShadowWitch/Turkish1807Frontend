@@ -106,11 +106,11 @@ const options: IOptions[] = [
     icon: "people-outline",
     url: "TopTabNavigatorClientes",
   },
-  {
-    text: "Chequeos",
-    icon: "body-outline",
-    url: "EjerciciosScreen",
-  },
+  // {
+  //   text: "Chequeos",
+  //   icon: "body-outline",
+  //   url: "EjerciciosScreen",
+  // },
   {
     text: "Contratos",
     icon: "cash-outline",

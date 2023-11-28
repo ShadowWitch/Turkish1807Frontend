@@ -35,6 +35,8 @@ import { Toast } from "../../components/Toast";
 import { CreateToast } from "../../utils/toast";
 import { ModalComponent } from "../../components/Modal";
 import { useNavigation } from "@react-navigation/native";
+import MaskInput from "react-native-masked-input";
+import { createNumberMask } from "react-native-mask-input";
 
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
@@ -61,6 +63,12 @@ interface IValue {
 //     id: 3,
 //   },
 // ];
+
+const mascara = createNumberMask({
+  delimiter: ",",
+  separator: ".",
+  precision: 2,
+});
 
 const regexPattern = /^[0-9]{2}\.[0-9]$/; // Expresión regular para 2 números y un decimal
 const regexPatternPeso = /^[0-9]{3}\.[0-9]$/; // Expresión regular para 2 números y un decimal
@@ -163,7 +171,7 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                     {errors.DNI?.message && (
                       <TextError message={errors.DNI.message} />
                     )}
-                    <TextInput
+                    <MaskInput
                       style={{
                         ...styleAuthScreen.inputForm,
                         width: wp(80),
@@ -173,6 +181,10 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                       value={value}
                       placeholder="DNI (opcional)"
                       keyboardType="number-pad"
+                      type="custom"
+                      options={{
+                        mask: "9999999999999", // Define la máscara que especifica el formato deseado
+                      }}
                     />
                   </>
                 )}
@@ -237,13 +249,17 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                     {errors.telefono?.message && (
                       <TextError message={errors.telefono.message} />
                     )}
-                    <TextInput
+                    <MaskInput
                       style={{ ...styleAuthScreen.inputForm, width: wp(80) }}
                       onBlur={onBlur}
                       onChangeText={(value) => onChange(value)}
                       value={value}
                       placeholder="Telefono"
                       keyboardType="phone-pad"
+                      type="custom"
+                      options={{
+                        mask: "+504 99999999", // Define la máscara que especifica el formato deseado
+                      }}
                     />
                   </>
                 )}
@@ -296,7 +312,7 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                     {errors.estatura?.message && (
                       <TextError message={errors.estatura.message} />
                     )}
-                    <TextInput
+                    <MaskInput
                       style={{
                         ...styleAuthScreen.inputForm,
                         width: wp(80),
@@ -306,6 +322,14 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                       value={value}
                       placeholder="Estatura (En Mts)"
                       keyboardType="number-pad"
+                      type={"money"}
+                      options={{
+                        precision: 2, // número de decimales permitidos
+                        separator: ".", // separador de decimales
+                        delimiter: ",", // separador de miles
+                        unit: "", // unidad antes del número (puede ser vacío)
+                        suffixUnit: "", // unidad después del número (puede ser vacío)
+                      }}
                     />
                   </>
                 )}
@@ -330,7 +354,7 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                     {errors.peso?.message && (
                       <TextError message={errors.peso.message} />
                     )}
-                    <TextInput
+                    <MaskInput
                       style={{
                         ...styleAuthScreen.inputForm,
                         width: wp(80),
@@ -340,6 +364,14 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                       value={value}
                       placeholder="Peso (En Kg)"
                       keyboardType="number-pad"
+                      type={"money"}
+                      options={{
+                        precision: 2, // número de decimales permitidos
+                        separator: ".", // separador de decimales
+                        delimiter: ",", // separador de miles
+                        unit: "", // unidad antes del número (puede ser vacío)
+                        suffixUnit: "", // unidad después del número (puede ser vacío)
+                      }}
                     />
                   </>
                 )}
@@ -364,7 +396,7 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                     {errors.nivelDeGrasa?.message && (
                       <TextError message={errors.nivelDeGrasa.message} />
                     )}
-                    <TextInput
+                    <MaskInput
                       style={{
                         ...styleAuthScreen.inputForm,
                         width: wp(80),
@@ -374,6 +406,14 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                       value={value}
                       placeholder="Nivel de grasa (%)"
                       keyboardType="number-pad"
+                      type={"money"}
+                      options={{
+                        precision: 2, // número de decimales permitidos
+                        separator: ".", // separador de decimales
+                        delimiter: ",", // separador de miles
+                        unit: "", // unidad antes del número (puede ser vacío)
+                        suffixUnit: "", // unidad después del número (puede ser vacío)
+                      }}
                     />
                   </>
                 )}
@@ -398,7 +438,7 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                     {errors.nivelDeMasa?.message && (
                       <TextError message={errors.nivelDeMasa.message} />
                     )}
-                    <TextInput
+                    <MaskInput
                       style={{
                         ...styleAuthScreen.inputForm,
                         width: wp(80),
@@ -408,6 +448,14 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
                       value={value}
                       placeholder="Nivel de masa (%)"
                       keyboardType="number-pad"
+                      type={"money"}
+                      options={{
+                        precision: 1, // número de decimales permitidos
+                        separator: ".", // separador de decimales
+                        delimiter: ",", // separador de miles
+                        unit: "", // unidad antes del número (puede ser vacío)
+                        suffixUnit: "", // unidad después del número (puede ser vacío)
+                      }}
                     />
                   </>
                 )}

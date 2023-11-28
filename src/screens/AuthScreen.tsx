@@ -52,10 +52,8 @@ export const AuthScreen = () => {
       }
     },
     onError: (err) => {
-      console.log("ACACQ ERRORES");
+      console.log(err);
       showToastLong("Credenciales incorrectas");
-
-      console.log("ERRRORRR >> ", err);
     },
     onMutate: () => {
       console.log("EJECUtando mutate ....");

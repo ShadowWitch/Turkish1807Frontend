@@ -13,7 +13,10 @@ import { LoadingAuth } from "../screens/LoadingAuth";
 import { BottomTabNavigator } from "./BottomTabNavigator";
 import Toast from "react-native-toast-message";
 import { ListaContratoScreen } from "../screens/Contrato/ListaContratoScreen";
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 const Stack = createStackNavigator();
 
 export const StackNavigator = () => {
@@ -25,6 +28,11 @@ export const StackNavigator = () => {
         // headerStyle: {
         //   backgroundColor: "#16213E",
         // },
+
+        cardStyle: {
+          backgroundColor: "#16213E",
+          paddingTop: hp(3),
+        },
 
         headerShown: false,
       }}
