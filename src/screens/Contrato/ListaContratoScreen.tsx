@@ -39,6 +39,9 @@ import { showToastLong } from "../../utils/toast";
 import { ModalComponent } from "../../components/Modal";
 import { useForm } from "react-hook-form";
 import { stylesButton } from "../../globalStyles/buttons.styles";
+import { ErrorConexion } from "../../components/ErrorConexion";
+import MaskInput from "react-native-masked-input";
+import { NoHayRegistros } from "../../components/NoHayRegistros";
 
 export interface ItemFlatListType {
   data: ResponseListaClientes;
@@ -100,12 +103,30 @@ export const ListaContratoScreen = ({
     refetch();
   }, []);
 
+  if (error !== null)
+    return (
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#16213E",
+        }}
+      >
+        <ErrorConexion />
+      </View>
+    );
+
   return (
     <>
       <ButtonBack />
-      <Background marginTop={hp(10)}>
-        {error === null ? (
-          isLoading === true ? (
+      <View
+        style={{
+          backgroundColor: "#16213E",
+          flex: 1,
+          marginTop: hp(10),
+        }}
+      >
+        {error === null &&
+          (isLoading === true ? (
             <View>
               <ActivityIndicator size={wp(3)} color={"white"} />
               <Text
@@ -117,56 +138,42 @@ export const ListaContratoScreen = ({
               </Text>
             </View>
           ) : (
-            <FlatList
-              data={dataClientes as ResponseListaClientes[]}
-              renderItem={({ item }) => (
-                <ItemFlatList data={item} refetch={refetch} mutate={mutate} />
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              ItemSeparatorComponent={() => <ItemSeparator />}
-              style={{
-                // backgroundColor: "yellow",
-                paddingHorizontal: wp(3),
-                paddingTop: hp(1),
-                // paddingBottom: hp(30),
-                // marginBottom: hp(3),
-              }}
-              ListFooterComponent={() => (
-                <View
+            <>
+              {dataClientes.length > 0 ? (
+                <FlatList
+                  data={dataClientes as ResponseListaClientes[]}
+                  renderItem={({ item }) => (
+                    <ItemFlatList
+                      data={item}
+                      refetch={refetch}
+                      mutate={mutate}
+                    />
+                  )}
+                  keyExtractor={(item, index) => index.toString()}
+                  ItemSeparatorComponent={() => <ItemSeparator />}
                   style={{
-                    // backgroundColor: "red",
-                    height: hp(5),
+                    // backgroundColor: "yellow",
+                    paddingHorizontal: wp(3),
+                    paddingTop: hp(1),
+                    // paddingBottom: hp(30),
+                    // marginBottom: hp(3),
                   }}
+                  ListFooterComponent={() => (
+                    <View
+                      style={{
+                        // backgroundColor: "red",
+                        height: hp(5),
+                      }}
+                    />
+                  )}
+                  // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
                 />
+              ) : (
+                <NoHayRegistros />
               )}
-              // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
-            />
-          )
-        ) : (
-          <View
-            style={{
-              backgroundColor: "red",
-            }}
-          >
-            <Ionicons
-              style={{
-                marginHorizontal: wp(2),
-              }}
-              name={"person-circle-outline"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <Text
-              style={{
-                color: "white",
-                fontSize: 100,
-              }}
-            >
-              Errrorasooooooo
-            </Text>
-          </View>
-        )}
-      </Background>
+            </>
+          ))}
+      </View>
     </>
   );
 };
@@ -182,6 +189,14 @@ const ItemFlatList = ({ data, mutate, refetch }: ItemFlatListType) => {
   };
 
   const onRenovar = () => {
+    // const test = {
+    //   fechaDeFin: formatearISO(
+    //     new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString()
+    //   ),
+    //   id_contrato: data.contratos.at(0).id,
+    //   ultimaRenovacion: formatearISO(new Date().toISOString()),
+    // };
+
     mutate({
       fechaDeFin: formatearISO(
         new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString()
@@ -249,6 +264,37 @@ const ItemFlatList = ({ data, mutate, refetch }: ItemFlatListType) => {
               }}
             >
               Nombre: {`${data.primerNombre || ""} ${data.segundoNombre || ""}`}
+            </Text>
+          </View>
+
+          <View
+            style={{
+              // backgroundColor: "gray",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Ionicons
+              style={{
+                marginHorizontal: wp(2),
+              }}
+              name={"calendar-outline"}
+              size={wp(7)}
+              color={"white"}
+            />
+            <Text
+              style={{
+                fontSize: wp(4),
+                fontWeight: "400",
+                color: "white",
+              }}
+            >
+              Fecha de Pago:{" "}
+              {`${
+                data.contratos.at(0)?.fechaDeFin
+                  ? formatearISO(data.contratos.at(0).fechaDeFin)
+                  : "No existe"
+              }`}
             </Text>
           </View>
 

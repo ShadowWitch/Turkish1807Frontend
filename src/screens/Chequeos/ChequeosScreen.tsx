@@ -45,6 +45,8 @@ import {
 } from "../../types/TypesChequeo";
 import { registrarChequeoService } from "../../services/chequeoService";
 
+import MaskInput from "react-native-masked-input";
+
 export const ChequeosScreen = ({ navigation, route }: PropsWithNavigator) => {
   const { height, width } = useWindowDimensions();
   const [showModal, setShowModal] = useState(false);
@@ -164,7 +166,7 @@ export const ChequeosScreen = ({ navigation, route }: PropsWithNavigator) => {
                       {errors.estatura?.message && (
                         <TextError message={errors.estatura.message} />
                       )}
-                      <TextInput
+                      <MaskInput
                         style={{
                           ...styleAuthScreen.inputForm,
                           width: wp(80),
@@ -174,6 +176,14 @@ export const ChequeosScreen = ({ navigation, route }: PropsWithNavigator) => {
                         value={value}
                         placeholder="Estatura (En Mts)"
                         keyboardType="number-pad"
+                        type={"money"}
+                        options={{
+                          precision: 2, // número de decimales permitidos
+                          separator: ".", // separador de decimales
+                          delimiter: ",", // separador de miles
+                          unit: "", // unidad antes del número (puede ser vacío)
+                          suffixUnit: "", // unidad después del número (puede ser vacío)
+                        }}
                       />
                     </>
                   )}
@@ -198,7 +208,7 @@ export const ChequeosScreen = ({ navigation, route }: PropsWithNavigator) => {
                       {errors.peso?.message && (
                         <TextError message={errors.peso.message} />
                       )}
-                      <TextInput
+                      <MaskInput
                         style={{
                           ...styleAuthScreen.inputForm,
                           width: wp(80),
@@ -208,6 +218,14 @@ export const ChequeosScreen = ({ navigation, route }: PropsWithNavigator) => {
                         value={value}
                         placeholder="Peso (En Kg)"
                         keyboardType="number-pad"
+                        type={"money"}
+                        options={{
+                          precision: 2, // número de decimales permitidos
+                          separator: ".", // separador de decimales
+                          delimiter: ",", // separador de miles
+                          unit: "", // unidad antes del número (puede ser vacío)
+                          suffixUnit: "", // unidad después del número (puede ser vacío)
+                        }}
                       />
                     </>
                   )}
@@ -232,7 +250,7 @@ export const ChequeosScreen = ({ navigation, route }: PropsWithNavigator) => {
                       {errors.nivelDeGrasa?.message && (
                         <TextError message={errors.nivelDeGrasa.message} />
                       )}
-                      <TextInput
+                      <MaskInput
                         style={{
                           ...styleAuthScreen.inputForm,
                           width: wp(80),
@@ -242,6 +260,14 @@ export const ChequeosScreen = ({ navigation, route }: PropsWithNavigator) => {
                         value={value}
                         placeholder="Nivel de grasa (%)"
                         keyboardType="number-pad"
+                        type={"money"}
+                        options={{
+                          precision: 2, // número de decimales permitidos
+                          separator: ".", // separador de decimales
+                          delimiter: ",", // separador de miles
+                          unit: "", // unidad antes del número (puede ser vacío)
+                          suffixUnit: "", // unidad después del número (puede ser vacío)
+                        }}
                       />
                     </>
                   )}
@@ -266,7 +292,7 @@ export const ChequeosScreen = ({ navigation, route }: PropsWithNavigator) => {
                       {errors.nivelDeMasa?.message && (
                         <TextError message={errors.nivelDeMasa.message} />
                       )}
-                      <TextInput
+                      <MaskInput
                         style={{
                           ...styleAuthScreen.inputForm,
                           width: wp(80),
@@ -276,6 +302,14 @@ export const ChequeosScreen = ({ navigation, route }: PropsWithNavigator) => {
                         value={value}
                         placeholder="Nivel de masa (%)"
                         keyboardType="number-pad"
+                        type={"money"}
+                        options={{
+                          precision: 1, // número de decimales permitidos
+                          separator: ".", // separador de decimales
+                          delimiter: ",", // separador de miles
+                          unit: "", // unidad antes del número (puede ser vacío)
+                          suffixUnit: "", // unidad después del número (puede ser vacío)
+                        }}
                       />
                     </>
                   )}
