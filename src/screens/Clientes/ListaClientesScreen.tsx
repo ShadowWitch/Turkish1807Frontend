@@ -129,6 +129,12 @@ export const ListaClientesScreen = ({
 
 const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
   console.log("DATA ITEM FLAT >> ", data);
+  const nombres = data.relClienteRutina.map(
+    (e) => e.rutinaEntrenamiento.nombre
+  );
+  const texto = nombres.join(", ");
+  console.log("NOMbres >> ", JSON.stringify(nombres, null, 3));
+
   return (
     <>
       <View
@@ -278,6 +284,32 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
               }}
             >
               Niv. Grasa: {`${data.chequeos.at(-1)?.nivelDeGrasa || ""} %`}
+            </Text>
+          </View>
+
+          <View
+            style={{
+              // backgroundColor: "gray",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            <Ionicons
+              style={{
+                marginHorizontal: wp(2),
+              }}
+              name={"analytics-outline"}
+              size={wp(7)}
+              color={"white"}
+            />
+            <Text
+              style={{
+                fontSize: wp(4),
+                fontWeight: "400",
+                color: "white",
+              }}
+            >
+              Rutina: {`${texto.length > 0 ? texto : "No tiene"}`}
             </Text>
           </View>
         </View>
