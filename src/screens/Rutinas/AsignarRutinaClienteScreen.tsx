@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import {
   View,
   Text,
@@ -37,10 +37,13 @@ import {
 } from "../../services/rutinasEjerciciosService";
 import { showToastLong } from "../../utils/toast";
 import { SelectInput } from "../../components/SelectInput";
+import { ModalRutina } from "../../components/ModalRutina";
 
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
-export const AsignarRutinasScreen = ({ navigation, route }: Props) => {
+export const AsignarRutinaClienteScreen = ({ navigation, route }: Props) => {
+  const [showModal, setShowModal] = useState(false);
+
   const {
     data: dataRutinas,
     error: errorRutinas,
@@ -50,8 +53,6 @@ export const AsignarRutinasScreen = ({ navigation, route }: Props) => {
     queryKey: ["listaRutinas"],
     queryFn: listaRutinas,
   });
-
-  console.log("LISTA RUTINA >> ", JSON.stringify(listaRutinas, null, 3));
 
   let rutinasLista = useMemo(() => {
     if (isLoading || !dataRutinas) return [];
@@ -91,9 +92,19 @@ export const AsignarRutinasScreen = ({ navigation, route }: Props) => {
   });
 
   const onSubmit = (data: SchemaAsignarEjercicioRutina) => {
-    console.log("DATA >> ", JSON.stringify(data, null, 3));
-    console.log("qweqwe");
-    mutate(data);
+    // console.log("DATA >> ", JSON.stringify(data, null, 3));
+    // console.log("qweqwe");
+    // mutate(data);
+
+    setShowModal(true);
+  };
+
+  const onConfirm = () => {
+    setShowModal(false);
+  };
+
+  const onCancel = () => {
+    setShowModal(false);
   };
 
   return (
@@ -225,6 +236,30 @@ export const AsignarRutinasScreen = ({ navigation, route }: Props) => {
                   )}
                 />
 
+                {/* <Controller
+                  name="descripcion"
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <>
+                      {errors.descripcion?.message && (
+                        <TextError message={errors.descripcion.message} />
+                      )}
+                      <TextInput
+                        style={{
+                          ...styleAuthScreen.inputForm,
+                          width: wp(80),
+                        }}
+                        onBlur={onBlur}
+                        onChangeText={(value) => onChange(value)}
+                        value={value}
+                        placeholder="Descripción (opcional)"
+                        keyboardType="default"
+                        numberOfLines={3}
+                      />
+                    </>
+                  )}
+                /> */}
+
                 <View
                   style={{
                     marginTop: 30,
@@ -248,6 +283,17 @@ export const AsignarRutinasScreen = ({ navigation, route }: Props) => {
                   />
                 </View>
               </View>
+
+              {showModal && (
+                <ModalRutina
+                  onAccept={handleSubmit(onConfirm)}
+                  onCancel={onCancel}
+                  showModal={showModal}
+                  setShowModal={setShowModal}
+                  title="Confirmación"
+                  description="¿Esta seguro que desea confirmar? Una vez hecho no podra revertirlo."
+                />
+              )}
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>

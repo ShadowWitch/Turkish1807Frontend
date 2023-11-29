@@ -26,8 +26,22 @@ export const TypeAsignarEjercicioARutina = z.object({
   }),
 });
 
+export const TypeAsignarRutinaCliente = z.object({
+  id_rutina: z.object({
+    label: z.string(),
+    id: z.string(),
+    value: z.string(),
+  }),
+
+  id_cliente: z.string(),
+});
+
 export type SchemaRegisterRutina = z.infer<typeof TypeRegisterRutina>;
 
 export type SchemaAsignarEjercicioRutina = z.infer<
   typeof TypeAsignarEjercicioARutina
+>;
+
+export type SchemaAsignarRutinaCliente = z.infer<
+  typeof TypeAsignarRutinaCliente
 >;

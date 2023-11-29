@@ -2,6 +2,7 @@ import { AxiosResponse } from "axios";
 import { api } from "../api";
 import {
   SchemaAsignarEjercicioRutina,
+  SchemaAsignarRutinaCliente,
   SchemaRegisterRutina,
 } from "../types/TypesRutinasEjercicios";
 
@@ -30,8 +31,6 @@ export const asignarEjercicioARutina = async (
   dataBody: SchemaAsignarEjercicioRutina
 ) => {
   try {
-    console.log("SI LLEGA ACAAA!");
-
     const dataSend: RequestAsignarEjercicioRutina = {
       id_rutina_entrenamiento: dataBody.id_rutina_entrenamiento.value,
       repeticiones: dataBody.repeticiones,
@@ -39,10 +38,35 @@ export const asignarEjercicioARutina = async (
       nombre: dataBody.nombre,
     };
 
-    console.log("DATA SEND >> ", JSON.stringify(dataSend, null, 3));
-
     const { data }: AxiosResponse = await api.post(
       "/rutina/add-ejercicio-rutina",
+      dataSend
+    );
+    if (!data) throw new Error("Error");
+    if (!data.ok) throw new Error(data.message);
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+interface RequestAsignarRutinaCliente {
+  id_cliente: string;
+  id_rutina: string;
+}
+
+export const asignarRutinaACliente = async (
+  dataBody: SchemaAsignarRutinaCliente
+) => {
+  try {
+    const dataSend: RequestAsignarRutinaCliente = {
+      id_cliente: dataBody.id_cliente,
+      id_rutina: dataBody.id_rutina.value,
+    };
+
+    const { data }: AxiosResponse = await api.post(
+      "/rutina/add-rutina-cliente",
       dataSend
     );
     if (!data) throw new Error("Error");
