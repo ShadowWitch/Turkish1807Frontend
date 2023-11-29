@@ -122,11 +122,17 @@ const options: IOptions[] = [
   //   icon: "power-outline",
   //   url: "ListaContratoScreen",
   // },
-  // {
-  //   text: "Rutinas",
-  //   icon: "analytics-outline",
-  //   url: "RutinasScreen",
-  // },
+  {
+    text: "Rutinas",
+    icon: "analytics-outline",
+    url: "RutinasScreen",
+  },
+
+  {
+    text: "Asignar Ejercicios",
+    icon: "analytics-outline",
+    url: "AsignarRutinasScreen",
+  },
 
   // {
   //   text: "Chequeos",

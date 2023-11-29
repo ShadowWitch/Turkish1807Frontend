@@ -17,6 +17,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { AsignarRutinasScreen } from "../screens/Rutinas/AsignarRutinasScreen";
 const Stack = createStackNavigator();
 
 export const StackNavigator = () => {
@@ -47,6 +48,11 @@ export const StackNavigator = () => {
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="EjerciciosScreen" component={EjerciciosScreen} />
           <Stack.Screen name="RutinasScreen" component={RutinasScreen} />
+          <Stack.Screen
+            name="AsignarRutinasScreen"
+            component={AsignarRutinasScreen}
+          />
+
           <Stack.Screen name="ChequeosScreen" component={ChequeosScreen} />
 
           <Stack.Screen name="ContratoScreen" component={ContratoScreen} />
