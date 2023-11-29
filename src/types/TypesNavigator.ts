@@ -5,14 +5,6 @@ export type TypesNavigator = {
   HomeScreen: undefined;
   EjerciciosScreen: undefined;
   ClientesScreen: undefined;
-  RutinasScreen: undefined;
-  ChequeosScreen: {
-    id_cliente: string;
-  };
-  ContratoScreen: {
-    id_cliente: string;
-  };
-  DetallesScreen: ResponseListaClientes;
 };
 
 export interface PropsWithNavigator

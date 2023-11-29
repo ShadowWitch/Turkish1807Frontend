@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   View,
   Text,
@@ -24,28 +24,54 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { TypesNavigator } from "../../types/TypesNavigator";
 import { styleAuthScreen } from "../AuthScreen";
 import {
-  SchemaRegisterRutina,
+  SchemaAsignarEjercicioRutina,
+  TypeAsignarEjercicioARutina,
   TypeRegisterRutina,
 } from "../../types/TypesRutinasEjercicios";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { registrarRutinaService } from "../../services/rutinasEjerciciosService";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  asignarEjercicioARutina,
+  listaRutinas,
+  registrarRutinaService,
+} from "../../services/rutinasEjerciciosService";
 import { showToastLong } from "../../utils/toast";
+import { SelectInput } from "../../components/SelectInput";
 
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
-export const RutinasScreen = ({ navigation, route }: Props) => {
-  const { mutate, error, data } = useMutation({
-    mutationKey: ["registrarRutinaService"],
-    mutationFn: registrarRutinaService,
-    onSuccess: (data) => {
-      console.log("DATA >> ", data);
-      showToastLong("Rutina registrada con exito!");
+export const AsignarRutinasScreen = ({ navigation, route }: Props) => {
+  const {
+    data: dataRutinas,
+    error: errorRutinas,
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["listaRutinas"],
+    queryFn: listaRutinas,
+  });
 
+  console.log("LISTA RUTINA >> ", JSON.stringify(listaRutinas, null, 3));
+
+  let rutinasLista = useMemo(() => {
+    if (isLoading || !dataRutinas) return [];
+    return dataRutinas.map((rutina: { nombre: string; id: string }) => ({
+      label: rutina.nombre,
+      value: rutina.id,
+      id: rutina.id,
+    }));
+  }, [dataRutinas, isLoading]);
+
+  const { mutate, error, data } = useMutation({
+    mutationKey: ["asignarEjercicioARutina"],
+    mutationFn: asignarEjercicioARutina,
+    onSuccess: (data) => {
+      showToastLong("Ejercicio asignado a rutina con exito!");
       navigation.navigate("HomeScreen");
     },
     onError: (err: any) => {
       console.log("ERRRORRR >> ", err);
+      showToastLong("Error al asignar ejercicio a rutina");
     },
     onMutate: () => {
       console.log("EJECUtando mutate ....");
@@ -59,12 +85,12 @@ export const RutinasScreen = ({ navigation, route }: Props) => {
     control,
     reset,
     formState: { errors },
-  } = useForm<SchemaRegisterRutina>({
+  } = useForm<SchemaAsignarEjercicioRutina>({
     mode: "onChange",
-    resolver: zodResolver(TypeRegisterRutina),
+    resolver: zodResolver(TypeAsignarEjercicioARutina),
   });
 
-  const onSubmit = (data: SchemaRegisterRutina) => {
+  const onSubmit = (data: SchemaAsignarEjercicioRutina) => {
     console.log("DATA >> ", JSON.stringify(data, null, 3));
     console.log("qweqwe");
     mutate(data);
@@ -99,7 +125,7 @@ export const RutinasScreen = ({ navigation, route }: Props) => {
                   marginBottom: hp(3),
                 }}
               >
-                Registrar Contrato
+                Asignar Ejercicios
               </Text>
               <View
                 style={{
@@ -109,6 +135,27 @@ export const RutinasScreen = ({ navigation, route }: Props) => {
                   // backgroundColor: "gray",
                 }}
               >
+                <Controller
+                  name="id_rutina_entrenamiento"
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <>
+                      {errors.id_rutina_entrenamiento?.message && (
+                        <TextError
+                          message={errors.id_rutina_entrenamiento.message}
+                        />
+                      )}
+                      <SelectInput
+                        label="Rutinas"
+                        onChange={onChange}
+                        options={rutinasLista}
+                        value={value as never}
+                        // error={}
+                      />
+                    </>
+                  )}
+                />
+
                 <Controller
                   name="nombre"
                   control={control}
@@ -125,7 +172,7 @@ export const RutinasScreen = ({ navigation, route }: Props) => {
                         onBlur={onBlur}
                         onChangeText={(value) => onChange(value)}
                         value={value}
-                        placeholder="Nombre de la rutina"
+                        placeholder="Nombre del ejercicio"
                         keyboardType="default"
                       />
                     </>
@@ -133,12 +180,12 @@ export const RutinasScreen = ({ navigation, route }: Props) => {
                 />
 
                 <Controller
-                  name="descripcion"
+                  name="series"
                   control={control}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <>
-                      {errors.descripcion?.message && (
-                        <TextError message={errors.descripcion.message} />
+                      {errors.series?.message && (
+                        <TextError message={errors.series.message} />
                       )}
                       <TextInput
                         style={{
@@ -148,9 +195,31 @@ export const RutinasScreen = ({ navigation, route }: Props) => {
                         onBlur={onBlur}
                         onChangeText={(value) => onChange(value)}
                         value={value}
-                        placeholder="Descripción (opcional)"
-                        keyboardType="default"
-                        numberOfLines={3}
+                        placeholder="Cantidad de series"
+                        keyboardType="number-pad"
+                      />
+                    </>
+                  )}
+                />
+
+                <Controller
+                  name="repeticiones"
+                  control={control}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <>
+                      {errors.repeticiones?.message && (
+                        <TextError message={errors.repeticiones.message} />
+                      )}
+                      <TextInput
+                        style={{
+                          ...styleAuthScreen.inputForm,
+                          width: wp(80),
+                        }}
+                        onBlur={onBlur}
+                        onChangeText={(value) => onChange(value)}
+                        value={value}
+                        placeholder="Cantidad de repeticiones"
+                        keyboardType="number-pad"
                       />
                     </>
                   )}
@@ -179,17 +248,6 @@ export const RutinasScreen = ({ navigation, route }: Props) => {
                   />
                 </View>
               </View>
-
-              {/* {showModal && (
-                <ModalComponent
-                  onAccept={handleSubmit(onConfirm)}
-                  onCancel={onCancel}
-                  showModal={showModal}
-                  setShowModal={setShowModal}
-                  title="Confirmación"
-                  description="¿Esta seguro que desea confirmar? Una vez hecho no podra revertirlo."
-                />
-              )} */}
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>

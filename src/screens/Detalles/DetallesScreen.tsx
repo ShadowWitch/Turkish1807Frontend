@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { ButtonBack } from "../../components/ButtonBack";
 import { Background } from "../../components/Background";
@@ -13,10 +13,14 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Button } from "../../components/Button";
 import { formatearISO } from "../../utils/formatDate";
 import { stylesButton } from "../../globalStyles/buttons.styles";
+import { ModalRutina } from "../../components/ModalRutina";
+import { useForm } from "react-hook-form";
 
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
 export const DetallesScreen = ({ navigation, route }: Props) => {
+  const [showModal, setShowModal] = useState(false);
+
   const { params } = route as never;
   const data: ResponseListaClientes = params;
 
@@ -55,6 +59,33 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
   console.log("DATA CLIENTE CONTRAT O >> ", JSON.stringify(data, null, 3));
 
   console.log("RESULTADO >> ", typeof resultadoPeso);
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+  });
+
+  const onSubmit = () => {
+    // console.log("DATA >> ", JSON.stringify(data, null, 3));
+    // console.log("qweqwe");
+    // mutate(data);
+
+    setShowModal(true);
+  };
+
+  const onConfirm = () => {
+    setShowModal(false);
+  };
+
+  const onCancel = () => {
+    setShowModal(false);
+  };
 
   return (
     <Background>
@@ -321,32 +352,71 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
           // backgroundColor: "red",
           alignItems: "center",
           marginTop: hp(5),
-          flexDirection: "row",
+          // flexDirection: "row",
           justifyContent: "space-around",
         }}
       >
-        {data.contratos.length === 0 && (
+        <View
+          style={{
+            width: wp(90),
+            flexDirection: "row",
+            justifyContent:
+              data.contratos.length === 0 ? "space-between" : "center",
+          }}
+        >
+          {data.contratos.length === 0 && (
+            <Button
+              width={wp(40)}
+              buttonType="primary"
+              text="Nuevo Contrato"
+              onPress={() =>
+                navigation.navigate("ContratoScreen", {
+                  id_cliente: data.id,
+                })
+              }
+            />
+          )}
+
           <Button
             width={wp(40)}
             buttonType="primary"
-            text="Nuevo Contrato"
+            text="Nuevo Chequeo"
             onPress={() =>
-              navigation.navigate("ContratoScreen", {
+              navigation.navigate("ChequeosScreen", {
                 id_cliente: data.id,
               })
             }
           />
-        )}
-        <Button
-          width={wp(40)}
-          buttonType="primary"
-          text="Nuevo Chequeo"
-          onPress={() =>
-            navigation.navigate("ChequeosScreen", {
-              id_cliente: data.id,
-            })
-          }
-        />
+        </View>
+
+        <View
+          style={{
+            width: wp(90),
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: hp(2),
+          }}
+        >
+          <Button
+            width={wp(40)}
+            buttonType="primary"
+            text="Agregar Rutina"
+            onPress={onSubmit}
+          />
+
+          {showModal && (
+            <ModalRutina
+              onAccept={handleSubmit(onConfirm)}
+              onCancel={onCancel}
+              showModal={showModal}
+              setShowModal={setShowModal}
+              title="Confirmación"
+              description="¿Esta seguro que desea confirmar? Una vez hecho no podra revertirlo."
+              id_cliente={data.id}
+              navigation={navigation}
+            />
+          )}
+        </View>
       </View>
     </Background>
   );
