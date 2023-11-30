@@ -130,7 +130,7 @@ const options: IOptions[] = [
 
   {
     text: "Asignar Ejercicios",
-    icon: "analytics-outline",
+    icon: "barbell-outline",
     url: "AsignarRutinasScreen",
   },
 

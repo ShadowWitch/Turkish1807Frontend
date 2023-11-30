@@ -392,9 +392,11 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
         <View
           style={{
             width: wp(90),
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "center",
             marginTop: hp(2),
+            // backgroundColor: "red",
+            flexDirection: "row",
           }}
         >
           <Button
@@ -404,6 +406,17 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
             onPress={onSubmit}
           />
 
+          <Button
+            width={wp(40)}
+            buttonType="primary"
+            text="Ver progreso"
+            onPress={() =>
+              navigation.navigate("ProgresoScreen", {
+                id_cliente: data.id,
+                chequeos: data.chequeos,
+              })
+            }
+          />
           {showModal && (
             <ModalRutina
               onAccept={handleSubmit(onConfirm)}

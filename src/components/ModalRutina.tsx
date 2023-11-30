@@ -180,7 +180,12 @@ export const ModalRutina = ({
                 marginTop: hp(2),
               }}
             >
-              <Button buttonType="secondary" width={wp(30)} text="Cancelar" />
+              <Button
+                buttonType="secondary"
+                width={wp(30)}
+                text="Cancelar"
+                onPress={onCancel}
+              />
               <Button
                 buttonType="primary"
                 width={wp(30)}
