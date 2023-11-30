@@ -215,7 +215,26 @@ export const AuthScreen = () => {
             >
               Aun no tienes una cuenta?
             </Text>
-            <Text
+            <TouchableOpacity
+              onPress={() => navigation.navigate("RegistrarUsuarioScreen")}
+              style={
+                {
+                  // backgroundColor: "red",
+                }
+              }
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  color: "white",
+                  marginTop: hp(1),
+                  fontStyle: "italic",
+                }}
+              >
+                Registrarse
+              </Text>
+            </TouchableOpacity>
+            {/* <Text
               style={{
                 textAlign: "center",
                 color: "white",
@@ -224,7 +243,7 @@ export const AuthScreen = () => {
               }}
             >
               Registrarse
-            </Text>
+            </Text> */}
 
             {/* <View
               style={{

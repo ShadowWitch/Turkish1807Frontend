@@ -3,10 +3,28 @@ import { SchemaLogin } from "../types/TypesAuth";
 import { api } from "../api";
 import { AxiosResponse } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { SchemaRegisterUser } from "../types/TypeRegisterUser";
 
 export const signIn = async (dataBody: SchemaLogin) => {
   try {
     const { data }: AxiosResponse = await api.post("/auth/login", dataBody);
+
+    if (!data.ok) throw new Error(data.message);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+interface RequestRegisterUser {
+  nombre: string;
+  contrasena: string;
+  // correoElectronico: string;
+}
+
+export const registerUser = async (dataBody: SchemaRegisterUser) => {
+  try {
+    const { data }: AxiosResponse = await api.post("/auth/register", dataBody);
 
     if (!data.ok) throw new Error(data.message);
     return data;

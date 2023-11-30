@@ -23,7 +23,7 @@ import { stylesButton } from "../globalStyles/buttons.styles";
 import { TextError } from "../components/TextError";
 import { SchemaLogin } from "../types/TypesAuth";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { checkAuth, signIn } from "../services/auth";
+import { checkAuth, registerUser, signIn } from "../services/auth";
 import { SaveStorage } from "../storage/Storage";
 import { useAuth } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
@@ -39,26 +39,15 @@ export const RegistrarUsuarioScreen = () => {
   const navigation = useNavigation();
 
   const { mutate, error, data } = useMutation({
-    mutationKey: ["signIn"],
-    mutationFn: signIn,
+    mutationKey: ["registerUser"],
+    mutationFn: registerUser,
     onSuccess: (data) => {
-      if (data.token) {
-        const token: string = data.token;
-        SaveStorage({
-          key: "token",
-          data: token,
-        });
-        setIsAuthenticated({
-          token,
-          user: data.data,
-          status: "authenticated",
-        }); //* Autenticar user
-        navigation.navigate("HomeScreen" as never);
-      }
+      showToastLong("Usuario registrado!");
+      navigation.navigate("AuthScreen");
     },
     onError: (err) => {
       console.log(err);
-      showToastLong("Credenciales incorrectas");
+      showToastLong("Error al registrar usuario");
     },
     onMutate: () => {
       console.log("EJECUtando mutate ....");
@@ -80,7 +69,10 @@ export const RegistrarUsuarioScreen = () => {
   const onSubmit = (data: SchemaRegisterUser) => {
     console.log("DATA qweqwe >> ", JSON.stringify(data, null, 3));
 
-    // mutate(data);
+    if (data.contrasena !== data.repetirContrasena)
+      return showToastLong("Las contraseñas no coinciden");
+
+    mutate(data);
 
     Keyboard.dismiss();
   };
@@ -119,6 +111,20 @@ export const RegistrarUsuarioScreen = () => {
               <Controller
                 name="nombre"
                 control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: "El nombre de usuario es requerido.",
+                  },
+                  minLength: {
+                    value: 5,
+                    message: "Debe tener minimo 5 caracteres",
+                  },
+                  maxLength: {
+                    value: 15,
+                    message: "Debe tener máximo 15 caracteres",
+                  },
+                }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <>
                     <TextInput
@@ -141,6 +147,20 @@ export const RegistrarUsuarioScreen = () => {
               <Controller
                 name="contrasena"
                 control={control}
+                rules={{
+                  required: {
+                    value: true,
+                    message: "La contraseña es requerida.",
+                  },
+                  minLength: {
+                    value: 5,
+                    message: "Debe tener minimo 5 caracteres",
+                  },
+                  maxLength: {
+                    value: 15,
+                    message: "Debe tener máximo 15 caracteres",
+                  },
+                }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <>
                     <TextInput
@@ -174,9 +194,6 @@ export const RegistrarUsuarioScreen = () => {
                       secureTextEntry
                       placeholder="Repita la contraseña"
                     />
-                    {errors.repetirContrasena?.message && (
-                      <TextError message={errors.repetirContrasena.message} />
-                    )}
                   </>
                 )}
               />
@@ -216,6 +233,7 @@ export const RegistrarUsuarioScreen = () => {
             </Text>
 
             <TouchableOpacity
+              onPress={() => navigation.navigate("AuthScreen")}
               style={
                 {
                   // backgroundColor: "red",

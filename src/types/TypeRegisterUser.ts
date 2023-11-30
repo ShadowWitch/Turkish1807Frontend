@@ -39,18 +39,27 @@ export const TypeRegisterUser = z.object({
     .min(5, {
       message: "Debe contener minimo 5 caracteres",
     }),
+
   repetirContrasena: z
-    .string()
+    .string({
+      required_error: "Campo requerido",
+    })
     .trim()
-    .refine(
-      (repetirContrasena, data) => {
-        // Validación personalizada: La contraseña y la repetición de la contraseña deben ser iguales
-        return repetirContrasena === data.contrasena;
-      },
-      {
-        message: "Las contraseñas no coinciden",
-      }
-    ),
+    .min(5, {
+      message: "Debe contener minimo 5 caracteres",
+    }),
+  // repetirContrasena: z
+  //   .string()
+  //   .trim()
+  //   .refine(
+  //     (repetirContrasena, data) => {
+  //       // Validación personalizada: La contraseña y la repetición de la contraseña deben ser iguales
+  //       return repetirContrasena === data.contrasena;
+  //     },
+  //     {
+  //       message: "Las contraseñas no coinciden",
+  //     }
+  //   ),
 });
 
 export type SchemaRegisterUser = z.infer<typeof TypeRegisterUser>;
