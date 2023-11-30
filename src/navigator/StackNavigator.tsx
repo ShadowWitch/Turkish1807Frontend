@@ -20,6 +20,7 @@ import {
 import { AsignarRutinasScreen } from "../screens/Rutinas/AsignarRutinasScreen";
 import { ProgresoScreen } from "../screens/Chequeos/ProgresoScreen";
 import { TopTabNavigatorRutinas } from "./TopTabNavigatorRutinas";
+import { RegistrarUsuarioScreen } from "../screens/RegistrarUsuarioScreen";
 const Stack = createStackNavigator();
 
 export const StackNavigator = () => {
@@ -43,7 +44,11 @@ export const StackNavigator = () => {
       {status !== "authenticated" ? (
         <>
           {/* <Stack.Screen name="LoadingAuth" component={LoadingAuth} /> */}
-          <Stack.Screen name="AuthScreen" component={AuthScreen} />
+          {/* <Stack.Screen name="AuthScreen" component={AuthScreen} /> */}
+          <Stack.Screen
+            name="RegistrarUsuarioScreen"
+            component={RegistrarUsuarioScreen}
+          />
         </>
       ) : (
         <>
