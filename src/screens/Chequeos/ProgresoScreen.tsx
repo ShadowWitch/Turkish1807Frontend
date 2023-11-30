@@ -28,6 +28,7 @@ import { ErrorConexion } from "../../components/ErrorConexion";
 import { NoHayRegistros } from "../../components/NoHayRegistros";
 import { string } from "zod";
 import { formatearFecha } from "../../utils/formatDate";
+import { ProtectedComponent } from "../../components/ProtectedComponent";
 
 export interface ItemFlatListType {
   chequeos: Chequeo;
@@ -57,30 +58,32 @@ export const ProgresoScreen = ({ navigation, route }: PropsWithNavigator) => {
   return (
     <>
       <ButtonBack />
-      <Background marginTop={hp(10)}>
-        <FlatList
-          data={dataCliente.chequeos}
-          renderItem={({ item }) => <ItemFlatList chequeos={item} />}
-          keyExtractor={(item, index) => index.toString()}
-          ItemSeparatorComponent={() => <ItemSeparator />}
-          style={{
-            // backgroundColor: "yellow",
-            paddingHorizontal: wp(3),
-            paddingTop: hp(1),
-            // paddingBottom: hp(30),
-            // marginBottom: hp(3),
-          }}
-          ListFooterComponent={() => (
-            <View
-              style={{
-                // backgroundColor: "red",
-                height: hp(5),
-              }}
-            />
-          )}
-          // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
-        />
-      </Background>
+      <ProtectedComponent permissions={["1004"]}>
+        <Background marginTop={hp(10)}>
+          <FlatList
+            data={dataCliente.chequeos}
+            renderItem={({ item }) => <ItemFlatList chequeos={item} />}
+            keyExtractor={(item, index) => index.toString()}
+            ItemSeparatorComponent={() => <ItemSeparator />}
+            style={{
+              // backgroundColor: "yellow",
+              paddingHorizontal: wp(3),
+              paddingTop: hp(1),
+              // paddingBottom: hp(30),
+              // marginBottom: hp(3),
+            }}
+            ListFooterComponent={() => (
+              <View
+                style={{
+                  // backgroundColor: "red",
+                  height: hp(5),
+                }}
+              />
+            )}
+            // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
+          />
+        </Background>
+      </ProtectedComponent>
     </>
   );
 };

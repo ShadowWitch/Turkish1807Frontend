@@ -28,6 +28,7 @@ import { ErrorConexion } from "../../components/ErrorConexion";
 import { NoHayRegistros } from "../../components/NoHayRegistros";
 import { ScrollView } from "react-native-gesture-handler";
 import { acortarTexto } from "../../utils/acortarTexto";
+import { ProtectedComponent } from "../../components/ProtectedComponent";
 
 export interface ItemFlatListType {
   data: ResponseListaClientes;
@@ -138,172 +139,41 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
 
   return (
     <>
-      <View
-        style={{
-          // backgroundColor: "green",
-          justifyContent: "space-between",
-          flexDirection: "row",
-          borderStartWidth: wp(1),
-          borderStartColor: "green",
-          borderRadius: 5,
-
-          // borderTopWidth: 1,
-          // borderTopColor: "green",
-        }}
-      >
+      <ProtectedComponent permissions={["1002"]}>
         <View
           style={{
-            // backgroundColor: "red",
-            marginHorizontal: wp(2),
+            // backgroundColor: "green",
+            justifyContent: "space-between",
+            flexDirection: "row",
+            borderStartWidth: wp(1),
+            borderStartColor: "green",
+            borderRadius: 5,
+
+            // borderTopWidth: 1,
+            // borderTopColor: "green",
           }}
         >
           <View
             style={{
-              // backgroundColor: "gray",
-              flexDirection: "row",
-              alignItems: "center",
+              // backgroundColor: "red",
+              marginHorizontal: wp(2),
             }}
           >
-            <Ionicons
+            <View
               style={{
-                marginHorizontal: wp(2),
-              }}
-              name={"person-circle-outline"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <Text
-              style={{
-                fontSize: wp(4),
-                fontWeight: "400",
-                color: "white",
+                // backgroundColor: "gray",
+                flexDirection: "row",
+                alignItems: "center",
               }}
             >
-              Nombre:{" "}
-              {`${data.primerNombre || ""} ${data.primerApellido || ""}`}
-            </Text>
-          </View>
-
-          <View
-            style={{
-              // backgroundColor: "gray",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Ionicons
-              style={{
-                marginHorizontal: wp(2),
-              }}
-              name={"body"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <Text
-              style={{
-                fontSize: wp(4),
-                fontWeight: "400",
-                color: "white",
-              }}
-            >
-              Estatura: {`${data.chequeos.at(-1)?.estatura || ""} Mts`}
-            </Text>
-          </View>
-
-          <View
-            style={{
-              // backgroundColor: "gray",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Ionicons
-              style={{
-                marginHorizontal: wp(2),
-              }}
-              name={"leaf"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <Text
-              style={{
-                fontSize: wp(4),
-                fontWeight: "400",
-                color: "white",
-              }}
-            >
-              Peso: {`${data.chequeos.at(-1)?.peso || ""} Kg`}
-            </Text>
-          </View>
-
-          <View
-            style={{
-              // backgroundColor: "gray",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Ionicons
-              style={{
-                marginHorizontal: wp(2),
-              }}
-              name={"barbell"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <Text
-              style={{
-                fontSize: wp(4),
-                fontWeight: "400",
-                color: "white",
-              }}
-            >
-              Niv. Masa: {`${data.chequeos.at(-1)?.nivelDeMasa || ""} %`}
-            </Text>
-          </View>
-
-          <View
-            style={{
-              // backgroundColor: "gray",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Ionicons
-              style={{
-                marginHorizontal: wp(2),
-              }}
-              name={"fast-food"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <Text
-              style={{
-                fontSize: wp(4),
-                fontWeight: "400",
-                color: "white",
-              }}
-            >
-              Niv. Grasa: {`${data.chequeos.at(-1)?.nivelDeGrasa || ""} %`}
-            </Text>
-          </View>
-
-          <View
-            style={{
-              // backgroundColor: "gray",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Ionicons
-              style={{
-                marginHorizontal: wp(2),
-              }}
-              name={"analytics-outline"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <ScrollView>
+              <Ionicons
+                style={{
+                  marginHorizontal: wp(2),
+                }}
+                name={"person-circle-outline"}
+                size={wp(7)}
+                color={"white"}
+              />
               <Text
                 style={{
                   fontSize: wp(4),
@@ -311,32 +181,165 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                   color: "white",
                 }}
               >
-                {/* Rutina: {`${texto.length > 0 ? texto : "No tiene"}`} */}
-                Rutina:{" "}
-                {`${texto.length > 0 ? acortarTexto(texto, 20) : "No tiene"}`}
+                Nombre:{" "}
+                {`${data.primerNombre || ""} ${data.primerApellido || ""}`}
               </Text>
-            </ScrollView>
-          </View>
-        </View>
+            </View>
 
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <TouchableOpacity onPress={() => onShowMore(data)}>
-            <Text
+            <View
               style={{
-                color: "white",
-                fontSize: wp(4),
+                // backgroundColor: "gray",
+                flexDirection: "row",
+                alignItems: "center",
               }}
             >
-              Ver mas...
-            </Text>
-          </TouchableOpacity>
+              <Ionicons
+                style={{
+                  marginHorizontal: wp(2),
+                }}
+                name={"body"}
+                size={wp(7)}
+                color={"white"}
+              />
+              <Text
+                style={{
+                  fontSize: wp(4),
+                  fontWeight: "400",
+                  color: "white",
+                }}
+              >
+                Estatura: {`${data.chequeos.at(-1)?.estatura || ""} Mts`}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                // backgroundColor: "gray",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Ionicons
+                style={{
+                  marginHorizontal: wp(2),
+                }}
+                name={"leaf"}
+                size={wp(7)}
+                color={"white"}
+              />
+              <Text
+                style={{
+                  fontSize: wp(4),
+                  fontWeight: "400",
+                  color: "white",
+                }}
+              >
+                Peso: {`${data.chequeos.at(-1)?.peso || ""} Kg`}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                // backgroundColor: "gray",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Ionicons
+                style={{
+                  marginHorizontal: wp(2),
+                }}
+                name={"barbell"}
+                size={wp(7)}
+                color={"white"}
+              />
+              <Text
+                style={{
+                  fontSize: wp(4),
+                  fontWeight: "400",
+                  color: "white",
+                }}
+              >
+                Niv. Masa: {`${data.chequeos.at(-1)?.nivelDeMasa || ""} %`}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                // backgroundColor: "gray",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Ionicons
+                style={{
+                  marginHorizontal: wp(2),
+                }}
+                name={"fast-food"}
+                size={wp(7)}
+                color={"white"}
+              />
+              <Text
+                style={{
+                  fontSize: wp(4),
+                  fontWeight: "400",
+                  color: "white",
+                }}
+              >
+                Niv. Grasa: {`${data.chequeos.at(-1)?.nivelDeGrasa || ""} %`}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                // backgroundColor: "gray",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Ionicons
+                style={{
+                  marginHorizontal: wp(2),
+                }}
+                name={"analytics-outline"}
+                size={wp(7)}
+                color={"white"}
+              />
+              <ScrollView>
+                <Text
+                  style={{
+                    fontSize: wp(4),
+                    fontWeight: "400",
+                    color: "white",
+                  }}
+                >
+                  {/* Rutina: {`${texto.length > 0 ? texto : "No tiene"}`} */}
+                  Rutina:{" "}
+                  {`${texto.length > 0 ? acortarTexto(texto, 20) : "No tiene"}`}
+                </Text>
+              </ScrollView>
+            </View>
+          </View>
+
+          <View
+            style={{
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <TouchableOpacity onPress={() => onShowMore(data)}>
+              <Text
+                style={{
+                  color: "white",
+                  fontSize: wp(4),
+                }}
+              >
+                Ver mas...
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </ProtectedComponent>
     </>
   );
 };

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   useWindowDimensions,
   Button,
+  ScrollView,
 } from "react-native";
 import { Background } from "../components/Background";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -18,6 +19,7 @@ import {
 } from "react-native-responsive-screen";
 import { useAuth } from "../context/AuthContext";
 import { ButtonCloseSesion } from "../components/ButtonCloseSesion";
+import { ProtectedComponent } from "../components/ProtectedComponent";
 
 interface IOptions {
   url: string;
@@ -62,16 +64,18 @@ export const HomeScreen = () => {
           flex: 1,
         }}
       >
-        {options.map((e, index) => (
-          <ItemMenuHome
-            key={index}
-            icon={e.icon}
-            text={e.text}
-            url={e.url}
-            colorIcon={e.colorIcon}
-            size={e.size}
-          />
-        ))}
+        <ScrollView>
+          {options.map((e, index) => (
+            <ItemMenuHome
+              key={index}
+              icon={e.icon}
+              text={e.text}
+              url={e.url}
+              colorIcon={e.colorIcon}
+              size={e.size}
+            />
+          ))}
+        </ScrollView>
 
         {/* <Button title="Cerrar" onPress={onCloseSession} /> */}
       </View>
@@ -133,6 +137,12 @@ const options: IOptions[] = [
     text: "Asignar Ejercicios",
     icon: "barbell-outline",
     url: "AsignarRutinasScreen",
+  },
+
+  {
+    text: "Roles y Permisos",
+    icon: "barbell-outline",
+    url: "RolesPermisosScreen",
   },
 
   // {
