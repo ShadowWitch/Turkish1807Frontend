@@ -44,7 +44,7 @@ export const StackNavigator = () => {
       {status !== "authenticated" ? (
         <>
           {/* <Stack.Screen name="LoadingAuth" component={LoadingAuth} /> */}
-          {/* <Stack.Screen name="AuthScreen" component={AuthScreen} /> */}
+          <Stack.Screen name="AuthScreen" component={AuthScreen} />
           <Stack.Screen
             name="RegistrarUsuarioScreen"
             component={RegistrarUsuarioScreen}
