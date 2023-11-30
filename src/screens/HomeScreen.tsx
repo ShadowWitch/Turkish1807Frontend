@@ -125,7 +125,8 @@ const options: IOptions[] = [
   {
     text: "Rutinas",
     icon: "analytics-outline",
-    url: "RutinasScreen",
+    url: "TopTabNavigatorRutinas",
+    // url: "RutinasScreen",
   },
 
   {
