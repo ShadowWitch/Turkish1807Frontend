@@ -99,7 +99,7 @@ export const RutinasScreen = ({ navigation, route }: Props) => {
                   marginBottom: hp(3),
                 }}
               >
-                Registrar Contrato
+                Registrar Rutina
               </Text>
               <View
                 style={{

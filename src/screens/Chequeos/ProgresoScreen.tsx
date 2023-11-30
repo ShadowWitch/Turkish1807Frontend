@@ -26,116 +26,66 @@ import {
 import { ButtonBack } from "../../components/ButtonBack";
 import { ErrorConexion } from "../../components/ErrorConexion";
 import { NoHayRegistros } from "../../components/NoHayRegistros";
-import { ScrollView } from "react-native-gesture-handler";
-import { acortarTexto } from "../../utils/acortarTexto";
+import { string } from "zod";
+import { formatearFecha } from "../../utils/formatDate";
 
 export interface ItemFlatListType {
-  data: ResponseListaClientes;
-
-  onShowMore: (item: ResponseListaClientes) => void;
+  chequeos: Chequeo;
 }
 
-export const ListaClientesScreen = ({
-  navigation,
-  route,
-}: PropsWithNavigator) => {
-  const {
-    data: dataClientes,
-    error,
-    refetch,
-    isLoading,
-  } = useQuery({
-    queryKey: ["listaClientes"],
-    queryFn: listaClientes,
-  });
+interface Chequeo {
+  id: string;
+  peso: string;
+  estatura: string;
+  nivelDeMasa: string;
+  nivelDeGrasa: string;
+  fechaDelChequeo: string;
+  id_cliente: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
-  const onShowMore = (item: ResponseListaClientes) => {
-    console.log("ITEM ACACAAA >> ", JSON.stringify(item, null, 3));
+interface DataCliente {
+  id: string;
+  chequeos: Chequeo[];
+}
 
-    navigation.navigate("DetallesScreen", {
-      ...item,
-    }),
-      console.log("DATA CLIENTES >> ", JSON.stringify(dataClientes, null, 3));
-  };
-
-  useEffect(() => {
-    refetch();
-  }, []);
-
-  console.log("DATA CLIENTES >> ", JSON.stringify(dataClientes, null, 3));
-
-  if (error !== null)
-    return (
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: "#16213E",
-        }}
-      >
-        <ErrorConexion />
-      </View>
-    );
+export const ProgresoScreen = ({ navigation, route }: PropsWithNavigator) => {
+  const { params } = route;
+  const dataCliente = params as DataCliente;
 
   return (
     <>
       <ButtonBack />
       <Background marginTop={hp(10)}>
-        {error === null &&
-          (isLoading === true ? (
-            <View>
-              <ActivityIndicator size={wp(3)} color={"white"} />
-              <Text
-                style={{
-                  color: "white",
-                }}
-              >
-                Cargando...
-              </Text>
-            </View>
-          ) : (
-            <>
-              {dataClientes.length > 0 ? (
-                <FlatList
-                  data={dataClientes as ResponseListaClientes[]}
-                  renderItem={({ item }) => (
-                    <ItemFlatList data={item} onShowMore={onShowMore} />
-                  )}
-                  keyExtractor={(item, index) => index.toString()}
-                  ItemSeparatorComponent={() => <ItemSeparator />}
-                  style={{
-                    // backgroundColor: "yellow",
-                    paddingHorizontal: wp(3),
-                    paddingTop: hp(1),
-                    // paddingBottom: hp(30),
-                    // marginBottom: hp(3),
-                  }}
-                  ListFooterComponent={() => (
-                    <View
-                      style={{
-                        // backgroundColor: "red",
-                        height: hp(5),
-                      }}
-                    />
-                  )}
-                  // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
-                />
-              ) : (
-                <NoHayRegistros />
-              )}
-            </>
-          ))}
+        <FlatList
+          data={dataCliente.chequeos}
+          renderItem={({ item }) => <ItemFlatList chequeos={item} />}
+          keyExtractor={(item, index) => index.toString()}
+          ItemSeparatorComponent={() => <ItemSeparator />}
+          style={{
+            // backgroundColor: "yellow",
+            paddingHorizontal: wp(3),
+            paddingTop: hp(1),
+            // paddingBottom: hp(30),
+            // marginBottom: hp(3),
+          }}
+          ListFooterComponent={() => (
+            <View
+              style={{
+                // backgroundColor: "red",
+                height: hp(5),
+              }}
+            />
+          )}
+          // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />} //* Para ponerle un "Header"
+        />
       </Background>
     </>
   );
 };
 
-const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
-  console.log("DATA ITEM FLAT >> ", data);
-  const nombres = data.relClienteRutina.map(
-    (e) => e.rutinaEntrenamiento.nombre
-  );
-  const texto = nombres.join(", ");
-
+const ItemFlatList = ({ chequeos }: ItemFlatListType) => {
   return (
     <>
       <View
@@ -168,33 +118,6 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
               style={{
                 marginHorizontal: wp(2),
               }}
-              name={"person-circle-outline"}
-              size={wp(7)}
-              color={"white"}
-            />
-            <Text
-              style={{
-                fontSize: wp(4),
-                fontWeight: "400",
-                color: "white",
-              }}
-            >
-              Nombre:{" "}
-              {`${data.primerNombre || ""} ${data.primerApellido || ""}`}
-            </Text>
-          </View>
-
-          <View
-            style={{
-              // backgroundColor: "gray",
-              flexDirection: "row",
-              alignItems: "center",
-            }}
-          >
-            <Ionicons
-              style={{
-                marginHorizontal: wp(2),
-              }}
               name={"body"}
               size={wp(7)}
               color={"white"}
@@ -206,7 +129,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                 color: "white",
               }}
             >
-              Estatura: {`${data.chequeos.at(-1)?.estatura || ""} Mts`}
+              Estatura: {`${chequeos.estatura} Mts`}
             </Text>
           </View>
 
@@ -232,7 +155,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                 color: "white",
               }}
             >
-              Peso: {`${data.chequeos.at(-1)?.peso || ""} Kg`}
+              Peso: {`${chequeos.peso} Kg`}
             </Text>
           </View>
 
@@ -258,7 +181,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                 color: "white",
               }}
             >
-              Niv. Masa: {`${data.chequeos.at(-1)?.nivelDeMasa || ""} %`}
+              Niv. Masa: {`${chequeos.nivelDeMasa} %`}
             </Text>
           </View>
 
@@ -284,7 +207,7 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
                 color: "white",
               }}
             >
-              Niv. Grasa: {`${data.chequeos.at(-1)?.nivelDeGrasa || ""} %`}
+              Niv. Grasa: {`${chequeos.nivelDeGrasa} %`}
             </Text>
           </View>
 
@@ -299,42 +222,20 @@ const ItemFlatList = ({ data, onShowMore }: ItemFlatListType) => {
               style={{
                 marginHorizontal: wp(2),
               }}
-              name={"analytics-outline"}
+              name={"calendar-outline"}
               size={wp(7)}
               color={"white"}
             />
-            <ScrollView>
-              <Text
-                style={{
-                  fontSize: wp(4),
-                  fontWeight: "400",
-                  color: "white",
-                }}
-              >
-                {/* Rutina: {`${texto.length > 0 ? texto : "No tiene"}`} */}
-                Rutina:{" "}
-                {`${texto.length > 0 ? acortarTexto(texto, 20) : "No tiene"}`}
-              </Text>
-            </ScrollView>
-          </View>
-        </View>
-
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <TouchableOpacity onPress={() => onShowMore(data)}>
             <Text
               style={{
-                color: "white",
                 fontSize: wp(4),
+                fontWeight: "400",
+                color: "white",
               }}
             >
-              Ver mas...
+              Fecha: {`${formatearFecha(new Date(chequeos.createdAt))}`}
             </Text>
-          </TouchableOpacity>
+          </View>
         </View>
       </View>
     </>

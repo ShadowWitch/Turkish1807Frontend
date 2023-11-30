@@ -18,6 +18,8 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { AsignarRutinasScreen } from "../screens/Rutinas/AsignarRutinasScreen";
+import { ProgresoScreen } from "../screens/Chequeos/ProgresoScreen";
+import { TopTabNavigatorRutinas } from "./TopTabNavigatorRutinas";
 const Stack = createStackNavigator();
 
 export const StackNavigator = () => {
@@ -47,7 +49,10 @@ export const StackNavigator = () => {
         <>
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
           <Stack.Screen name="EjerciciosScreen" component={EjerciciosScreen} />
-          <Stack.Screen name="RutinasScreen" component={RutinasScreen} />
+          <Stack.Screen
+            name="TopTabNavigatorRutinas"
+            component={TopTabNavigatorRutinas}
+          />
           <Stack.Screen
             name="AsignarRutinasScreen"
             component={AsignarRutinasScreen}
@@ -58,6 +63,7 @@ export const StackNavigator = () => {
           <Stack.Screen name="ContratoScreen" component={ContratoScreen} />
 
           <Stack.Screen name="DetallesScreen" component={DetallesScreen} />
+          <Stack.Screen name="ProgresoScreen" component={ProgresoScreen} />
 
           <Stack.Screen
             name="ListaContratoScreen"
