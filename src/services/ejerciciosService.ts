@@ -10,7 +10,6 @@ export const listaTipoEjercicios = async () => {
     );
 
     if (!data) throw new Error("Error");
-    console.log("RESP >> ", JSON.stringify(data));
     return data.data;
   } catch (error) {
     console.log(error);

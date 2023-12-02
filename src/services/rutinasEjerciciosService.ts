@@ -83,7 +83,6 @@ export const listaRutinas = async () => {
     const { data }: AxiosResponse = await api.get("/rutina/show-all");
 
     if (!data) throw new Error("Error");
-    console.log("RESP >> ", JSON.stringify(data.data, null, 3));
     return data.data;
   } catch (error) {
     console.log(error);

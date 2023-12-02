@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import { useWindowDimensions } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  TouchableOpacity,
+  useWindowDimensions,
+} from "react-native";
 
 import {
   KeyboardAvoidingView,
@@ -30,13 +34,21 @@ import { TextError } from "../../components/TextError";
 import { SelectInput } from "../../components/SelectInput";
 import { SchemaRegisterCliente } from "../../types/TypesClientes";
 import { registrarClienteService } from "../../services/clientesService";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Toast } from "../../components/Toast";
-import { CreateToast } from "../../utils/toast";
+import { CreateToast, showToastLong } from "../../utils/toast";
 import { ModalComponent } from "../../components/Modal";
 import { useNavigation } from "@react-navigation/native";
 import MaskInput from "react-native-masked-input";
 import { createNumberMask } from "react-native-mask-input";
+import { SchemaRegisterRol } from "../../types/TypeRoles";
+import {
+  listaPermisos,
+  registrarRol,
+} from "../../services/rolesPermisosService";
+import Checkbox from "expo-checkbox";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { stylesButton } from "../../globalStyles/buttons.styles";
 
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
@@ -46,37 +58,21 @@ interface IValue {
   id: number;
 }
 
-// const listaMunicipios: IValue[] = [
-//   {
-//     label: "Test 1",
-//     value: "1",
-//     id: 1,
-//   },
-//   {
-//     label: "Test 2",
-//     value: "2",
-//     id: 2,
-//   },
-//   {
-//     label: "Test 3",
-//     value: "3",
-//     id: 3,
-//   },
-// ];
-
-const mascara = createNumberMask({
-  delimiter: ",",
-  separator: ".",
-  precision: 2,
-});
-
-const regexPattern = /^[0-9]{2}\.[0-9]$/; // Expresión regular para 2 números y un decimal
-const regexPatternPeso = /^[0-9]{3}\.[0-9]$/; // Expresión regular para 2 números y un decimal
-const regexPatternGrasaMasa = /^(100|[1-9][0-9]?)$/; // Expresión regular para 2 números y un decimal
-const regexPatterEstatura = /^\d+(\.\d{2})?$/;
-
 export const RegistrarRolScreen = ({ navigation, route }: Props) => {
   const [showModal, setShowModal] = useState(false);
+  const [permisosSeleccionados, setPermisosSeleccionados] = useState<string[]>(
+    []
+  );
+
+  const {
+    data: dataListaPermisos,
+    error: errorListaPermisos,
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["listaPermisos"],
+    queryFn: listaPermisos,
+  });
 
   const onConfirm = () => {
     setShowModal(false);
@@ -84,21 +80,22 @@ export const RegistrarRolScreen = ({ navigation, route }: Props) => {
   };
 
   const { mutate, error, data } = useMutation({
-    mutationKey: ["registrarClienteService"],
-    mutationFn: registrarClienteService,
+    mutationKey: ["registrarRol"],
+    mutationFn: registrarRol,
     onSuccess: (data) => {
-      console.log("DATA >> ", data);
-      if (data) {
-        setShowModal(true);
-      }
+      showToastLong("Rol registrado con exito!");
+      navigation.navigate("HomeScreen");
     },
     onError: (err: any) => {
       console.log("ERRRORRR >> ", err);
+      console.log("Error al registrar el rol");
     },
-    onMutate: () => {
-      console.log("EJECUtando mutate ....");
-    },
+    onMutate: () => {},
   });
+
+  const prueba = () => {
+    console.log("OQWEQWEQWEQEQWEWQE");
+  };
 
   const {
     register,
@@ -107,14 +104,22 @@ export const RegistrarRolScreen = ({ navigation, route }: Props) => {
     control,
     reset,
     formState: { errors },
-  } = useForm<SchemaRegisterCliente>({
+  } = useForm<SchemaRegisterRol>({
     mode: "onChange",
   });
 
-  const onSubmit = (data: SchemaRegisterCliente) => {
-    console.log("qweqwe");
-    mutate(data);
+  const onSubmit = (data: SchemaRegisterRol) => {
+    const sendData = {
+      ...data,
+      permisos: permisosSeleccionados,
+    };
+
+    mutate(sendData);
   };
+
+  useEffect(() => {
+    refetch();
+  }, []);
 
   return (
     // <Background marginTop={hp(10)}>
@@ -145,174 +150,65 @@ export const RegistrarRolScreen = ({ navigation, route }: Props) => {
                   textAlign: "center",
                 }}
               >
-                Datos del Cliente
+                Datos del Rol
               </Text>
-              {/* <Input text="DNI (opcional)" width={wp(75)} textInputSize={wp(3)} /> */}
 
               <Controller
-                name="DNI"
+                name="nombre"
                 control={control}
                 rules={{
                   required: {
                     value: true,
-                    message: "El DNI es requerido.",
+                    message: "El nombre del rol es requerido.",
                   },
                   minLength: {
-                    value: 13,
-                    message: "DNI no valido",
+                    value: 3,
+                    message: "Este campo debe tener minimo 3 caracteres",
                   },
                   maxLength: {
-                    value: 13,
-                    message: "DNI no valido",
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.DNI?.message && (
-                      <TextError message={errors.DNI.message} />
-                    )}
-                    <MaskInput
-                      style={{
-                        ...styleAuthScreen.inputForm,
-                        width: wp(80),
-                      }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="DNI (opcional)"
-                      keyboardType="number-pad"
-                      type="custom"
-                      options={{
-                        mask: "9999999999999", // Define la máscara que especifica el formato deseado
-                      }}
-                    />
-                  </>
-                )}
-              />
-
-              <Controller
-                name="nombreCompleto"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "El nombre completo es requerido.",
-                  },
-                  minLength: {
                     value: 10,
-                    message:
-                      "El nombre completo debe tener minimo de 8 caracteres",
-                  },
-                  maxLength: {
-                    value: 50,
-                    message:
-                      "El nombre completo debe tener máximo 50 caracteres.",
+                    message: "Este campo debe tener máximo 10 caracteres",
                   },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <>
-                    {errors.nombreCompleto?.message && (
-                      <TextError message={errors.nombreCompleto.message} />
+                    {errors.nombre?.message && (
+                      <TextError message={errors.nombre.message} />
                     )}
                     <TextInput
-                      style={{ ...styleAuthScreen.inputForm, width: wp(80) }}
+                      style={{
+                        ...styleAuthScreen.inputForm,
+                        width: wp(80),
+                      }}
                       onBlur={onBlur}
                       onChangeText={(value) => onChange(value)}
                       value={value}
-                      placeholder="Nombre Completo"
+                      placeholder="Nombre del Rol"
+                      keyboardType="default"
                     />
                   </>
                 )}
               />
 
-              {/* <DateTimePicker textDate="Fecha de Nacimiento" /> */}
-
               <Controller
-                name="telefono"
+                name="descripcion"
                 control={control}
                 rules={{
-                  required: {
-                    value: true,
-                    message: "El telefono es requerido.",
-                  },
                   minLength: {
-                    value: 8,
-                    message: "El telefono debe tener minimo de 8 caracteres",
+                    value: 5,
+                    message: "Este campo debe tener minimo 5 caracteres",
                   },
                   maxLength: {
-                    value: 20,
-                    message: "El telefono debe tener máximo 20 caracteres.",
+                    value: 13,
+                    message: "Este campo debe tener maximo 13 caracteres",
                   },
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <>
-                    {errors.telefono?.message && (
-                      <TextError message={errors.telefono.message} />
+                    {errors.descripcion?.message && (
+                      <TextError message={errors.descripcion.message} />
                     )}
-                    <MaskInput
-                      style={{ ...styleAuthScreen.inputForm, width: wp(80) }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="Telefono"
-                      keyboardType="phone-pad"
-                      type="custom"
-                      options={{
-                        mask: "+504 99999999", // Define la máscara que especifica el formato deseado
-                      }}
-                    />
-                  </>
-                )}
-              />
-
-              {/* <Controller
-              name={"id_municipio"}
-              control={control}
-              rules={{
-                required: {
-                  value: true,
-                  message: "El Tipo de Documento es requerido.",
-                },
-              }}
-              render={({ field: { onChange, value } }) => (
-                <SelectInput
-                  label="Municipio"
-                  options={listaMunicipios}
-                  value={value}
-                  onChange={onChange}
-                  error={{ message: errors.id_municipio?.message || "" }}
-                />
-              )}
-            /> */}
-
-              <Controller
-                name="estatura"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "La estatura es requerida.",
-                  },
-                  // minLength: {
-                  //   value: 3,
-                  //   message: "Estatura no valida",
-                  // },
-                  // maxLength: {
-                  //   value: 3,
-                  //   message: "Estatura no valida",
-                  // },
-
-                  // pattern: {
-                  //   value: regexPatterEstatura,
-                  //   message: "Formato no valido",
-                  // },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.estatura?.message && (
-                      <TextError message={errors.estatura.message} />
-                    )}
-                    <MaskInput
+                    <TextInput
                       style={{
                         ...styleAuthScreen.inputForm,
                         width: wp(80),
@@ -320,146 +216,139 @@ export const RegistrarRolScreen = ({ navigation, route }: Props) => {
                       onBlur={onBlur}
                       onChangeText={(value) => onChange(value)}
                       value={value}
-                      placeholder="Estatura (En Mts)"
-                      keyboardType="number-pad"
-                      type={"money"}
-                      options={{
-                        precision: 2, // número de decimales permitidos
-                        separator: ".", // separador de decimales
-                        delimiter: ",", // separador de miles
-                        unit: "", // unidad antes del número (puede ser vacío)
-                        suffixUnit: "", // unidad después del número (puede ser vacío)
-                      }}
+                      placeholder="Descripción (opcional)"
+                      keyboardType="default"
                     />
                   </>
                 )}
               />
 
-              <Controller
-                name="peso"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "El peso es requerida.",
-                  },
-
-                  // pattern: {
-                  //   value: regexPatternPeso,
-                  //   message: "Formato no valido",
-                  // },
+              <View
+                style={{
+                  flexDirection: "row",
                 }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.peso?.message && (
-                      <TextError message={errors.peso.message} />
-                    )}
-                    <MaskInput
-                      style={{
-                        ...styleAuthScreen.inputForm,
-                        width: wp(80),
-                      }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="Peso (En Kg)"
-                      keyboardType="number-pad"
-                      type={"money"}
-                      options={{
-                        precision: 2, // número de decimales permitidos
-                        separator: ".", // separador de decimales
-                        delimiter: ",", // separador de miles
-                        unit: "", // unidad antes del número (puede ser vacío)
-                        suffixUnit: "", // unidad después del número (puede ser vacío)
-                      }}
-                    />
-                  </>
-                )}
-              />
+              >
+                <View
+                  style={{
+                    justifyContent: "flex-start",
+                    marginRight: wp(7),
+                  }}
+                >
+                  {dataListaPermisos?.map(
+                    (e, index) =>
+                      index <= 6 && (
+                        <TouchableOpacity
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginVertical: hp(1.3),
+                          }}
+                          onPress={() =>
+                            permisosSeleccionados.includes(e.id)
+                              ? setPermisosSeleccionados(
+                                  permisosSeleccionados.filter(
+                                    (item) => item !== e.id
+                                  )
+                                )
+                              : setPermisosSeleccionados([
+                                  ...permisosSeleccionados,
+                                  e.id,
+                                ])
+                          }
+                        >
+                          <Ionicons
+                            name={
+                              permisosSeleccionados.includes(e.id)
+                                ? "remove-outline"
+                                : "add-outline"
+                            }
+                            size={wp(5)}
+                            color={
+                              permisosSeleccionados.includes(e.id)
+                                ? stylesButton.buttonsColorPrimary
+                                    .backgroundColor
+                                : stylesButton.buttonsColorSecondary
+                                    .backgroundColor
+                            }
+                          />
 
-              <Controller
-                name="nivelDeGrasa"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "% de grasa requerido.",
-                  },
+                          <Text
+                            style={{
+                              color: permisosSeleccionados.includes(e.id)
+                                ? stylesButton.buttonsColorPrimary
+                                    .backgroundColor
+                                : stylesButton.buttonsColorSecondary
+                                    .backgroundColor,
+                              fontSize: wp(4),
+                            }}
+                          >
+                            {e.nombre}
+                          </Text>
+                        </TouchableOpacity>
+                      )
+                  )}
+                </View>
 
-                  // pattern: {
-                  //   value: regexPatternGrasaMasa,
-                  //   message: "Formato no valido",
-                  // },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.nivelDeGrasa?.message && (
-                      <TextError message={errors.nivelDeGrasa.message} />
-                    )}
-                    <MaskInput
-                      style={{
-                        ...styleAuthScreen.inputForm,
-                        width: wp(80),
-                      }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="Nivel de grasa (%)"
-                      keyboardType="number-pad"
-                      type={"money"}
-                      options={{
-                        precision: 2, // número de decimales permitidos
-                        separator: ".", // separador de decimales
-                        delimiter: ",", // separador de miles
-                        unit: "", // unidad antes del número (puede ser vacío)
-                        suffixUnit: "", // unidad después del número (puede ser vacío)
-                      }}
-                    />
-                  </>
-                )}
-              />
+                <View
+                  style={{
+                    justifyContent: "flex-start",
+                  }}
+                >
+                  {dataListaPermisos?.map(
+                    (e, index) =>
+                      index > 6 && (
+                        <TouchableOpacity
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            marginVertical: hp(1.3),
+                          }}
+                          onPress={() =>
+                            permisosSeleccionados.includes(e.id)
+                              ? setPermisosSeleccionados(
+                                  permisosSeleccionados.filter(
+                                    (item) => item !== e.id
+                                  )
+                                )
+                              : setPermisosSeleccionados([
+                                  ...permisosSeleccionados,
+                                  e.id,
+                                ])
+                          }
+                        >
+                          <Ionicons
+                            name={
+                              permisosSeleccionados.includes(e.id)
+                                ? "remove-outline"
+                                : "add-outline"
+                            }
+                            size={wp(5)}
+                            color={
+                              permisosSeleccionados.includes(e.id)
+                                ? stylesButton.buttonsColorPrimary
+                                    .backgroundColor
+                                : stylesButton.buttonsColorSecondary
+                                    .backgroundColor
+                            }
+                          />
 
-              <Controller
-                name="nivelDeMasa"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "% de masa requerido.",
-                  },
-
-                  // pattern: {
-                  //   value: regexPatternGrasaMasa,
-                  //   message: "Formato no valido",
-                  // },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.nivelDeMasa?.message && (
-                      <TextError message={errors.nivelDeMasa.message} />
-                    )}
-                    <MaskInput
-                      style={{
-                        ...styleAuthScreen.inputForm,
-                        width: wp(80),
-                      }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="Nivel de masa (%)"
-                      keyboardType="number-pad"
-                      type={"money"}
-                      options={{
-                        precision: 1, // número de decimales permitidos
-                        separator: ".", // separador de decimales
-                        delimiter: ",", // separador de miles
-                        unit: "", // unidad antes del número (puede ser vacío)
-                        suffixUnit: "", // unidad después del número (puede ser vacío)
-                      }}
-                    />
-                  </>
-                )}
-              />
+                          <Text
+                            style={{
+                              color: permisosSeleccionados.includes(e.id)
+                                ? stylesButton.buttonsColorPrimary
+                                    .backgroundColor
+                                : stylesButton.buttonsColorSecondary
+                                    .backgroundColor,
+                              fontSize: wp(4),
+                            }}
+                          >
+                            {e.nombre}
+                          </Text>
+                        </TouchableOpacity>
+                      )
+                  )}
+                </View>
+              </View>
 
               <View
                 style={{
@@ -498,3 +387,21 @@ export const RegistrarRolScreen = ({ navigation, route }: Props) => {
     </>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginHorizontal: 16,
+    marginVertical: 32,
+  },
+  section: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  paragraph: {
+    fontSize: 15,
+    color: "white",
+  },
+  checkbox: {
+    margin: 8,
+  },
+});

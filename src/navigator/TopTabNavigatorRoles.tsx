@@ -48,7 +48,7 @@ export const TopTabNavigatorRoles = () => {
       >
         <Tab.Screen
           name="RegistrarRolScreen"
-          component={ListaRolesScreen}
+          component={RegistrarRolScreen}
           options={{
             title: "Registrar Rol",
           }}
