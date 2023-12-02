@@ -42,6 +42,7 @@ import { stylesButton } from "../../globalStyles/buttons.styles";
 import { ErrorConexion } from "../../components/ErrorConexion";
 import MaskInput from "react-native-masked-input";
 import { NoHayRegistros } from "../../components/NoHayRegistros";
+import { ProtectedComponent } from "../../components/ProtectedComponent";
 
 export interface ItemFlatListType {
   data: ResponseListaClientes;
@@ -341,17 +342,19 @@ const ItemFlatList = ({ data, mutate, refetch }: ItemFlatListType) => {
               fecha: formatearISO(data.contratos.at(0)?.ultimaRenovacion),
               fechaActual: formatearISO(new Date().toISOString()),
             }) && (
-              <TouchableOpacity
-                style={{
-                  backgroundColor:
-                    stylesButton.buttonsColorPrimary.backgroundColor,
-                  padding: wp(2),
-                  borderRadius: 10,
-                }}
-                onPress={onSubmit}
-              >
-                <Text>Renovar</Text>
-              </TouchableOpacity>
+              <ProtectedComponent permissions={["2001"]}>
+                <TouchableOpacity
+                  style={{
+                    backgroundColor:
+                      stylesButton.buttonsColorPrimary.backgroundColor,
+                    padding: wp(2),
+                    borderRadius: 10,
+                  }}
+                  onPress={onSubmit}
+                >
+                  <Text>Renovar</Text>
+                </TouchableOpacity>
+              </ProtectedComponent>
 
               // <Button
               //   text="Renovar"

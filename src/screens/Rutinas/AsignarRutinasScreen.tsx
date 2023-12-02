@@ -37,6 +37,7 @@ import {
 } from "../../services/rutinasEjerciciosService";
 import { showToastLong } from "../../utils/toast";
 import { SelectInput } from "../../components/SelectInput";
+import { ProtectedComponent } from "../../components/ProtectedComponent";
 
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
@@ -99,159 +100,161 @@ export const AsignarRutinasScreen = ({ navigation, route }: Props) => {
   return (
     <>
       <ButtonBack />
-      <KeyboardAvoidingView
-        behavior="height"
-        style={{
-          flex: 1,
-          // justifyContent: "center",
-          // backgroundColor: "red",
-        }}
-      >
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-          <ScrollView>
-            <View
-              style={{
-                height: hp(100),
-                backgroundColor: "#16213E",
-                justifyContent: "center",
-              }}
-            >
-              <Text
-                style={{
-                  color: "white",
-                  fontSize: wp(8),
-                  // backgroundColor: "red",
-                  textAlign: "center",
-                  marginBottom: hp(3),
-                }}
-              >
-                Asignar Ejercicios
-              </Text>
+      <ProtectedComponent permissions={["4000"]}>
+        <KeyboardAvoidingView
+          behavior="height"
+          style={{
+            flex: 1,
+            // justifyContent: "center",
+            // backgroundColor: "red",
+          }}
+        >
+          <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <ScrollView>
               <View
                 style={{
-                  alignItems: "center",
-                  justifyContent: "space-evenly",
-                  height: hp(60),
-                  // backgroundColor: "gray",
+                  height: hp(100),
+                  backgroundColor: "#16213E",
+                  justifyContent: "center",
                 }}
               >
-                <Controller
-                  name="id_rutina_entrenamiento"
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <>
-                      {errors.id_rutina_entrenamiento?.message && (
-                        <TextError
-                          message={errors.id_rutina_entrenamiento.message}
-                        />
-                      )}
-                      <SelectInput
-                        label="Rutinas"
-                        onChange={onChange}
-                        options={rutinasLista}
-                        value={value as never}
-                        // error={}
-                      />
-                    </>
-                  )}
-                />
-
-                <Controller
-                  name="nombre"
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <>
-                      {errors.nombre?.message && (
-                        <TextError message={errors.nombre.message} />
-                      )}
-                      <TextInput
-                        style={{
-                          ...styleAuthScreen.inputForm,
-                          width: wp(80),
-                        }}
-                        onBlur={onBlur}
-                        onChangeText={(value) => onChange(value)}
-                        value={value}
-                        placeholder="Nombre del ejercicio"
-                        keyboardType="default"
-                      />
-                    </>
-                  )}
-                />
-
-                <Controller
-                  name="series"
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <>
-                      {errors.series?.message && (
-                        <TextError message={errors.series.message} />
-                      )}
-                      <TextInput
-                        style={{
-                          ...styleAuthScreen.inputForm,
-                          width: wp(80),
-                        }}
-                        onBlur={onBlur}
-                        onChangeText={(value) => onChange(value)}
-                        value={value}
-                        placeholder="Cantidad de series"
-                        keyboardType="number-pad"
-                      />
-                    </>
-                  )}
-                />
-
-                <Controller
-                  name="repeticiones"
-                  control={control}
-                  render={({ field: { onChange, onBlur, value } }) => (
-                    <>
-                      {errors.repeticiones?.message && (
-                        <TextError message={errors.repeticiones.message} />
-                      )}
-                      <TextInput
-                        style={{
-                          ...styleAuthScreen.inputForm,
-                          width: wp(80),
-                        }}
-                        onBlur={onBlur}
-                        onChangeText={(value) => onChange(value)}
-                        value={value}
-                        placeholder="Cantidad de repeticiones"
-                        keyboardType="number-pad"
-                      />
-                    </>
-                  )}
-                />
-
-                <View
+                <Text
                   style={{
-                    marginTop: 30,
-                    width: wp(75),
-                    flexDirection: "row",
-                    justifyContent: "space-evenly",
+                    color: "white",
+                    fontSize: wp(8),
+                    // backgroundColor: "red",
+                    textAlign: "center",
+                    marginBottom: hp(3),
                   }}
                 >
-                  <Button
-                    buttonType="secondary"
-                    text="Cancelar"
-                    width={wp(30)}
-                    onPress={() => navigation.navigate("HomeScreen")}
+                  Asignar Ejercicios
+                </Text>
+                <View
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "space-evenly",
+                    height: hp(60),
+                    // backgroundColor: "gray",
+                  }}
+                >
+                  <Controller
+                    name="id_rutina_entrenamiento"
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <>
+                        {errors.id_rutina_entrenamiento?.message && (
+                          <TextError
+                            message={errors.id_rutina_entrenamiento.message}
+                          />
+                        )}
+                        <SelectInput
+                          label="Rutinas"
+                          onChange={onChange}
+                          options={rutinasLista}
+                          value={value as never}
+                          // error={}
+                        />
+                      </>
+                    )}
                   />
 
-                  <Button
-                    buttonType="primary"
-                    text="Aceptar"
-                    onPress={handleSubmit(onSubmit)}
-                    width={wp(30)}
+                  <Controller
+                    name="nombre"
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <>
+                        {errors.nombre?.message && (
+                          <TextError message={errors.nombre.message} />
+                        )}
+                        <TextInput
+                          style={{
+                            ...styleAuthScreen.inputForm,
+                            width: wp(80),
+                          }}
+                          onBlur={onBlur}
+                          onChangeText={(value) => onChange(value)}
+                          value={value}
+                          placeholder="Nombre del ejercicio"
+                          keyboardType="default"
+                        />
+                      </>
+                    )}
                   />
+
+                  <Controller
+                    name="series"
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <>
+                        {errors.series?.message && (
+                          <TextError message={errors.series.message} />
+                        )}
+                        <TextInput
+                          style={{
+                            ...styleAuthScreen.inputForm,
+                            width: wp(80),
+                          }}
+                          onBlur={onBlur}
+                          onChangeText={(value) => onChange(value)}
+                          value={value}
+                          placeholder="Cantidad de series"
+                          keyboardType="number-pad"
+                        />
+                      </>
+                    )}
+                  />
+
+                  <Controller
+                    name="repeticiones"
+                    control={control}
+                    render={({ field: { onChange, onBlur, value } }) => (
+                      <>
+                        {errors.repeticiones?.message && (
+                          <TextError message={errors.repeticiones.message} />
+                        )}
+                        <TextInput
+                          style={{
+                            ...styleAuthScreen.inputForm,
+                            width: wp(80),
+                          }}
+                          onBlur={onBlur}
+                          onChangeText={(value) => onChange(value)}
+                          value={value}
+                          placeholder="Cantidad de repeticiones"
+                          keyboardType="number-pad"
+                        />
+                      </>
+                    )}
+                  />
+
+                  <View
+                    style={{
+                      marginTop: 30,
+                      width: wp(75),
+                      flexDirection: "row",
+                      justifyContent: "space-evenly",
+                    }}
+                  >
+                    <Button
+                      buttonType="secondary"
+                      text="Cancelar"
+                      width={wp(30)}
+                      onPress={() => navigation.navigate("HomeScreen")}
+                    />
+
+                    <Button
+                      buttonType="primary"
+                      text="Aceptar"
+                      onPress={handleSubmit(onSubmit)}
+                      width={wp(30)}
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
-          </ScrollView>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+            </ScrollView>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </ProtectedComponent>
     </>
   );
 };

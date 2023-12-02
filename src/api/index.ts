@@ -1,7 +1,7 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const urlBase = "http://192.168.11.122:3000";
+const urlBase = "http://192.168.0.14:3000";
 
 const setAuthToken = async () => {
   try {
@@ -9,9 +9,7 @@ const setAuthToken = async () => {
 
     console.log("TOKEN >> ", token);
 
-    api.defaults.headers.common[
-      "Authorization"
-    ] = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNwREIiOnsiaWQiOiJjMTNlYmE4ZC00ZjllLTQxMjItYWZlYS01MGNiMmMzOWE0MDEiLCJub21icmUiOiJhZG1pbiIsImNvcnJlb0VsZWN0cm9uaWNvIjoicm9zYWxlZGFya0BnbWFpbC5jb20iLCJjb250cmFzZW5hIjoiOikiLCJ1bHRpbWFDb25leGlvbiI6IjIwMjMtMTEtMThUMjM6MTk6MDIuODAzWiIsImltYWdlblBlcmZpbCI6IiIsImVzdGFkbyI6IkFjdGl2byIsImlkX3JlbF9yb2xlIjoiYzdiMzBlMTktMGNlMS00NjgwLWI4MzctOGFmNTc3MTA3NjE0IiwiY3JlYXRlZEF0IjoiMjAyMy0xMS0xOFQyMzoxOTowMi44MDNaIiwidXBkYXRlZEF0IjoiMjAyMy0xMS0xOFQyMzoxOTowMi44MDNaIiwicmVsUGVybWlzb3NSb2xlcyI6eyJpZCI6ImM3YjMwZTE5LTBjZTEtNDY4MC1iODM3LThhZjU3NzEwNzYxNCIsImlkX3JvbGUiOiIyMmMzNjJmNi04OGQ4LTQ0MmYtYmRhOC05MjAxYzcyMzM5MDgiLCJpZF9wZXJtaXNvIjoiY2E1YWQ1NzktMzBhZC00NjMwLTkwMDAtZmMzODc1MTdkYmFmIiwicGVybWlzb3MiOnsiaWQiOiJjYTVhZDU3OS0zMGFkLTQ2MzAtOTAwMC1mYzM4NzUxN2RiYWYiLCJub21icmUiOiJBRE1JTklTVFJBRE9SIiwiZGVzY3JpcGNpb24iOiJIYWNlIGRlIHRvZG8iLCJhY2Npb25lcyI6WyIxMDAxIiwiMTAwMiIsIjEwMDMiXSwiY3JlYXRlZEF0IjoiMjAyMy0xMS0xOFQyMzoxOTowMi43NTFaIiwidXBkYXRlZEF0IjoiMjAyMy0xMS0xOFQyMzoxOTowMi43NTFaIn0sInJvbGVzIjp7ImlkIjoiMjJjMzYyZjYtODhkOC00NDJmLWJkYTgtOTIwMWM3MjMzOTA4Iiwibm9tYnJlIjoiQURNSU5JU1RSQURPUiIsImRlc2NyaXBjaW9uIjoiSGFjZSBkZSB0b2RvIn19fSwiaWF0IjoxNzAxMTM5Nzg1LCJleHAiOjE3MDExNzU3ODV9.aJ0GB_RnTee-VuXmMqmGZweET36PHTYoMNF5BcHeu0w`;
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
     // if (token) {
     //   // api.defaults.headers.common["Authorization"] = `Bearer ${token}`;

@@ -37,6 +37,7 @@ import { ModalComponent } from "../../components/Modal";
 import { useNavigation } from "@react-navigation/native";
 import MaskInput from "react-native-masked-input";
 import { createNumberMask } from "react-native-mask-input";
+import { ProtectedComponent } from "../../components/ProtectedComponent";
 
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
@@ -120,152 +121,153 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
     // <Background marginTop={hp(10)}>
     <>
       <ButtonBack />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1, justifyContent: "center" }}
-      >
-        <TouchableWithoutFeedback
-          style={{ borderColor: "green" }}
-          onPress={() => Keyboard.dismiss()}
+      <ProtectedComponent permissions={["1001"]}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={{ flex: 1, justifyContent: "center" }}
         >
-          <ScrollView>
-            <View
-              style={{
-                alignItems: "center",
-                justifyContent: "space-evenly",
-                height: hp(80),
-                // backgroundColor: "gray",
-              }}
-            >
-              <Text
+          <TouchableWithoutFeedback
+            style={{ borderColor: "green" }}
+            onPress={() => Keyboard.dismiss()}
+          >
+            <ScrollView>
+              <View
                 style={{
-                  color: "white",
-                  fontSize: wp(7),
-                  // backgroundColor: "red",
-                  textAlign: "center",
+                  alignItems: "center",
+                  justifyContent: "space-evenly",
+                  height: hp(80),
+                  // backgroundColor: "gray",
                 }}
               >
-                Datos del Cliente
-              </Text>
-              {/* <Input text="DNI (opcional)" width={wp(75)} textInputSize={wp(3)} /> */}
+                <Text
+                  style={{
+                    color: "white",
+                    fontSize: wp(7),
+                    // backgroundColor: "red",
+                    textAlign: "center",
+                  }}
+                >
+                  Datos del Cliente
+                </Text>
+                {/* <Input text="DNI (opcional)" width={wp(75)} textInputSize={wp(3)} /> */}
 
-              <Controller
-                name="DNI"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "El DNI es requerido.",
-                  },
-                  minLength: {
-                    value: 13,
-                    message: "DNI no valido",
-                  },
-                  maxLength: {
-                    value: 13,
-                    message: "DNI no valido",
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.DNI?.message && (
-                      <TextError message={errors.DNI.message} />
-                    )}
-                    <MaskInput
-                      style={{
-                        ...styleAuthScreen.inputForm,
-                        width: wp(80),
-                      }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="DNI (opcional)"
-                      keyboardType="number-pad"
-                      type="custom"
-                      options={{
-                        mask: "9999999999999", // Define la máscara que especifica el formato deseado
-                      }}
-                    />
-                  </>
-                )}
-              />
+                <Controller
+                  name="DNI"
+                  control={control}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "El DNI es requerido.",
+                    },
+                    minLength: {
+                      value: 13,
+                      message: "DNI no valido",
+                    },
+                    maxLength: {
+                      value: 13,
+                      message: "DNI no valido",
+                    },
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <>
+                      {errors.DNI?.message && (
+                        <TextError message={errors.DNI.message} />
+                      )}
+                      <MaskInput
+                        style={{
+                          ...styleAuthScreen.inputForm,
+                          width: wp(80),
+                        }}
+                        onBlur={onBlur}
+                        onChangeText={(value) => onChange(value)}
+                        value={value}
+                        placeholder="DNI (opcional)"
+                        keyboardType="number-pad"
+                        type="custom"
+                        options={{
+                          mask: "9999999999999", // Define la máscara que especifica el formato deseado
+                        }}
+                      />
+                    </>
+                  )}
+                />
 
-              <Controller
-                name="nombreCompleto"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "El nombre completo es requerido.",
-                  },
-                  minLength: {
-                    value: 10,
-                    message:
-                      "El nombre completo debe tener minimo de 8 caracteres",
-                  },
-                  maxLength: {
-                    value: 50,
-                    message:
-                      "El nombre completo debe tener máximo 50 caracteres.",
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.nombreCompleto?.message && (
-                      <TextError message={errors.nombreCompleto.message} />
-                    )}
-                    <TextInput
-                      style={{ ...styleAuthScreen.inputForm, width: wp(80) }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="Nombre Completo"
-                    />
-                  </>
-                )}
-              />
+                <Controller
+                  name="nombreCompleto"
+                  control={control}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "El nombre completo es requerido.",
+                    },
+                    minLength: {
+                      value: 10,
+                      message:
+                        "El nombre completo debe tener minimo de 8 caracteres",
+                    },
+                    maxLength: {
+                      value: 50,
+                      message:
+                        "El nombre completo debe tener máximo 50 caracteres.",
+                    },
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <>
+                      {errors.nombreCompleto?.message && (
+                        <TextError message={errors.nombreCompleto.message} />
+                      )}
+                      <TextInput
+                        style={{ ...styleAuthScreen.inputForm, width: wp(80) }}
+                        onBlur={onBlur}
+                        onChangeText={(value) => onChange(value)}
+                        value={value}
+                        placeholder="Nombre Completo"
+                      />
+                    </>
+                  )}
+                />
 
-              {/* <DateTimePicker textDate="Fecha de Nacimiento" /> */}
+                {/* <DateTimePicker textDate="Fecha de Nacimiento" /> */}
 
-              <Controller
-                name="telefono"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "El telefono es requerido.",
-                  },
-                  minLength: {
-                    value: 8,
-                    message: "El telefono debe tener minimo de 8 caracteres",
-                  },
-                  maxLength: {
-                    value: 20,
-                    message: "El telefono debe tener máximo 20 caracteres.",
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.telefono?.message && (
-                      <TextError message={errors.telefono.message} />
-                    )}
-                    <MaskInput
-                      style={{ ...styleAuthScreen.inputForm, width: wp(80) }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="Telefono"
-                      keyboardType="phone-pad"
-                      type="custom"
-                      options={{
-                        mask: "+504 99999999", // Define la máscara que especifica el formato deseado
-                      }}
-                    />
-                  </>
-                )}
-              />
+                <Controller
+                  name="telefono"
+                  control={control}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "El telefono es requerido.",
+                    },
+                    minLength: {
+                      value: 8,
+                      message: "El telefono debe tener minimo de 8 caracteres",
+                    },
+                    maxLength: {
+                      value: 20,
+                      message: "El telefono debe tener máximo 20 caracteres.",
+                    },
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <>
+                      {errors.telefono?.message && (
+                        <TextError message={errors.telefono.message} />
+                      )}
+                      <MaskInput
+                        style={{ ...styleAuthScreen.inputForm, width: wp(80) }}
+                        onBlur={onBlur}
+                        onChangeText={(value) => onChange(value)}
+                        value={value}
+                        placeholder="Telefono"
+                        keyboardType="phone-pad"
+                        type="custom"
+                        options={{
+                          mask: "+504 99999999", // Define la máscara que especifica el formato deseado
+                        }}
+                      />
+                    </>
+                  )}
+                />
 
-              {/* <Controller
+                {/* <Controller
               name={"id_municipio"}
               control={control}
               rules={{
@@ -285,216 +287,217 @@ export const RegistrarClientesScreen = ({ navigation, route }: Props) => {
               )}
             /> */}
 
-              <Controller
-                name="estatura"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "La estatura es requerida.",
-                  },
-                  // minLength: {
-                  //   value: 3,
-                  //   message: "Estatura no valida",
-                  // },
-                  // maxLength: {
-                  //   value: 3,
-                  //   message: "Estatura no valida",
-                  // },
+                <Controller
+                  name="estatura"
+                  control={control}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "La estatura es requerida.",
+                    },
+                    // minLength: {
+                    //   value: 3,
+                    //   message: "Estatura no valida",
+                    // },
+                    // maxLength: {
+                    //   value: 3,
+                    //   message: "Estatura no valida",
+                    // },
 
-                  // pattern: {
-                  //   value: regexPatterEstatura,
-                  //   message: "Formato no valido",
-                  // },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.estatura?.message && (
-                      <TextError message={errors.estatura.message} />
-                    )}
-                    <MaskInput
-                      style={{
-                        ...styleAuthScreen.inputForm,
-                        width: wp(80),
-                      }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="Estatura (En Mts)"
-                      keyboardType="number-pad"
-                      type={"money"}
-                      options={{
-                        precision: 2, // número de decimales permitidos
-                        separator: ".", // separador de decimales
-                        delimiter: ",", // separador de miles
-                        unit: "", // unidad antes del número (puede ser vacío)
-                        suffixUnit: "", // unidad después del número (puede ser vacío)
-                      }}
-                    />
-                  </>
-                )}
-              />
-
-              <Controller
-                name="peso"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "El peso es requerida.",
-                  },
-
-                  // pattern: {
-                  //   value: regexPatternPeso,
-                  //   message: "Formato no valido",
-                  // },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.peso?.message && (
-                      <TextError message={errors.peso.message} />
-                    )}
-                    <MaskInput
-                      style={{
-                        ...styleAuthScreen.inputForm,
-                        width: wp(80),
-                      }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="Peso (En Kg)"
-                      keyboardType="number-pad"
-                      type={"money"}
-                      options={{
-                        precision: 2, // número de decimales permitidos
-                        separator: ".", // separador de decimales
-                        delimiter: ",", // separador de miles
-                        unit: "", // unidad antes del número (puede ser vacío)
-                        suffixUnit: "", // unidad después del número (puede ser vacío)
-                      }}
-                    />
-                  </>
-                )}
-              />
-
-              <Controller
-                name="nivelDeGrasa"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "% de grasa requerido.",
-                  },
-
-                  // pattern: {
-                  //   value: regexPatternGrasaMasa,
-                  //   message: "Formato no valido",
-                  // },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.nivelDeGrasa?.message && (
-                      <TextError message={errors.nivelDeGrasa.message} />
-                    )}
-                    <MaskInput
-                      style={{
-                        ...styleAuthScreen.inputForm,
-                        width: wp(80),
-                      }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="Nivel de grasa (%)"
-                      keyboardType="number-pad"
-                      type={"money"}
-                      options={{
-                        precision: 2, // número de decimales permitidos
-                        separator: ".", // separador de decimales
-                        delimiter: ",", // separador de miles
-                        unit: "", // unidad antes del número (puede ser vacío)
-                        suffixUnit: "", // unidad después del número (puede ser vacío)
-                      }}
-                    />
-                  </>
-                )}
-              />
-
-              <Controller
-                name="nivelDeMasa"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "% de masa requerido.",
-                  },
-
-                  // pattern: {
-                  //   value: regexPatternGrasaMasa,
-                  //   message: "Formato no valido",
-                  // },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    {errors.nivelDeMasa?.message && (
-                      <TextError message={errors.nivelDeMasa.message} />
-                    )}
-                    <MaskInput
-                      style={{
-                        ...styleAuthScreen.inputForm,
-                        width: wp(80),
-                      }}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      placeholder="Nivel de masa (%)"
-                      keyboardType="number-pad"
-                      type={"money"}
-                      options={{
-                        precision: 1, // número de decimales permitidos
-                        separator: ".", // separador de decimales
-                        delimiter: ",", // separador de miles
-                        unit: "", // unidad antes del número (puede ser vacío)
-                        suffixUnit: "", // unidad después del número (puede ser vacío)
-                      }}
-                    />
-                  </>
-                )}
-              />
-
-              <View
-                style={{
-                  marginTop: hp(5),
-                  width: wp(75),
-                  flexDirection: "row",
-                  justifyContent: "space-evenly",
-                }}
-              >
-                <Button
-                  buttonType="secondary"
-                  text="Cancelar"
-                  width={wp(30)}
-                  onPress={() => navigation.navigate("HomeScreen")}
+                    // pattern: {
+                    //   value: regexPatterEstatura,
+                    //   message: "Formato no valido",
+                    // },
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <>
+                      {errors.estatura?.message && (
+                        <TextError message={errors.estatura.message} />
+                      )}
+                      <MaskInput
+                        style={{
+                          ...styleAuthScreen.inputForm,
+                          width: wp(80),
+                        }}
+                        onBlur={onBlur}
+                        onChangeText={(value) => onChange(value)}
+                        value={value}
+                        placeholder="Estatura (En Mts)"
+                        keyboardType="number-pad"
+                        type={"money"}
+                        options={{
+                          precision: 2, // número de decimales permitidos
+                          separator: ".", // separador de decimales
+                          delimiter: ",", // separador de miles
+                          unit: "", // unidad antes del número (puede ser vacío)
+                          suffixUnit: "", // unidad después del número (puede ser vacío)
+                        }}
+                      />
+                    </>
+                  )}
                 />
-                <Button
-                  buttonType="primary"
-                  text="Siguiente"
-                  onPress={handleSubmit(onSubmit)}
-                  width={wp(30)}
+
+                <Controller
+                  name="peso"
+                  control={control}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "El peso es requerida.",
+                    },
+
+                    // pattern: {
+                    //   value: regexPatternPeso,
+                    //   message: "Formato no valido",
+                    // },
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <>
+                      {errors.peso?.message && (
+                        <TextError message={errors.peso.message} />
+                      )}
+                      <MaskInput
+                        style={{
+                          ...styleAuthScreen.inputForm,
+                          width: wp(80),
+                        }}
+                        onBlur={onBlur}
+                        onChangeText={(value) => onChange(value)}
+                        value={value}
+                        placeholder="Peso (En Kg)"
+                        keyboardType="number-pad"
+                        type={"money"}
+                        options={{
+                          precision: 2, // número de decimales permitidos
+                          separator: ".", // separador de decimales
+                          delimiter: ",", // separador de miles
+                          unit: "", // unidad antes del número (puede ser vacío)
+                          suffixUnit: "", // unidad después del número (puede ser vacío)
+                        }}
+                      />
+                    </>
+                  )}
                 />
+
+                <Controller
+                  name="nivelDeGrasa"
+                  control={control}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "% de grasa requerido.",
+                    },
+
+                    // pattern: {
+                    //   value: regexPatternGrasaMasa,
+                    //   message: "Formato no valido",
+                    // },
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <>
+                      {errors.nivelDeGrasa?.message && (
+                        <TextError message={errors.nivelDeGrasa.message} />
+                      )}
+                      <MaskInput
+                        style={{
+                          ...styleAuthScreen.inputForm,
+                          width: wp(80),
+                        }}
+                        onBlur={onBlur}
+                        onChangeText={(value) => onChange(value)}
+                        value={value}
+                        placeholder="Nivel de grasa (%)"
+                        keyboardType="number-pad"
+                        type={"money"}
+                        options={{
+                          precision: 2, // número de decimales permitidos
+                          separator: ".", // separador de decimales
+                          delimiter: ",", // separador de miles
+                          unit: "", // unidad antes del número (puede ser vacío)
+                          suffixUnit: "", // unidad después del número (puede ser vacío)
+                        }}
+                      />
+                    </>
+                  )}
+                />
+
+                <Controller
+                  name="nivelDeMasa"
+                  control={control}
+                  rules={{
+                    required: {
+                      value: true,
+                      message: "% de masa requerido.",
+                    },
+
+                    // pattern: {
+                    //   value: regexPatternGrasaMasa,
+                    //   message: "Formato no valido",
+                    // },
+                  }}
+                  render={({ field: { onChange, onBlur, value } }) => (
+                    <>
+                      {errors.nivelDeMasa?.message && (
+                        <TextError message={errors.nivelDeMasa.message} />
+                      )}
+                      <MaskInput
+                        style={{
+                          ...styleAuthScreen.inputForm,
+                          width: wp(80),
+                        }}
+                        onBlur={onBlur}
+                        onChangeText={(value) => onChange(value)}
+                        value={value}
+                        placeholder="Nivel de masa (%)"
+                        keyboardType="number-pad"
+                        type={"money"}
+                        options={{
+                          precision: 1, // número de decimales permitidos
+                          separator: ".", // separador de decimales
+                          delimiter: ",", // separador de miles
+                          unit: "", // unidad antes del número (puede ser vacío)
+                          suffixUnit: "", // unidad después del número (puede ser vacío)
+                        }}
+                      />
+                    </>
+                  )}
+                />
+
+                <View
+                  style={{
+                    marginTop: hp(5),
+                    width: wp(75),
+                    flexDirection: "row",
+                    justifyContent: "space-evenly",
+                  }}
+                >
+                  <Button
+                    buttonType="secondary"
+                    text="Cancelar"
+                    width={wp(30)}
+                    onPress={() => navigation.navigate("HomeScreen")}
+                  />
+                  <Button
+                    buttonType="primary"
+                    text="Siguiente"
+                    onPress={handleSubmit(onSubmit)}
+                    width={wp(30)}
+                  />
+                </View>
+                {showModal && (
+                  <ModalComponent
+                    onAccept={onConfirm}
+                    showModal={showModal}
+                    setShowModal={setShowModal}
+                    title="Cliente registrado con exito"
+                    description="Se ha registrado un cliente"
+                  />
+                )}
               </View>
-              {showModal && (
-                <ModalComponent
-                  onAccept={onConfirm}
-                  showModal={showModal}
-                  setShowModal={setShowModal}
-                  title="Cliente registrado con exito"
-                  description="Se ha registrado un cliente"
-                />
-              )}
-            </View>
-          </ScrollView>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+            </ScrollView>
+          </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </ProtectedComponent>
     </>
   );
 };

@@ -21,6 +21,8 @@ import { AsignarRutinasScreen } from "../screens/Rutinas/AsignarRutinasScreen";
 import { ProgresoScreen } from "../screens/Chequeos/ProgresoScreen";
 import { TopTabNavigatorRutinas } from "./TopTabNavigatorRutinas";
 import { RegistrarUsuarioScreen } from "../screens/RegistrarUsuarioScreen";
+import { RolesPermisosScreen } from "../screens/RolesPermisos/RolesPermisosScreen";
+import { TopTabNavigatorRoles } from "./TopTabNavigatorRoles";
 const Stack = createStackNavigator();
 
 export const StackNavigator = () => {
@@ -71,6 +73,11 @@ export const StackNavigator = () => {
           <Stack.Screen name="ProgresoScreen" component={ProgresoScreen} />
 
           <Stack.Screen
+            name="RolesPermisosScreen"
+            component={RolesPermisosScreen}
+          />
+
+          <Stack.Screen
             name="ListaContratoScreen"
             component={ListaContratoScreen}
           />
@@ -78,6 +85,11 @@ export const StackNavigator = () => {
           <Stack.Screen
             name="TopTabNavigatorClientes"
             component={TopTabNavigatorClientes}
+          />
+
+          <Stack.Screen
+            name="TopTabNavigatorRoles"
+            component={TopTabNavigatorRoles}
           />
         </>
       )}

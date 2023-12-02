@@ -11,10 +11,12 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { ProtectedComponent } from "../components/ProtectedComponent";
+import { ListaRolesScreen } from "../screens/RolesPermisos/ListaRolesScreen";
+import { RegistrarRolScreen } from "../screens/RolesPermisos/RegistrarRolScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
-export const TopTabNavigatorClientes = () => {
+export const TopTabNavigatorRoles = () => {
   const { top } = useSafeAreaInsets();
 
   return (
@@ -45,18 +47,18 @@ export const TopTabNavigatorClientes = () => {
         }}
       >
         <Tab.Screen
-          name="RegistrarClientesScreen"
-          component={RegistrarClientesScreen}
+          name="RegistrarRolScreen"
+          component={ListaRolesScreen}
           options={{
-            title: "Registrar Cliente",
+            title: "Registrar Rol",
           }}
         />
 
         <Tab.Screen
-          name="ListaClientesScreen"
-          component={ListaClientesScreen}
+          name="ListaRolesScreen"
+          component={ListaRolesScreen}
           options={{
-            title: "Lista de Clientes",
+            title: "Lista de Roles",
           }}
         />
       </Tab.Navigator>

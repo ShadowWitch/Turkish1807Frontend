@@ -15,6 +15,7 @@ import { formatearISO } from "../../utils/formatDate";
 import { stylesButton } from "../../globalStyles/buttons.styles";
 import { ModalRutina } from "../../components/ModalRutina";
 import { useForm } from "react-hook-form";
+import { ProtectedComponent } from "../../components/ProtectedComponent";
 
 interface Props extends StackScreenProps<TypesNavigator, any> {}
 
@@ -91,25 +92,26 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
     <Background>
       <ButtonBack />
 
-      <View
-        style={{
-          // backgroundColor: "red",
-          height: hp(10),
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: hp(6),
-        }}
-      >
-        <Text
+      <ProtectedComponent permissions={["1003"]}>
+        <View
           style={{
-            color: "white",
-            fontSize: wp(7),
-            fontWeight: "bold",
+            // backgroundColor: "red",
+            height: hp(10),
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: hp(6),
           }}
-        >{`${data.primerNombre} ${data.primerApellido}`}</Text>
-      </View>
+        >
+          <Text
+            style={{
+              color: "white",
+              fontSize: wp(7),
+              fontWeight: "bold",
+            }}
+          >{`${data.primerNombre} ${data.primerApellido}`}</Text>
+        </View>
 
-      {/* <View
+        {/* <View
         style={{
           // backgroundColor: "yellow",
           marginTop: hp(3),
@@ -153,284 +155,287 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
         </View>
       </View> */}
 
-      <View
-        style={{
-          // backgroundColor: "yellow",
-          marginTop: hp(3),
-          flexDirection: "row",
-        }}
-      >
-        <Ionicons
-          style={{
-            marginHorizontal: wp(2),
-          }}
-          name={"calendar-outline"}
-          size={hp(5)}
-          color={"white"}
-        />
         <View
           style={{
-            // backgroundColor: "red",
-            justifyContent: "center",
-          }}
-        >
-          <Text
-            style={{
-              ...styles.styleText,
-            }}
-          >
-            Fecha Chequeo Anterior:{" "}
-            {fechaChequeoAnterior
-              ? formatearISO(fechaChequeoAnterior)
-              : "No existe"}
-          </Text>
-          <Text
-            style={{
-              ...styles.styleText,
-            }}
-          >
-            Fecha Chequeo Actual:{" "}
-            {fechaChequeoActual
-              ? formatearISO(fechaChequeoActual)
-              : "No existe"}
-          </Text>
-        </View>
-      </View>
-
-      <View
-        style={{
-          // backgroundColor: "yellow",
-          marginTop: hp(3),
-          flexDirection: "row",
-        }}
-      >
-        <Ionicons
-          style={{
-            marginHorizontal: wp(2),
-          }}
-          name={"leaf"}
-          size={hp(5)}
-          color={"white"}
-        />
-        <View
-          style={{
-            // backgroundColor: "red",
-            justifyContent: "center",
-          }}
-        >
-          <Text
-            style={{
-              ...styles.styleText,
-            }}
-          >
-            Peso Anterior: {chequeoAnteriorPeso || "N/A"}
-          </Text>
-          <Text
-            style={{
-              ...styles.styleText,
-            }}
-          >
-            Peso Actual: {chequeoActualPeso}
-          </Text>
-          <Text
-            style={{
-              ...styles.styleText,
-              fontWeight: "bold",
-              color:
-                resultadoPeso < 0
-                  ? stylesButton.buttonsColorSecondary.backgroundColor
-                  : stylesButton.buttonsColorPrimary.backgroundColor,
-            }}
-          >
-            Perdida / Ganancia: {resultadoPeso}
-          </Text>
-        </View>
-      </View>
-
-      <View
-        style={{
-          // backgroundColor: "yellow",
-          marginTop: hp(2),
-          flexDirection: "row",
-        }}
-      >
-        <Ionicons
-          style={{
-            marginHorizontal: wp(2),
-          }}
-          name={"barbell"}
-          size={hp(5)}
-          color={"white"}
-        />
-        <View
-          style={{
-            // backgroundColor: "red",
-            justifyContent: "center",
-          }}
-        >
-          <Text
-            style={{
-              ...styles.styleText,
-            }}
-          >
-            Niv. Masa Anterior: {chequeoAnteriorMasa || "N/A"}
-          </Text>
-          <Text
-            style={{
-              ...styles.styleText,
-            }}
-          >
-            Niv. Masa Actual: {chequeoActualMasa}
-          </Text>
-          <Text
-            style={{
-              ...styles.styleText,
-              fontWeight: "bold",
-              color:
-                resultadoMasa < 0
-                  ? stylesButton.buttonsColorSecondary.backgroundColor
-                  : stylesButton.buttonsColorPrimary.backgroundColor,
-            }}
-          >
-            Perdida / Ganancia: {resultadoMasa}
-          </Text>
-        </View>
-      </View>
-
-      <View
-        style={{
-          // backgroundColor: "yellow",
-          marginTop: hp(2),
-          flexDirection: "row",
-        }}
-      >
-        <Ionicons
-          style={{
-            marginHorizontal: wp(2),
-          }}
-          name={"fast-food"}
-          size={hp(5)}
-          color={"white"}
-        />
-        <View
-          style={{
-            // backgroundColor: "red",
-            justifyContent: "center",
-          }}
-        >
-          <Text
-            style={{
-              ...styles.styleText,
-            }}
-          >
-            Niv. Grasa Anterior: {chequeoAnteriorGrasa || "N/A"}
-          </Text>
-          <Text
-            style={{
-              ...styles.styleText,
-            }}
-          >
-            Niv. Grasa Actual: {chequeoActualGrasa}
-          </Text>
-          <Text
-            style={{
-              ...styles.styleText,
-              fontWeight: "bold",
-              color:
-                resultadoGrasa < 0
-                  ? stylesButton.buttonsColorSecondary.backgroundColor
-                  : stylesButton.buttonsColorPrimary.backgroundColor,
-            }}
-          >
-            Perdida / Ganancia: {resultadoGrasa}
-          </Text>
-        </View>
-      </View>
-
-      <View
-        style={{
-          // backgroundColor: "red",
-          alignItems: "center",
-          marginTop: hp(5),
-          // flexDirection: "row",
-          justifyContent: "space-around",
-        }}
-      >
-        <View
-          style={{
-            width: wp(90),
+            // backgroundColor: "yellow",
+            marginTop: hp(3),
             flexDirection: "row",
-            justifyContent:
-              data.contratos.length === 0 ? "space-between" : "center",
           }}
         >
-          {data.contratos.length === 0 && (
+          <Ionicons
+            style={{
+              marginHorizontal: wp(2),
+            }}
+            name={"calendar-outline"}
+            size={hp(5)}
+            color={"white"}
+          />
+          <View
+            style={{
+              // backgroundColor: "red",
+              justifyContent: "center",
+            }}
+          >
+            <Text
+              style={{
+                ...styles.styleText,
+              }}
+            >
+              Fecha Chequeo Anterior:{" "}
+              {fechaChequeoAnterior
+                ? formatearISO(fechaChequeoAnterior)
+                : "No existe"}
+            </Text>
+            <Text
+              style={{
+                ...styles.styleText,
+              }}
+            >
+              Fecha Chequeo Actual:{" "}
+              {fechaChequeoActual
+                ? formatearISO(fechaChequeoActual)
+                : "No existe"}
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            // backgroundColor: "yellow",
+            marginTop: hp(3),
+            flexDirection: "row",
+          }}
+        >
+          <Ionicons
+            style={{
+              marginHorizontal: wp(2),
+            }}
+            name={"leaf"}
+            size={hp(5)}
+            color={"white"}
+          />
+          <View
+            style={{
+              // backgroundColor: "red",
+              justifyContent: "center",
+            }}
+          >
+            <Text
+              style={{
+                ...styles.styleText,
+              }}
+            >
+              Peso Anterior: {chequeoAnteriorPeso || "N/A"}
+            </Text>
+            <Text
+              style={{
+                ...styles.styleText,
+              }}
+            >
+              Peso Actual: {chequeoActualPeso}
+            </Text>
+            <Text
+              style={{
+                ...styles.styleText,
+                fontWeight: "bold",
+                color:
+                  resultadoPeso < 0
+                    ? stylesButton.buttonsColorSecondary.backgroundColor
+                    : stylesButton.buttonsColorPrimary.backgroundColor,
+              }}
+            >
+              Perdida / Ganancia: {resultadoPeso}
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            // backgroundColor: "yellow",
+            marginTop: hp(2),
+            flexDirection: "row",
+          }}
+        >
+          <Ionicons
+            style={{
+              marginHorizontal: wp(2),
+            }}
+            name={"barbell"}
+            size={hp(5)}
+            color={"white"}
+          />
+          <View
+            style={{
+              // backgroundColor: "red",
+              justifyContent: "center",
+            }}
+          >
+            <Text
+              style={{
+                ...styles.styleText,
+              }}
+            >
+              Niv. Masa Anterior: {chequeoAnteriorMasa || "N/A"}
+            </Text>
+            <Text
+              style={{
+                ...styles.styleText,
+              }}
+            >
+              Niv. Masa Actual: {chequeoActualMasa}
+            </Text>
+            <Text
+              style={{
+                ...styles.styleText,
+                fontWeight: "bold",
+                color:
+                  resultadoMasa < 0
+                    ? stylesButton.buttonsColorSecondary.backgroundColor
+                    : stylesButton.buttonsColorPrimary.backgroundColor,
+              }}
+            >
+              Perdida / Ganancia: {resultadoMasa}
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            // backgroundColor: "yellow",
+            marginTop: hp(2),
+            flexDirection: "row",
+          }}
+        >
+          <Ionicons
+            style={{
+              marginHorizontal: wp(2),
+            }}
+            name={"fast-food"}
+            size={hp(5)}
+            color={"white"}
+          />
+          <View
+            style={{
+              // backgroundColor: "red",
+              justifyContent: "center",
+            }}
+          >
+            <Text
+              style={{
+                ...styles.styleText,
+              }}
+            >
+              Niv. Grasa Anterior: {chequeoAnteriorGrasa || "N/A"}
+            </Text>
+            <Text
+              style={{
+                ...styles.styleText,
+              }}
+            >
+              Niv. Grasa Actual: {chequeoActualGrasa}
+            </Text>
+            <Text
+              style={{
+                ...styles.styleText,
+                fontWeight: "bold",
+                color:
+                  resultadoGrasa < 0
+                    ? stylesButton.buttonsColorSecondary.backgroundColor
+                    : stylesButton.buttonsColorPrimary.backgroundColor,
+              }}
+            >
+              Perdida / Ganancia: {resultadoGrasa}
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            // backgroundColor: "red",
+            alignItems: "center",
+            marginTop: hp(5),
+            // flexDirection: "row",
+            justifyContent: "space-around",
+          }}
+        >
+          <View
+            style={{
+              width: wp(90),
+              flexDirection: "row",
+              justifyContent:
+                data.contratos.length === 0 ? "space-between" : "center",
+            }}
+          >
+            {data.contratos.length === 0 && (
+              <Button
+                width={wp(40)}
+                buttonType="primary"
+                text="Nuevo Contrato"
+                onPress={() =>
+                  navigation.navigate("ContratoScreen", {
+                    id_cliente: data.id,
+                  })
+                }
+              />
+            )}
+
             <Button
               width={wp(40)}
               buttonType="primary"
-              text="Nuevo Contrato"
+              text="Nuevo Chequeo"
               onPress={() =>
-                navigation.navigate("ContratoScreen", {
+                navigation.navigate("ChequeosScreen", {
                   id_cliente: data.id,
                 })
               }
             />
-          )}
+          </View>
 
-          <Button
-            width={wp(40)}
-            buttonType="primary"
-            text="Nuevo Chequeo"
-            onPress={() =>
-              navigation.navigate("ChequeosScreen", {
-                id_cliente: data.id,
-              })
-            }
-          />
-        </View>
+          <View
+            style={{
+              width: wp(90),
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginTop: hp(2),
+              // backgroundColor: "red",
+              flexDirection: "row",
+            }}
+          >
+            <ProtectedComponent permissions={["1006"]}>
+              <Button
+                width={wp(40)}
+                buttonType="primary"
+                text="Agregar Rutina"
+                onPress={onSubmit}
+              />
+            </ProtectedComponent>
 
-        <View
-          style={{
-            width: wp(90),
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginTop: hp(2),
-            // backgroundColor: "red",
-            flexDirection: "row",
-          }}
-        >
-          <Button
-            width={wp(40)}
-            buttonType="primary"
-            text="Agregar Rutina"
-            onPress={onSubmit}
-          />
-
-          <Button
-            width={wp(40)}
-            buttonType="primary"
-            text="Ver progreso"
-            onPress={() =>
-              navigation.navigate("ProgresoScreen", {
-                id_cliente: data.id,
-                chequeos: data.chequeos,
-              })
-            }
-          />
-          {showModal && (
-            <ModalRutina
-              onAccept={handleSubmit(onConfirm)}
-              onCancel={onCancel}
-              showModal={showModal}
-              setShowModal={setShowModal}
-              title="Confirmación"
-              description="¿Esta seguro que desea confirmar? Una vez hecho no podra revertirlo."
-              id_cliente={data.id}
-              navigation={navigation}
+            <Button
+              width={wp(40)}
+              buttonType="primary"
+              text="Ver progreso"
+              onPress={() =>
+                navigation.navigate("ProgresoScreen", {
+                  id_cliente: data.id,
+                  chequeos: data.chequeos,
+                })
+              }
             />
-          )}
+            {showModal && (
+              <ModalRutina
+                onAccept={handleSubmit(onConfirm)}
+                onCancel={onCancel}
+                showModal={showModal}
+                setShowModal={setShowModal}
+                title="Confirmación"
+                description="¿Esta seguro que desea confirmar? Una vez hecho no podra revertirlo."
+                id_cliente={data.id}
+                navigation={navigation}
+              />
+            )}
+          </View>
         </View>
-      </View>
+      </ProtectedComponent>
     </Background>
   );
 };

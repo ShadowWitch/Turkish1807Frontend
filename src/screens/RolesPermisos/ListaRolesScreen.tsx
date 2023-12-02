@@ -30,16 +30,12 @@ import { ScrollView } from "react-native-gesture-handler";
 import { acortarTexto } from "../../utils/acortarTexto";
 import { listaRutinas } from "../../services/rutinasEjerciciosService";
 import { DatumRutinas } from "../../types/TypeRutinasResponse";
-import { ProtectedComponent } from "../../components/ProtectedComponent";
 
 export interface ItemFlatListType {
   data: DatumRutinas;
 }
 
-export const ListaRutinasScreen = ({
-  navigation,
-  route,
-}: PropsWithNavigator) => {
+export const ListaRolesScreen = ({ navigation, route }: PropsWithNavigator) => {
   const { data, error, refetch, isLoading } = useQuery({
     queryKey: ["listaRutinas"],
     queryFn: listaRutinas,
@@ -66,52 +62,50 @@ export const ListaRutinasScreen = ({
   return (
     <>
       <ButtonBack />
-      <ProtectedComponent permissions={["3002"]}>
-        <Background marginTop={hp(10)}>
-          {error === null &&
-            (isLoading === true ? (
-              <View>
-                <ActivityIndicator size={wp(3)} color={"white"} />
-                <Text
+      <Background marginTop={hp(10)}>
+        {error === null &&
+          (isLoading === true ? (
+            <View>
+              <ActivityIndicator size={wp(3)} color={"white"} />
+              <Text
+                style={{
+                  color: "white",
+                }}
+              >
+                Cargando...
+              </Text>
+            </View>
+          ) : (
+            <>
+              {data.length > 0 ? (
+                <FlatList
+                  data={data as DatumRutinas[]}
+                  renderItem={({ item }) => <ItemFlatList data={item} />}
+                  keyExtractor={(item, index) => index.toString()}
+                  ItemSeparatorComponent={() => <ItemSeparator />}
                   style={{
-                    color: "white",
+                    // backgroundColor: "yellow",
+                    paddingHorizontal: wp(3),
+                    paddingTop: hp(1),
+                    // paddingBottom: hp(30),
+                    // marginBottom: hp(3),
                   }}
-                >
-                  Cargando...
-                </Text>
-              </View>
-            ) : (
-              <>
-                {data.length > 0 ? (
-                  <FlatList
-                    data={data as DatumRutinas[]}
-                    renderItem={({ item }) => <ItemFlatList data={item} />}
-                    keyExtractor={(item, index) => index.toString()}
-                    ItemSeparatorComponent={() => <ItemSeparator />}
-                    style={{
-                      // backgroundColor: "yellow",
-                      paddingHorizontal: wp(3),
-                      paddingTop: hp(1),
-                      // paddingBottom: hp(30),
-                      // marginBottom: hp(3),
-                    }}
-                    ListFooterComponent={() => (
-                      <View
-                        style={{
-                          // backgroundColor: "red",
-                          height: hp(5),
-                        }}
-                      />
-                    )}
-                    // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />}
-                  />
-                ) : (
-                  <NoHayRegistros />
-                )}
-              </>
-            ))}
-        </Background>
-      </ProtectedComponent>
+                  ListFooterComponent={() => (
+                    <View
+                      style={{
+                        // backgroundColor: "red",
+                        height: hp(5),
+                      }}
+                    />
+                  )}
+                  // ListHeaderComponent={() => <HeaderTitle title="Opciones de Menu" />}
+                />
+              ) : (
+                <NoHayRegistros />
+              )}
+            </>
+          ))}
+      </Background>
     </>
   );
 };

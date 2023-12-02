@@ -43,6 +43,9 @@ export const AuthScreen = () => {
           key: "token",
           data: token,
         });
+
+        console.log("DATA >>> ", JSON.stringify(data.data, null, 3));
+
         setIsAuthenticated({
           token,
           user: data.data,
