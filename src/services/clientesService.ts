@@ -24,7 +24,6 @@ export const registrarClienteService = async (
       peso: dataBody.peso,
     };
 
-    console.log("SEND DATA >> ", JSON.stringify(sendData, null, 3));
     const { data }: AxiosResponse = await api.post("/clientes/add", sendData);
 
     if (!data) throw new Error("Error");

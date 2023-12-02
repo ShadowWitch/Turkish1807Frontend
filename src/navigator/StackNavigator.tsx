@@ -23,6 +23,7 @@ import { TopTabNavigatorRutinas } from "./TopTabNavigatorRutinas";
 import { RegistrarUsuarioScreen } from "../screens/RegistrarUsuarioScreen";
 import { RolesPermisosScreen } from "../screens/RolesPermisos/RolesPermisosScreen";
 import { TopTabNavigatorRoles } from "./TopTabNavigatorRoles";
+import { UsuariosScreen } from "../screens/Usuarios/UsuariosScreen";
 const Stack = createStackNavigator();
 
 export const StackNavigator = () => {
@@ -81,6 +82,7 @@ export const StackNavigator = () => {
             name="ListaContratoScreen"
             component={ListaContratoScreen}
           />
+          <Stack.Screen name="UsuariosScreen" component={UsuariosScreen} />
 
           <Stack.Screen
             name="TopTabNavigatorClientes"

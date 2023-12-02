@@ -145,6 +145,12 @@ const options: IOptions[] = [
     url: "TopTabNavigatorRoles",
   },
 
+  {
+    text: "Usuarios",
+    icon: "construct-outline",
+    url: "UsuariosScreen",
+  },
+
   // {
   //   text: "Chequeos",
   //   icon: "body-outline",

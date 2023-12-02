@@ -337,9 +337,9 @@ const ItemFlatList = ({ data, mutate, refetch }: ItemFlatListType) => {
             justifyContent: "center",
           }}
         >
-          {data.contratos.at(0)?.ultimaRenovacion &&
+          {data.contratos.at(0)?.fechaDeFin &&
             compararFechas({
-              fecha: formatearISO(data.contratos.at(0)?.ultimaRenovacion),
+              fecha: formatearISO(data.contratos.at(0)?.fechaDeFin),
               fechaActual: formatearISO(new Date().toISOString()),
             }) && (
               <ProtectedComponent permissions={["2001"]}>
