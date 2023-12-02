@@ -15,9 +15,6 @@ export const ProtectedComponent = ({ permissions = [""], children }: Props) => {
     (e, index) => e.permisos.acciones
   );
 
-  console.log("PERMISOS >> ", permisos);
-  console.log("PERMISSSSSIONNN >> ", permissions);
-
   const verifyPermissions = (arr1: string[], arr2: string[]) => {
     return arr2.some((item) => arr1.includes(item));
   };

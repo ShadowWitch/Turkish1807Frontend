@@ -11,10 +11,6 @@ export const Background = ({
 }) => {
   const { top } = useSafeAreaInsets();
 
-  console.log("TOP >> ", top);
-
-  console.log("MARGIN TOP >> ", marginTop);
-
   return (
     <View
       style={{
