@@ -7,8 +7,6 @@ const setAuthToken = async () => {
   try {
     const token = await AsyncStorage.getItem("token");
 
-    console.log("TOKEN >> ", token);
-
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 
     // if (token) {
@@ -33,7 +31,6 @@ export const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     const test = await setAuthToken();
-    console.log("TEST >> ", test);
 
     return config;
   },

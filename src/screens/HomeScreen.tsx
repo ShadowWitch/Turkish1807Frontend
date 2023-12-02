@@ -139,11 +139,11 @@ const options: IOptions[] = [
     url: "AsignarRutinasScreen",
   },
 
-  // {
-  //   text: "Roles y Permisos",
-  //   icon: "construct-outline",
-  //   url: "TopTabNavigatorRoles",
-  // },
+  {
+    text: "Roles y Permisos",
+    icon: "construct-outline",
+    url: "TopTabNavigatorRoles",
+  },
 
   // {
   //   text: "Chequeos",
