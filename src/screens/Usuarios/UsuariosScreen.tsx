@@ -18,7 +18,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  useMutation,
+  useQuery,
+} from "@tanstack/react-query";
 import {
   ResponseListaClientes,
   listaClientes,
@@ -38,6 +43,8 @@ import {
 import { Button } from "../../components/Button";
 import { ModalComponent } from "../../components/Modal";
 import { showToastLong } from "../../utils/toast";
+import { useForm } from "react-hook-form";
+import { ModalRol } from "../../components/ModalRol";
 
 interface ItemFlatList {
   data: DatumListaUsuarios;
@@ -47,10 +54,21 @@ interface ItemFlatList {
   onCancel: () => void;
   onConfirm: (id: string) => void;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+
+  showModalRol: boolean;
+  onSubmitRol: () => void;
+  onCancelRol: () => void;
+  onConfirmRol: (id: string) => void;
+  setShowModalRol: React.Dispatch<React.SetStateAction<boolean>>;
+
+  refetchUsuarios: (
+    options?: RefetchOptions | undefined
+  ) => Promise<QueryObserverResult<DatumListaUsuarios[] | undefined, Error>>;
 }
 
 export const UsuariosScreen = ({ navigation, route }: PropsWithNavigator) => {
   const [showModal, setShowModal] = useState(false);
+  const [showModalRol, setShowModalRol] = useState(false);
 
   const {
     data: dataListaUsuarios,
@@ -81,6 +99,17 @@ export const UsuariosScreen = ({ navigation, route }: PropsWithNavigator) => {
     onMutate: () => {},
   });
 
+  const onSubmitRol = () => {
+    setShowModalRol(true);
+  };
+  const onCancelRol = () => {
+    setShowModalRol(false);
+  };
+
+  const onConfirmRol = () => {
+    console.log("qweqwe");
+  };
+
   const onSubmit = () => {
     setShowModal(true);
   };
@@ -93,6 +122,17 @@ export const UsuariosScreen = ({ navigation, route }: PropsWithNavigator) => {
       id,
     });
   };
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+  });
 
   useEffect(() => {
     refetch();
@@ -113,6 +153,12 @@ export const UsuariosScreen = ({ navigation, route }: PropsWithNavigator) => {
                 onConfirm={onConfirm}
                 onSubmit={onSubmit}
                 setShowModal={setShowModal}
+                onCancelRol={onCancelRol}
+                onConfirmRol={onConfirmRol}
+                onSubmitRol={onSubmitRol}
+                setShowModalRol={setShowModalRol}
+                refetchUsuarios={refetch}
+                showModalRol={showModalRol}
               />
             )}
             keyExtractor={(item, index) => index.toString()}
@@ -147,6 +193,13 @@ const ItemFlatList = ({
   onConfirm,
   onSubmit,
   setShowModal,
+
+  showModalRol,
+  onCancelRol,
+  onConfirmRol,
+  onSubmitRol,
+  setShowModalRol,
+  refetchUsuarios,
 }: ItemFlatList) => {
   return (
     <>
@@ -273,10 +326,16 @@ const ItemFlatList = ({
               // backgroundColor: "red",
               flexDirection: "row",
               justifyContent: "space-around",
+              marginVertical: hp(1),
             }}
           >
             <Button buttonType="secondary" text="Eliminar" onPress={onSubmit} />
-            <Button buttonType="primary" text="Editar" />
+            <Button
+              buttonType="primary"
+              text="Cambiar Rol"
+              width={wp(30)}
+              onPress={onSubmitRol}
+            />
           </View>
         </View>
 
@@ -288,6 +347,21 @@ const ItemFlatList = ({
             setShowModal={setShowModal}
             title="Confirmación"
             description="¿Esta seguro que desea confirmar? Una vez hecho no podra revertirlo."
+          />
+        )}
+
+        {showModalRol && (
+          <ModalRol
+            id_usuario={data.id}
+            onAccept={() => onConfirmRol(data.id)}
+            setShowModal={setShowModalRol}
+            acceptText="Confirmar"
+            cancelText="Cancelar"
+            description="qweqweqweqwe"
+            onCancel={onCancelRol}
+            showModal={showModalRol}
+            title="KWKWKW"
+            refetchUsuarios={refetchUsuarios}
           />
         )}
       </View>
