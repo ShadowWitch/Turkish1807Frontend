@@ -42,10 +42,18 @@ import {
   TypeAsignarRolUsuario,
 } from "../types/TypeRoles";
 import { listaRolesCatalogo } from "../services/rolesPermisosService";
-import { DatumListaUsuarios, updateRolUser } from "../services/usuariosService";
-import { SchemaUpdateContrasena } from "../types/TypeRegisterUser";
+import {
+  DatumListaUsuarios,
+  updateContrasena,
+  updateRolUser,
+} from "../services/usuariosService";
+import {
+  SchemaUpdateContrasena,
+  TypeUpdateContrasena,
+} from "../types/TypeRegisterUser";
 import { TextInput } from "react-native-gesture-handler";
 import { styleAuthScreen } from "../screens/AuthScreen";
+import { useNavigation } from "@react-navigation/native";
 
 interface Props {
   showModal?: boolean;
@@ -74,42 +82,21 @@ export const ModalContrasena = ({
   cancelText = "Cancelar",
   id_usuario,
 }: Props) => {
-  //   const [showModalVisible, setShowModalVisible] = useState(false);
-
-  // TODO lmoya me quede por terminar el modal de cambio de contraseña y tambien lo tengo que hacer a nivel de back
+  const { navigate } = useNavigation();
 
   const { mutate, error, data } = useMutation({
-    mutationKey: ["updateRolUser"],
-    mutationFn: updateRolUser,
+    mutationKey: ["updateContrasena"],
+    mutationFn: updateContrasena,
     onSuccess: (data) => {
-      showToastLong("Rol asignado con exito!");
+      showToastLong("Contraseña cambiada con exito!");
       setShowModal(false);
+      navigate("HomeScreen");
     },
     onError: (err: any) => {
-      console.log("ERRRORRR >> ", err);
-      showToastLong("Error al asignar el rol");
+      showToastLong("Error al cambiar la contraseña o credenciales no validas");
     },
     onMutate: () => {},
   });
-
-  const {
-    data: dataListaRoles,
-    error: errorRutinas,
-    refetch,
-    isLoading,
-  } = useQuery({
-    queryKey: ["listaRolesCatalogo"],
-    queryFn: listaRolesCatalogo,
-  });
-
-  let rolesLista = useMemo(() => {
-    if (isLoading || !dataListaRoles) return [];
-    return dataListaRoles.map((rol: { nombre: string; id: string }) => ({
-      label: rol.nombre,
-      value: rol.id,
-      id: rol.id,
-    }));
-  }, [dataListaRoles, isLoading]);
 
   const {
     register,
@@ -123,18 +110,22 @@ export const ModalContrasena = ({
     defaultValues: {
       id: id_usuario,
     },
-    resolver: zodResolver(TypeAsignarRolUsuario),
+    resolver: zodResolver(TypeUpdateContrasena),
   });
 
   const onSubmit = (data: SchemaUpdateContrasena) => {
-    console.log("DATA >> ", data);
-    // mutate(data);
+    console.log("DATA >> ", JSON.stringify(data, null, 3));
+    if (data.nuevaContrasena !== data.repetirContrasena) {
+      showToastLong("Las contraseñas no coinciden");
+      return;
+    }
+    mutate(data);
   };
 
   return (
     <View style={styles.centeredView}>
       <Modal
-        animationType="slide"
+        // animationType="slide"
         transparent={true}
         visible={showModal}
         onRequestClose={() => {
