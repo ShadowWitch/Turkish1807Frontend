@@ -54,13 +54,13 @@ export const TopTabNavigatorRoles = () => {
           }}
         />
 
-        <Tab.Screen
+        {/* <Tab.Screen
           name="ListaRolesScreen"
           component={ListaRolesScreen}
           options={{
             title: "Lista de Roles",
           }}
-        />
+        /> */}
       </Tab.Navigator>
     </SafeAreaView>
   );

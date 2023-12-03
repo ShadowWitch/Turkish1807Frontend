@@ -205,8 +205,8 @@ export const PerfilScreen = ({ navigation, route }: Props) => {
                   onCancel={onCancel}
                   showModal={showModal}
                   setShowModal={setShowModal}
-                  title="Cliente registrado con exito"
-                  description="Se ha registrado un cliente"
+                  title="Confirmación"
+                  description="¿Esta seguro que desea actualizar los datos del usuario?"
                 />
               )}
 
@@ -217,7 +217,7 @@ export const PerfilScreen = ({ navigation, route }: Props) => {
                   acceptText="Confirmar"
                   cancelText="Cancelar"
                   description="Esta seguro que desea cambiar la contraseña del usuario?"
-                  onCancel={onCancel}
+                  onCancel={onCancelContrasena}
                   showModal={showModalContrasena}
                   title="Cambio de contraseña"
                 />

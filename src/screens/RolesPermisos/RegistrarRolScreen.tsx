@@ -236,7 +236,7 @@ export const RegistrarRolScreen = ({ navigation, route }: Props) => {
                 >
                   {dataListaPermisos?.map(
                     (e, index) =>
-                      index <= 6 && (
+                      index <= 7 && (
                         <TouchableOpacity
                           style={{
                             flexDirection: "row",
@@ -296,7 +296,7 @@ export const RegistrarRolScreen = ({ navigation, route }: Props) => {
                 >
                   {dataListaPermisos?.map(
                     (e, index) =>
-                      index > 6 && (
+                      index > 7 && (
                         <TouchableOpacity
                           style={{
                             flexDirection: "row",
@@ -366,7 +366,7 @@ export const RegistrarRolScreen = ({ navigation, route }: Props) => {
                 />
                 <Button
                   buttonType="primary"
-                  text="Siguiente"
+                  text="Aceptar"
                   onPress={handleSubmit(onSubmit)}
                   width={wp(30)}
                 />

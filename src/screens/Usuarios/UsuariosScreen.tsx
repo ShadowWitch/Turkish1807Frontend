@@ -155,7 +155,7 @@ export const UsuariosScreen = ({ navigation, route }: PropsWithNavigator) => {
   return (
     <>
       <ButtonBack />
-      <ProtectedComponent permissions={["1004"]}>
+      <ProtectedComponent permissions={["6000"]}>
         <Background marginTop={hp(10)}>
           <FlatList
             data={dataListaUsuarios}
@@ -215,6 +215,9 @@ const ItemFlatList = ({
   setShowModalRol,
   refetchUsuarios,
 }: ItemFlatList) => {
+  const [usuarioSeleccionado, setUsuarioSeleccionado] = useState<string | null>(
+    null
+  );
   return (
     <>
       <View
@@ -343,22 +346,29 @@ const ItemFlatList = ({
               marginVertical: hp(1),
             }}
           >
-            {data.estado === "Activo" ? (
+            <ProtectedComponent permissions={["6001"]}>
+              {data.estado === "Activo" ? (
+                <Button
+                  buttonType="secondary"
+                  text="Inactivar"
+                  onPress={onSubmit}
+                />
+              ) : (
+                <Button
+                  buttonType="primary"
+                  text="Activar"
+                  onPress={onSubmit}
+                />
+              )}
+            </ProtectedComponent>
+            <ProtectedComponent permissions={["6002"]}>
               <Button
-                buttonType="secondary"
-                text="Inactivar"
-                onPress={onSubmit}
+                buttonType="primary"
+                text="Asignar Rol"
+                width={wp(30)}
+                onPress={() => (onSubmitRol(), setUsuarioSeleccionado(data.id))}
               />
-            ) : (
-              <Button buttonType="primary" text="Activar" onPress={onSubmit} />
-            )}
-
-            <Button
-              buttonType="primary"
-              text="Asignar Rol"
-              width={wp(30)}
-              onPress={onSubmitRol}
-            />
+            </ProtectedComponent>
           </View>
         </View>
 
@@ -378,9 +388,9 @@ const ItemFlatList = ({
           />
         )}
 
-        {showModalRol && (
+        {showModalRol && usuarioSeleccionado != null && (
           <ModalRol
-            id_usuario={data.id}
+            id_usuario={usuarioSeleccionado}
             onAccept={() => onConfirmRol(data.id)}
             setShowModal={setShowModalRol}
             acceptText="Confirmar"

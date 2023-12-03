@@ -123,7 +123,6 @@ export const updateRolUser = async (dataBody: RequestUpdateRol) => {
       id_usuario: dataBody.id_usuario,
       id_rol: dataBody.id_rol.value,
     };
-    console.log("SENDA >> ", JSON.stringify(sendData, null, 3));
 
     const { data }: AxiosResponse = await api.put(
       "/control-usuarios/users/update-rol",
