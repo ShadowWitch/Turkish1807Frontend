@@ -11,9 +11,9 @@ export const ProtectedComponent = ({ permissions = [""], children }: Props) => {
 
   const dataUser: Data = user;
 
-  const permisos: string[] = dataUser.roles.relPermisosRoles.map(
-    (e, index) => e.permisos.acciones
-  );
+  const permisos: string[] =
+    dataUser.roles?.relPermisosRoles.map((e, index) => e.permisos.acciones) ||
+    [];
 
   const verifyPermissions = (arr1: string[], arr2: string[]) => {
     return arr2.some((item) => arr1.includes(item));

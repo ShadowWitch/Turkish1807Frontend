@@ -21,46 +21,35 @@ import {
 import { Image } from "expo-image";
 import { stylesButton } from "../globalStyles/buttons.styles";
 import { TextError } from "../components/TextError";
-import { SchemaLogin } from "../types/TypesAuth";
+import {
+  SchemaLogin,
+  SchemaRecuperarContrasena,
+  TypeRecuperarContrasena,
+} from "../types/TypesAuth";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { checkAuth, signIn } from "../services/auth";
+import { checkAuth, recuperarContrasena, signIn } from "../services/auth";
 import { SaveStorage } from "../storage/Storage";
 import { useAuth } from "../context/AuthContext";
 import { useNavigation } from "@react-navigation/native";
 import { showToastLong } from "../utils/toast";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-export const AuthScreen = () => {
+export const RecuperarContrasenaScreen = () => {
   const { setIsAuthenticated } = useAuth();
   const navigation = useNavigation();
 
   const { mutate, error, data } = useMutation({
-    mutationKey: ["signIn"],
-    mutationFn: signIn,
-    onSuccess: (data) => {
-      if (data.token) {
-        const token: string = data.token;
-        SaveStorage({
-          key: "token",
-          data: token,
-        });
-
-        console.log("DATA >>> ", JSON.stringify(data.data, null, 3));
-
-        setIsAuthenticated({
-          token,
-          user: data.data,
-          status: "authenticated",
-        }); //* Autenticar user
-        navigation.navigate("HomeScreen" as never);
-      }
+    mutationKey: ["recuperarContrasena"],
+    mutationFn: recuperarContrasena,
+    onSuccess: () => {
+      showToastLong("Email enviado");
+      navigation.navigate("AuthScreen");
     },
     onError: (err) => {
       console.log(err);
-      showToastLong("Credenciales incorrectas");
+      showToastLong("Error al enviar email");
     },
-    onMutate: () => {
-      console.log("EJECUtando mutate ....");
-    },
+    onMutate: () => {},
   });
 
   const {
@@ -70,15 +59,13 @@ export const AuthScreen = () => {
     control,
     reset,
     formState: { errors },
-  } = useForm<SchemaLogin>({
+  } = useForm<SchemaRecuperarContrasena>({
     mode: "onChange",
+    resolver: zodResolver(TypeRecuperarContrasena),
   });
 
-  const onSubmit = (data: SchemaLogin) => {
-    console.log("DATA >> ", JSON.stringify(data, null, 3));
-
+  const onSubmit = (data: SchemaRecuperarContrasena) => {
     mutate(data);
-
     Keyboard.dismiss();
   };
 
@@ -94,10 +81,7 @@ export const AuthScreen = () => {
               height: hp(25),
               width: wp(100),
               marginBottom: hp(5),
-              // backgroundColor: "#0553",
-              // marginTop: -100,
             }}
-            // source="https://images.vexels.com/media/users/3/153334/isolated/preview/cf5ff26985a46460a5a29aa9443cb323-logotipo-de-sitamet-power-gym.png"
             source={require("../../assets/gym.png")}
             contentFit="scale-down"
             transition={1000}
@@ -111,27 +95,13 @@ export const AuthScreen = () => {
             }}
           >
             <View style={styleAuthScreen.componentInputs}>
-              <Text style={styleAuthScreen.textInputForm}>Usuario</Text>
+              <Text style={styleAuthScreen.textInputForm}>
+                Correo Electrónico
+              </Text>
 
               <Controller
-                name="nombre"
+                name="email"
                 control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "El nombre de usuario es requerido.",
-                  },
-                  minLength: {
-                    value: 5,
-                    message:
-                      "El nombre de usuario debe tener minimo de 5 caracteres",
-                  },
-                  maxLength: {
-                    value: 15,
-                    message:
-                      "El nombre de usuario debe tener máximo 15 caracteres.",
-                  },
-                }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <>
                     <TextInput
@@ -139,47 +109,10 @@ export const AuthScreen = () => {
                       onBlur={onBlur}
                       onChangeText={(value) => onChange(value)}
                       value={value}
-                      placeholder="Ingrese un usuario"
+                      placeholder="Ingrese su email"
                     />
-                    {errors.nombre?.message && (
-                      <TextError message={errors.nombre.message} />
-                    )}
-                  </>
-                )}
-              />
-            </View>
-
-            <View style={styleAuthScreen.componentInputs}>
-              <Text style={styleAuthScreen.textInputForm}>Contraseña</Text>
-              <Controller
-                name="contrasena"
-                control={control}
-                rules={{
-                  required: {
-                    value: true,
-                    message: "La contraseña es requerida.",
-                  },
-                  minLength: {
-                    value: 5,
-                    message: "La contraseña debe tener minimo de 5 caracteres",
-                  },
-                  maxLength: {
-                    value: 15,
-                    message: "La contraseña debe tener máximo 15 caracteres.",
-                  },
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    <TextInput
-                      style={styleAuthScreen.inputForm}
-                      onBlur={onBlur}
-                      onChangeText={(value) => onChange(value)}
-                      value={value}
-                      secureTextEntry
-                      placeholder="Ingrese una contraseña"
-                    />
-                    {errors.contrasena?.message && (
-                      <TextError message={errors.contrasena.message} />
+                    {errors.email?.message && (
+                      <TextError message={errors.email.message} />
                     )}
                   </>
                 )}
@@ -202,7 +135,7 @@ export const AuthScreen = () => {
                       textAlign: "center",
                     }}
                   >
-                    Iniciar Sesión
+                    Recuperar Contraseña
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -220,11 +153,6 @@ export const AuthScreen = () => {
             </Text>
             <TouchableOpacity
               onPress={() => navigation.navigate("RegistrarUsuarioScreen")}
-              style={
-                {
-                  // backgroundColor: "red",
-                }
-              }
             >
               <Text
                 style={{
@@ -239,7 +167,7 @@ export const AuthScreen = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => navigation.navigate("RecuperarContrasenaScreen")}
+              onPress={() => navigation.navigate("AuthScreen")}
               style={{
                 marginTop: hp(3),
               }}
@@ -252,38 +180,9 @@ export const AuthScreen = () => {
                   fontStyle: "italic",
                 }}
               >
-                Olvidé mi contraseña
+                Iniciar Sesión
               </Text>
             </TouchableOpacity>
-            {/* <Text
-              style={{
-                textAlign: "center",
-                color: "white",
-                marginTop: hp(1),
-                fontStyle: "italic",
-              }}
-            >
-              Registrarse
-            </Text> */}
-
-            {/* <View
-              style={{
-                ...styleAuthScreen.componentInputs,
-                alignItems: "center",
-              }}
-            >
-              <TouchableOpacity activeOpacity={0.8}>
-                <View style={styleAuthScreen.buttonForm}>
-                  <Text
-                    style={{
-                      textAlign: "center",
-                    }}
-                  >
-                    Registrarse
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </View> */}
           </View>
         </View>
       </TouchableWithoutFeedback>

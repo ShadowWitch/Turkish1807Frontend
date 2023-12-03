@@ -42,4 +42,16 @@ export const TypeLogin = z.object({
     }),
 });
 
+export const TypeRecuperarContrasena = z.object({
+  email: z
+    .string({
+      required_error: "El email es requerido",
+    })
+    .email({
+      message: "Email no válido",
+    }),
+});
+
 export type SchemaLogin = z.infer<typeof TypeLogin>;
+
+export type SchemaRecuperarContrasena = z.infer<typeof TypeRecuperarContrasena>;
