@@ -166,7 +166,7 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
             style={{
               marginHorizontal: wp(2),
             }}
-            name={"calendar-outline"}
+            name={"calendar"}
             size={hp(5)}
             color={"white"}
           />

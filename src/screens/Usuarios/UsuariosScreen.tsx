@@ -332,7 +332,7 @@ const ItemFlatList = ({
             <Button buttonType="secondary" text="Eliminar" onPress={onSubmit} />
             <Button
               buttonType="primary"
-              text="Cambiar Rol"
+              text="Asignar Rol"
               width={wp(30)}
               onPress={onSubmitRol}
             />
