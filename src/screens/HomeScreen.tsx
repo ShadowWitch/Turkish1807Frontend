@@ -107,7 +107,7 @@ export const HomeScreen = () => {
 const options: IOptions[] = [
   {
     text: "Clientes",
-    icon: "people-outline",
+    icon: "people",
     url: "TopTabNavigatorClientes",
   },
   // {
@@ -117,7 +117,7 @@ const options: IOptions[] = [
   // },
   {
     text: "Contratos",
-    icon: "cash-outline",
+    icon: "cash",
     url: "ListaContratoScreen",
   },
 
@@ -128,26 +128,26 @@ const options: IOptions[] = [
   // },
   {
     text: "Rutinas",
-    icon: "analytics-outline",
+    icon: "analytics",
     url: "TopTabNavigatorRutinas",
     // url: "RutinasScreen",
   },
 
   {
     text: "Asignar Ejercicios",
-    icon: "barbell-outline",
+    icon: "barbell",
     url: "AsignarRutinasScreen",
   },
 
   {
     text: "Roles y Permisos",
-    icon: "construct-outline",
+    icon: "construct",
     url: "TopTabNavigatorRoles",
   },
 
   {
     text: "Usuarios",
-    icon: "construct-outline",
+    icon: "person",
     url: "UsuariosScreen",
   },
 
