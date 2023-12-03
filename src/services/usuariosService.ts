@@ -64,3 +64,33 @@ export const activarODesactivarUser = async (dataBody: RequestActivate) => {
     console.log(error);
   }
 };
+
+interface RequestUpdateRol {
+  id_usuario: string;
+  id_rol: {
+    id: string;
+    label: string;
+    value: string;
+  };
+}
+export const updateRolUser = async (dataBody: RequestUpdateRol) => {
+  try {
+    const sendData = {
+      id_usuario: dataBody.id_usuario,
+      id_rol: dataBody.id_rol.value,
+    };
+    console.log("SENDA >> ", JSON.stringify(sendData, null, 3));
+
+    const { data }: AxiosResponse = await api.put(
+      "/control-usuarios/users/update-rol",
+      sendData
+    );
+
+    if (!data) throw new Error("Error");
+    if (!data.ok) throw new Error(data.message);
+
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
