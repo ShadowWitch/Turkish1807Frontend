@@ -43,6 +43,7 @@ import {
 } from "../types/TypeRoles";
 import { listaRolesCatalogo } from "../services/rolesPermisosService";
 import { DatumListaUsuarios, updateRolUser } from "../services/usuariosService";
+import { useNavigation } from "@react-navigation/native";
 
 interface Props {
   showModal?: boolean;
@@ -81,6 +82,8 @@ export const ModalRol = ({
 Props) => {
   //   const [showModalVisible, setShowModalVisible] = useState(false);
 
+  const { navigate } = useNavigation();
+
   const { mutate, error, data } = useMutation({
     mutationKey: ["updateRolUser"],
     mutationFn: updateRolUser,
@@ -88,6 +91,7 @@ Props) => {
       showToastLong("Rol asignado con exito!");
       refetchUsuarios();
       setShowModal(false);
+      // navigate("HomeScreen");
     },
     onError: (err: any) => {
       console.log("ERRRORRR >> ", err);
@@ -131,7 +135,7 @@ Props) => {
   });
 
   const onSubmit = (data: SchemaAsignarRolUsuario) => {
-    console.log("DATA >> ", data);
+    // console.log("DATA >> ", JSON.stringify(data, null, 3));
     mutate(data);
   };
 
