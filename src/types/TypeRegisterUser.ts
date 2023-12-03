@@ -48,18 +48,59 @@ export const TypeRegisterUser = z.object({
     .min(5, {
       message: "Debe contener minimo 5 caracteres",
     }),
-  // repetirContrasena: z
-  //   .string()
-  //   .trim()
-  //   .refine(
-  //     (repetirContrasena, data) => {
-  //       // Validación personalizada: La contraseña y la repetición de la contraseña deben ser iguales
-  //       return repetirContrasena === data.contrasena;
-  //     },
-  //     {
-  //       message: "Las contraseñas no coinciden",
-  //     }
-  //   ),
+});
+
+export const TypeUpdateUsuario = z.object({
+  id: z.string(),
+  correoElectronico: z
+    .string({
+      required_error: "El email es requerido",
+    })
+    .email({
+      message: "Email no válido",
+    }),
+  nombre: z
+    .string({
+      required_error: "Campo requerido",
+    })
+    .trim()
+    .min(5, {
+      message: "Debe contener minimo 5 caracteres",
+    }),
+});
+
+export const TypeUpdateContrasena = z.object({
+  id: z.string(),
+
+  contrasena: z
+    .string({
+      required_error: "Campo requerido",
+    })
+    .trim()
+    .min(5, {
+      message: "Debe contener minimo 5 caracteres",
+    }),
+
+  nuevaContrasena: z
+    .string({
+      required_error: "Campo requerido",
+    })
+    .trim()
+    .min(5, {
+      message: "Debe contener minimo 5 caracteres",
+    }),
+
+  repetirContrasena: z
+    .string({
+      required_error: "Campo requerido",
+    })
+    .trim()
+    .min(5, {
+      message: "Debe contener minimo 5 caracteres",
+    }),
 });
 
 export type SchemaRegisterUser = z.infer<typeof TypeRegisterUser>;
+
+export type SchemaUpdateUser = z.infer<typeof TypeUpdateUsuario>;
+export type SchemaUpdateContrasena = z.infer<typeof TypeUpdateContrasena>;

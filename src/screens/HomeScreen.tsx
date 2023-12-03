@@ -151,9 +151,9 @@ const options: IOptions[] = [
     url: "UsuariosScreen",
   },
 
-  // {
-  //   text: "Chequeos",
-  //   icon: "body-outline",
-  //   url: "RutinasScreen",
-  // },
+  {
+    text: "Perfil",
+    icon: "cog",
+    url: "PerfilScreen",
+  },
 ];
