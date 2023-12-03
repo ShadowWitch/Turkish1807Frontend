@@ -88,6 +88,7 @@ export const getUsuario = async (
 
 interface RequestActivate {
   id: string;
+  estado: "Activo" | "Inactivo";
 }
 export const activarODesactivarUser = async (dataBody: RequestActivate) => {
   try {
@@ -95,6 +96,7 @@ export const activarODesactivarUser = async (dataBody: RequestActivate) => {
       "/control-usuarios/users/active-inactive",
       {
         id: dataBody.id,
+        estado: dataBody.estado,
       }
     );
 

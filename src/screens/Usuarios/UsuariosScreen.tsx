@@ -52,7 +52,13 @@ interface ItemFlatList {
   showModal: boolean;
   onSubmit: () => void;
   onCancel: () => void;
-  onConfirm: (id: string) => void;
+  onConfirm: ({
+    id,
+    estado,
+  }: {
+    id: string;
+    estado: "Activo" | "Inactivo";
+  }) => void;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 
   showModalRol: boolean;
@@ -88,13 +94,13 @@ export const UsuariosScreen = ({ navigation, route }: PropsWithNavigator) => {
     mutationKey: ["activarODesactivarUser"],
     mutationFn: activarODesactivarUser,
     onSuccess: (data) => {
-      showToastLong("Usuario inactivado con exito");
+      showToastLong("Usuario inactivado o activado con exito");
       setShowModal(false);
       refetch();
     },
     onError: (err: any) => {
       console.log("ERRRORRR >> ", err);
-      showToastLong("Error al inactivar usuario");
+      showToastLong("Error al inactivar o activar usuario");
     },
     onMutate: () => {},
   });
@@ -117,9 +123,17 @@ export const UsuariosScreen = ({ navigation, route }: PropsWithNavigator) => {
     setShowModal(false);
   };
 
-  const onConfirm = (id: string) => {
+  const onConfirm = ({
+    id,
+    estado,
+  }: {
+    id: string;
+    estado: "Activo" | "Inactivo";
+  }) => {
+    console.log("ESTADOO >> ", estado);
     mutate({
       id,
+      estado,
     });
   };
 
@@ -329,7 +343,16 @@ const ItemFlatList = ({
               marginVertical: hp(1),
             }}
           >
-            <Button buttonType="secondary" text="Eliminar" onPress={onSubmit} />
+            {data.estado === "Activo" ? (
+              <Button
+                buttonType="secondary"
+                text="Inactivar"
+                onPress={onSubmit}
+              />
+            ) : (
+              <Button buttonType="primary" text="Activar" onPress={onSubmit} />
+            )}
+
             <Button
               buttonType="primary"
               text="Asignar Rol"
@@ -341,7 +364,12 @@ const ItemFlatList = ({
 
         {showModal && (
           <ModalComponent
-            onAccept={() => onConfirm(data.id)}
+            onAccept={() =>
+              onConfirm({
+                id: data.id,
+                estado: data.estado === "Activo" ? "Inactivo" : "Activo",
+              })
+            }
             onCancel={onCancel}
             showModal={showModal}
             setShowModal={setShowModal}
