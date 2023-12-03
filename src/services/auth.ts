@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { SchemaLogin } from "../types/TypesAuth";
+import { SchemaLogin, SchemaRecuperarContrasena } from "../types/TypesAuth";
 import { api } from "../api";
 import { AxiosResponse } from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -8,6 +8,21 @@ import { SchemaRegisterUser } from "../types/TypeRegisterUser";
 export const signIn = async (dataBody: SchemaLogin) => {
   try {
     const { data }: AxiosResponse = await api.post("/auth/login", dataBody);
+
+    if (!data.ok) throw new Error(data.message);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const recuperarContrasena = async ({
+  email,
+}: SchemaRecuperarContrasena) => {
+  try {
+    const { data }: AxiosResponse = await api.get(
+      `/control-usuarios/users/recuperar/${email}`
+    );
 
     if (!data.ok) throw new Error(data.message);
     return data;

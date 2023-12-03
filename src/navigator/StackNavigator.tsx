@@ -24,6 +24,7 @@ import { RegistrarUsuarioScreen } from "../screens/RegistrarUsuarioScreen";
 import { RolesPermisosScreen } from "../screens/RolesPermisos/RolesPermisosScreen";
 import { TopTabNavigatorRoles } from "./TopTabNavigatorRoles";
 import { UsuariosScreen } from "../screens/Usuarios/UsuariosScreen";
+import { RecuperarContrasenaScreen } from "../screens/RecuperarContrasenaScreen";
 const Stack = createStackNavigator();
 
 export const StackNavigator = () => {
@@ -48,6 +49,10 @@ export const StackNavigator = () => {
         <>
           {/* <Stack.Screen name="LoadingAuth" component={LoadingAuth} /> */}
           <Stack.Screen name="AuthScreen" component={AuthScreen} />
+          <Stack.Screen
+            name="RecuperarContrasenaScreen"
+            component={RecuperarContrasenaScreen}
+          />
           <Stack.Screen
             name="RegistrarUsuarioScreen"
             component={RegistrarUsuarioScreen}
