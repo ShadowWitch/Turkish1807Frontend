@@ -25,6 +25,7 @@ import { RolesPermisosScreen } from "../screens/RolesPermisos/RolesPermisosScree
 import { TopTabNavigatorRoles } from "./TopTabNavigatorRoles";
 import { UsuariosScreen } from "../screens/Usuarios/UsuariosScreen";
 import { RecuperarContrasenaScreen } from "../screens/RecuperarContrasenaScreen";
+import { PerfilScreen } from "../screens/PerfilScreen";
 const Stack = createStackNavigator();
 
 export const StackNavigator = () => {
@@ -77,6 +78,8 @@ export const StackNavigator = () => {
 
           <Stack.Screen name="DetallesScreen" component={DetallesScreen} />
           <Stack.Screen name="ProgresoScreen" component={ProgresoScreen} />
+
+          <Stack.Screen name="PerfilScreen" component={PerfilScreen} />
 
           <Stack.Screen
             name="RolesPermisosScreen"
