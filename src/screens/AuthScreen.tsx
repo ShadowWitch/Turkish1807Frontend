@@ -37,14 +37,16 @@ export const AuthScreen = () => {
     mutationKey: ["signIn"],
     mutationFn: signIn,
     onSuccess: (data) => {
+      if (data.data.estado !== "Activo") {
+        return showToastLong("Usuario bloqueado.");
+      }
+
       if (data.token) {
         const token: string = data.token;
         SaveStorage({
           key: "token",
           data: token,
         });
-
-        console.log("DATA >>> ", JSON.stringify(data.data, null, 3));
 
         setIsAuthenticated({
           token,
@@ -55,7 +57,6 @@ export const AuthScreen = () => {
       }
     },
     onError: (err) => {
-      console.log(err);
       showToastLong("Credenciales incorrectas");
     },
     onMutate: () => {

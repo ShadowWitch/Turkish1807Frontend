@@ -76,6 +76,8 @@ export const UsuariosScreen = ({ navigation, route }: PropsWithNavigator) => {
   const [showModal, setShowModal] = useState(false);
   const [showModalRol, setShowModalRol] = useState(false);
 
+  const [idUserSeleccionado, setidUserSeleccionado] = useState<string>("");
+
   const {
     data: dataListaUsuarios,
     error,
@@ -116,7 +118,10 @@ export const UsuariosScreen = ({ navigation, route }: PropsWithNavigator) => {
     console.log("qweqwe");
   };
 
-  const onSubmit = () => {
+  const onSubmit = (id: string) => {
+    setidUserSeleccionado(id);
+
+    console.log("IDDD >> ", id);
     setShowModal(true);
   };
   const onCancel = () => {
@@ -130,9 +135,8 @@ export const UsuariosScreen = ({ navigation, route }: PropsWithNavigator) => {
     id: string;
     estado: "Activo" | "Inactivo";
   }) => {
-    console.log("ESTADOO >> ", estado);
     mutate({
-      id,
+      id: idUserSeleccionado,
       estado,
     });
   };
@@ -165,7 +169,7 @@ export const UsuariosScreen = ({ navigation, route }: PropsWithNavigator) => {
                 showModal={showModal}
                 onCancel={onCancel}
                 onConfirm={onConfirm}
-                onSubmit={onSubmit}
+                onSubmit={() => onSubmit(item.id)}
                 setShowModal={setShowModal}
                 onCancelRol={onCancelRol}
                 onConfirmRol={onConfirmRol}

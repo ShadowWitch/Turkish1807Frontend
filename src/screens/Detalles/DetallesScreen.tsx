@@ -379,16 +379,18 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
               />
             )}
 
-            <Button
-              width={wp(40)}
-              buttonType="primary"
-              text="Nuevo Chequeo"
-              onPress={() =>
-                navigation.navigate("ChequeosScreen", {
-                  id_cliente: data.id,
-                })
-              }
-            />
+            <ProtectedComponent permissions={["1005"]}>
+              <Button
+                width={wp(40)}
+                buttonType="primary"
+                text="Nuevo Chequeo"
+                onPress={() =>
+                  navigation.navigate("ChequeosScreen", {
+                    id_cliente: data.id,
+                  })
+                }
+              />
+            </ProtectedComponent>
           </View>
 
           <View
@@ -410,17 +412,20 @@ export const DetallesScreen = ({ navigation, route }: Props) => {
               />
             </ProtectedComponent>
 
-            <Button
-              width={wp(40)}
-              buttonType="primary"
-              text="Ver progreso"
-              onPress={() =>
-                navigation.navigate("ProgresoScreen", {
-                  id_cliente: data.id,
-                  chequeos: data.chequeos,
-                })
-              }
-            />
+            <ProtectedComponent permissions={["1004"]}>
+              <Button
+                width={wp(40)}
+                buttonType="primary"
+                text="Ver progreso"
+                onPress={() =>
+                  navigation.navigate("ProgresoScreen", {
+                    id_cliente: data.id,
+                    chequeos: data.chequeos,
+                  })
+                }
+              />
+            </ProtectedComponent>
+
             {showModal && (
               <ModalRutina
                 onAccept={handleSubmit(onConfirm)}
